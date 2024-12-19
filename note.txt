@@ -1,0 +1,6 @@
+if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
+    printf("Erreur d'initialisation de SDL_image: %s\n", IMG_GetError());
+    SDL_Quit();
+    return 1;
+}
+Gestion de l'erreur si sdl_image n'est pas installé
