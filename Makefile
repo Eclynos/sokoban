@@ -1,15 +1,13 @@
-##
-# @file
-# @version 0.1
+CFLAGS = -Wall -Wextra -Werror -Iinclude
+LDFLAGS = -lm -lSDL2 -lSDL2_image
+SRC = main.c src/fct_init.c
+OUTPUT_FILE = sokoban
 
-C_FLAGS = -Wall -Wextra -Werror -lm -lSDL2 -lSDL2_image -Iinclude
-C_OUTPUT_FILE = sokoban.out
+c:
+	gcc $(CFLAGS) $(SRC) -o $(OUTPUT_FILE) $(LDFLAGS)
 
-c: main.c src/*
-	$(CC) main.c -o $(C_OUTPUT_FILE) src/* $(C_FLAGS)
-
-clear:
-	rm $(C_OUTPUT_FILE) 
+clean:
+	rm -f $(OUTPUT_FILE)
 
 run:
-	./$(C_OUTPUT_FILE) 
+	./$(OUTPUT_FILE)
