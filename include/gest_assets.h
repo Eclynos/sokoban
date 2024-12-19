@@ -1,11 +1,13 @@
 #ifndef GESTION_ASSETS
 #define GESTION_ASSETS
 
-#include "./includes.h"
+#include <SDL2/SDL.h>
+#include "./constants.h"
 
-struct texture {
+typedef struct{
+    char type;
     SDL_Texture * texture;
     SDL_Rect imgRect;
-};
+} texture;
 
 #endif // !GESTION_ASSETS

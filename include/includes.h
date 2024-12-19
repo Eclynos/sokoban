@@ -1,5 +1,6 @@
 #ifndef INCLUDES_H
 #define INCLUDES_H
+#pragma once
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
