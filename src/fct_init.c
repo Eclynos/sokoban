@@ -18,12 +18,14 @@ App initApp() {
 
     if (SDL_Init(SDL_INIT_VIDEO) != 0)  msgError("Error video:");
 
+    if (SDL_GetDisplayBounds(0, &app.screensize) != 0) msgError("Error screen size fetcher");
+
     app.window = SDL_CreateWindow(
                             "Sokoban",
                             SDL_WINDOWPOS_CENTERED,
                             SDL_WINDOWPOS_CENTERED,
-                            SCREEN_WIDTH,
-                            SCREEN_HEIGHT,
+                            app.screensize.w/2,
+                            app.screensize.h/2,
                             (SDL_WINDOW_SHOWN)
                             );
     
