@@ -1,57 +1,33 @@
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <stdio.h>
-#include "./include/constants.h"
-#include "./include/fct_init.h"
+#include "includes.h"
+
 
 int main() {
 
-    SDL_Window *window = NULL;
-    SDL_Renderer *renderer = NULL;
-
-    if (SDL_Init(SDL_INIT_VIDEO) != 0)  msgError("Error video:");
-
-    window = SDL_CreateWindow(
-                            "Sokoban",
-                            SDL_WINDOWPOS_CENTERED,
-                            SDL_WINDOWPOS_CENTERED,
-                            SCREEN_WIDTH,
-                            SCREEN_HEIGHT,
-                            (SDL_WINDOW_SHOWN)
-                            );
-    if (!window)    msgError("Error window:");
-    
-    renderer = SDL_CreateRenderer(
-                                window,
-                                -1,
-                                SDL_RENDERER_SOFTWARE
-                                );
-    if (!renderer)  msgError("Error renderer:");
-
+    App app = initApp();
 
     SDL_Surface* surface_perso = IMG_Load("./assets/test.png");
     if (!surface_perso) {
         printf("Error init image: %s\n", IMG_GetError());
-        SDL_DestroyRenderer(renderer);
-        SDL_DestroyWindow(window);
+        SDL_DestroyRenderer(app.renderer);
+        SDL_DestroyWindow(app.window);
         IMG_Quit();
         SDL_Quit();
         exit(EXIT_FAILURE);
     }
 
-    SDL_Texture* perso = SDL_CreateTextureFromSurface(renderer, surface_perso);
+    SDL_Texture* perso = SDL_CreateTextureFromSurface(app.renderer, surface_perso);
     SDL_FreeSurface(surface_perso); // Libérer la surface, la texture suffit maintenant
     if (!perso) {
         printf("Erreur lors de la création de la texture: %s\n", SDL_GetError());
-        SDL_DestroyRenderer(renderer);
-        SDL_DestroyWindow(window);
+        SDL_DestroyRenderer(app.renderer);
+        SDL_DestroyWindow(app.window);
         IMG_Quit();
         SDL_Quit();
         return 1;
     }
 
     SDL_Surface* surface_bg = IMG_Load("./assets/background.png");
-    SDL_Texture* bg = SDL_CreateTextureFromSurface(renderer, surface_bg);
+    SDL_Texture* bg = SDL_CreateTextureFromSurface(app.renderer, surface_bg);
 
     // Position initiale de l'image
     SDL_Rect imgRect = {100, 100, 50, 50}; // {x, y, largeur, hauteur}
@@ -88,20 +64,20 @@ int main() {
         }
 
         // Effacer l'écran
-        SDL_RenderClear(renderer);
+        SDL_RenderClear(app.renderer);
         
         // Afficher la texture
-        SDL_RenderCopy(renderer, bg, NULL, NULL);
-        SDL_RenderCopy(renderer, perso, NULL, &imgRect);
+        SDL_RenderCopy(app.renderer, bg, NULL, NULL);
+        SDL_RenderCopy(app.renderer, perso, NULL, &imgRect);
 
         // Mettre à jour l'écran
-        SDL_RenderPresent(renderer);
+        SDL_RenderPresent(app.renderer);
     }
 
     SDL_DestroyTexture(perso);
     SDL_DestroyTexture(bg);
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
+    SDL_DestroyRenderer(app.renderer);
+    SDL_DestroyWindow(app.window);
     IMG_Quit();
     SDL_Quit();
 

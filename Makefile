@@ -2,7 +2,7 @@
 # @file
 # @version 0.1
 
-C_FLAGS = -Wall -Wextra -Werror -lm -lSDL2 -lSDL2_image
+C_FLAGS = -Wall -Wextra -Werror -lm -lSDL2 -lSDL2_image -Iinclude
 C_OUTPUT_FILE = sokoban.out
 
 c: main.c src/*

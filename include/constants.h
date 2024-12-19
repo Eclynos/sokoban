@@ -12,6 +12,4 @@
 // Taille du déplacement
 #define MOVE 100 
 
-
-
 #endif // !CONSTANTS_H_
