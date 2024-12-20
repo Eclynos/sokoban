@@ -52,23 +52,42 @@ void free2d(char ** tab, int row) {
 }
 
 
-void readFileToTab(const char * filename, Map * map) {
+Map *createMap(const char *filename) {
+    char chaine[LEN_MAX];
     int i, j;
-    FILE *file;
+    char tmp;
 
-    file = fopen (filename, "r");
-    if (file == NULL){
+    FILE * file = fopen(filename, "r");
+    if (file == NULL) {
+        perror("Erreur ouverture du fichier");
         exit(EXIT_FAILURE);
     }
 
+    Map *map = (Map *)malloc(sizeof(Map));
+    if (!map) {
+        perror("Erreur allocation map");
+        fclose(file);
+        exit(EXIT_FAILURE);
+    }
+    map->rows = 0; map->cols = 0;
+
+    while (fgetc(file) != '\n') {
+        ++map->cols;
+    }
+    rewind(file);
+
+    while (fgets(chaine, LEN_MAX, file) != NULL) {
+        ++map->rows;
+    }
+    rewind(file);
+
     map->initial_tab = malloc(map->rows * sizeof(char*));
     map->tab = malloc(map->rows * sizeof(char*));
-    char tmp;
-    //Recupere les valeurs des cases de la map
-    for (i = 0; i < map->rows; ++i){
+
+    for (i = 0; i < map->rows; ++i) {
         map->initial_tab[i] = malloc(map->cols * sizeof(char));
         map->tab[i] = malloc(map->cols * sizeof(char));
-        for (j = 0; j < map->cols + 1; ++j){
+        for (j = 0; j < map->cols; ++j) {
             tmp = fgetc(file);
             if (tmp != '\n') {
                 map->initial_tab[i][j] = tmp;
@@ -78,36 +97,6 @@ void readFileToTab(const char * filename, Map * map) {
     }
 
     fclose(file);
-}
-
-
-void initMapData(const char * filename, Map * map) {
-    char chaine[LEN_MAX];
-    map->rows = 1;
-
-    FILE *file;
-
-    file = fopen(filename, "r");
-    if (file == NULL){
-        exit(EXIT_FAILURE);
-    }
-
-    for (map->rows = 0; fgetc(file) != '\n'; ++map->rows);
-    
-    while (fgets(chaine, LEN_MAX, file) != NULL){
-        ++map->cols;
-    }
-
-    fclose(file);
-}
-
-
-Map * createMap(const char * filename) {
-    Map * map = NULL;
-
-    initMapData(filename, map);
-    readFileToTab(filename, map);
-
     return map;
 }
 

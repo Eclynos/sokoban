@@ -11,14 +11,12 @@
 typedef struct {
     int rows;
     int cols;
-    int ** tab;
-    int ** initial_tab;
+    char ** tab;
+    char ** initial_tab;
 } Map;
 
 Map * createMap(const char * filename);
 void freeMap(Map * map);
-void initMapData(const char * filename, Map * map);
-void readFileToTab(const char * filename, Map * map);
 void free2d(char ** tab, int row);
 void print2d(char ** tab, int row, int col);
 SDL_Surface* loadSurface(const char * filename, App app);
