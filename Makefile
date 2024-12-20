@@ -6,6 +6,7 @@ OUTPUT_FILE = sokoban.out
 c:
 	gcc $(CFLAGS) $(SRC) -o $(OUTPUT_FILE) $(LDFLAGS)
 
+
 clean:
 	rm -f $(OUTPUT_FILE)
 
