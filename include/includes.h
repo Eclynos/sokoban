@@ -7,5 +7,6 @@
 #include <stdio.h>
 #include "constants.h"
 #include "fct_init.h"
+#include "gest_assets.h"
 
 #endif

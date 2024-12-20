@@ -1,8 +1,8 @@
-#include "includes.h"
-
+#include "./include/includes.h"
 
 int main() {
 
+    createMap();
     App app = initApp();
 
     SDL_Surface* surface_perso = IMG_Load("./assets/test.png");

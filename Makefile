@@ -1,7 +1,7 @@
-CFLAGS = -Wall -Wextra -Werror -Iinclude
+CFLAGS = -Wall -Wextra -Iinclude
 LDFLAGS = -lm -lSDL2 -lSDL2_image
-SRC = main.c src/fct_init.c
-OUTPUT_FILE = sokoban
+SRC = main.c src/*
+OUTPUT_FILE = sokoban.out
 
 c:
 	gcc $(CFLAGS) $(SRC) -o $(OUTPUT_FILE) $(LDFLAGS)
