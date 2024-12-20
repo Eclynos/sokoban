@@ -52,7 +52,7 @@ void free2d(char ** tab, int row) {
 }
 
 
-char ** readFileToTab(const char * filename, int row, int col) {
+void readFileToTab(const char * filename, Map * map) {
     int i, j;
     FILE *file;
 
@@ -61,26 +61,29 @@ char ** readFileToTab(const char * filename, int row, int col) {
         exit(EXIT_FAILURE);
     }
 
-    char ** tab_data = malloc(row * sizeof(*tab_data));
+    map->initial_tab = malloc(map->rows * sizeof(char*));
+    map->tab = malloc(map->rows * sizeof(char*));
     char tmp;
     //Recupere les valeurs des cases de la map
-    for (i = 0; i < row; ++i){
-        tab_data[i] = malloc(col * sizeof(*tab_data[i]));
-        for (j = 0; j < col + 1; ++j){
+    for (i = 0; i < map->rows; ++i){
+        map->initial_tab[i] = malloc(map->cols * sizeof(char));
+        map->tab[i] = malloc(map->cols * sizeof(char));
+        for (j = 0; j < map->cols + 1; ++j){
             tmp = fgetc(file);
-            if (tmp != '\n') tab_data[i][j] = tmp;
+            if (tmp != '\n') {
+                map->initial_tab[i][j] = tmp;
+                map->tab[i][j] = tmp;
+            }
         }
     }
 
     fclose(file);
-    return tab_data;
 }
 
 
-int * dataMap(const char * filename) {
+void initMapData(const char * filename, Map * map) {
     char chaine[LEN_MAX];
-    int * map_data = malloc(2 * sizeof(map_data));
-    map_data[0] = 1;
+    map->rows = 1;
 
     FILE *file;
 
@@ -89,54 +92,31 @@ int * dataMap(const char * filename) {
         exit(EXIT_FAILURE);
     }
 
-    for (map_data[1] = 0; fgetc(file) != '\n'; ++map_data[1]);
+    for (map->rows = 0; fgetc(file) != '\n'; ++map->rows);
     
     while (fgets(chaine, LEN_MAX, file) != NULL){
-        ++map_data[0];
+        ++map->cols;
     }
 
     fclose(file);
-    return map_data;
 }
 
 
-void createMap(App app) {
-    int * map_data = dataMap(FILE_MAP_1);
-    //printf("%d %d\n", map_data[0], map_data[1]);
-    char ** tab = readFileToTab(FILE_MAP_1, map_data[0], map_data[1]);
-    //print2d(tab, map_data[0], map_data[1]);
-    object ** tab_game = initTexturesVars(tab, app, map_data[0], map_data[1]);
+Map * createMap(const char * filename) {
+    Map * map = NULL;
 
-    free2d(tab, map_data[0]);
-    free(map_data);
+    initMapData(filename, map);
+    readFileToTab(filename, map);
+
+    return map;
 }
 
 
-object ** initTexturesVars(char ** char_grid, App app, int row, int col) {
-    int i, j;
-    object ** tab_game = malloc(row * sizeof(object*));
-
-    SDL_Surface* surface_box = loadSurface(BOX_IMAGE, app);
-    SDL_Surface* surface_goal = loadSurface(GOAL_IMAGE, app);
-    SDL_Surface* surface_wall = loadSurface(WALL_IMAGE, app);
-
-    SDL_Texture* texture_box = createTexture(surface_box, app);
-    SDL_Texture* texture_goal = createTexture(surface_goal, app);
-    SDL_Texture* texture_wall = createTexture(surface_wall, app);
-
-    for (i = 0; i < row; ++i) {
-        tab_game[i] = malloc(col * sizeof(object));
-        for (j = 0; j < col; ++j) {
-            if (char_grid[i][j] == '#') {
-                
-            }
-        }
+void freeMap(Map * map) {
+    int i;
+    for (i = 0; i < map->rows; ++i) {
+        free(map->initial_tab[i]);
+        free(map->tab[i]);
     }
-
-    return tab_game;
-}
-
-
-void update_textures(App app) {
-
+    free(map);
 }

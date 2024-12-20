@@ -14,6 +14,7 @@
 #define BOX_IMAGE "./assets/box.png"
 #define GOAL_IMAGE "./assets/goal.png"
 #define WALL_IMAGE "./assets/wall.png"
+#define VOID_IMAGE "./assets/void.png"
 
 #define FILE_MAP_1 "./map/map1.txt"
 
