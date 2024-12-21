@@ -17,9 +17,9 @@ typedef struct {
 
 Map * createMap(const char * filename);
 void freeMap(Map * map);
-void free2d(char ** tab, int row);
 void print2d(char ** tab, int row, int col);
-SDL_Surface* loadSurface(const char * filename, App app);
-SDL_Texture* createTexture(SDL_Surface* surface, App app);
+SDL_Texture* createEntity(const char * filename, Game game);
+void afficheAllEntities(Game game, Map * map, SDL_Texture* bg, SDL_Texture* perso, SDL_Texture* box, SDL_Texture* goal, SDL_Texture* wall, SDL_Texture* tex_void);
+
 
 #endif // !GEST_ASSETS

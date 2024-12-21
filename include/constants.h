@@ -20,6 +20,4 @@
 
 #define FILE_MAP_1 "./map/map1.txt"
 
-#define LEN_MAX 500
-
 #endif // !CONSTANTS_H_

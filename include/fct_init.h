@@ -6,9 +6,9 @@ typedef struct {
     SDL_Renderer *renderer;
     SDL_Window *window;
     SDL_Rect screensize;
-} App;
+} Game;
 
-App initApp();
+Game initGame();
 
 void msgError(const char* msg);
 

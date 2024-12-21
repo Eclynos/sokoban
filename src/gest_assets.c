@@ -1,31 +1,66 @@
 #include "../include/gest_assets.h"
+#define LEN_MAX 500
 
 
-SDL_Surface* loadSurface(const char * filename, App app) {
+SDL_Texture* createEntity(const char * filename, Game game){
+
     SDL_Surface* surface = IMG_Load(filename);
     if (!surface) {
-        printf("Error init image: %s\n", IMG_GetError());
-        SDL_DestroyRenderer(app.renderer);
-        SDL_DestroyWindow(app.window);
+        printf("Error init surface: %s\n", IMG_GetError());
+        SDL_DestroyRenderer(game.renderer);
+        SDL_DestroyWindow(game.window);
         SDL_Quit();
         exit(EXIT_FAILURE);
     }
-    return surface;
-}
 
-
-SDL_Texture* createTexture(SDL_Surface* surface, App app) {
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(app.renderer, surface);
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(game.renderer, surface);
     if (!texture) {
-        printf("Erreur lors de la création de la texture: %s\n", SDL_GetError());
-        SDL_DestroyRenderer(app.renderer);
-        SDL_DestroyWindow(app.window);
+        printf("Erreur init texture: %s\n", SDL_GetError());
+        SDL_DestroyRenderer(game.renderer);
+        SDL_DestroyWindow(game.window);
         SDL_Quit();
         exit(EXIT_FAILURE);
     }
+
+    SDL_FreeSurface(surface);
     return texture;
 }
 
+void afficheAllEntities(Game game, Map * map, SDL_Texture* bg, SDL_Texture* perso, SDL_Texture* box, SDL_Texture* goal, SDL_Texture* wall, SDL_Texture* tex_void){
+    int i, j;
+    SDL_Rect tileRect;
+
+    SDL_RenderClear(game.renderer);
+        
+    SDL_RenderCopy(game.renderer, bg, NULL, NULL);
+        
+
+    for (i = 0; i < map->rows; ++i) {
+        for (j = 0; j < map->cols; ++j) {
+            tileRect = (SDL_Rect){j * TILE_SIZE, i * TILE_SIZE, TILE_SIZE, TILE_SIZE};
+            switch (map->tab[i][j]) {
+            case '#':
+                SDL_RenderCopy(game.renderer, tex_void, NULL, &tileRect);
+                break;
+            case 'T':
+                SDL_RenderCopy(game.renderer, wall, NULL, &tileRect);
+                break;
+            case 'R':
+                SDL_RenderCopy(game.renderer, box, NULL, &tileRect);
+                break;
+            case '0': // on pourra ajouter un cas pour le goal recouvert par une caisse
+                SDL_RenderCopy(game.renderer, goal, NULL, &tileRect);
+                break;
+            case '1':
+                SDL_RenderCopy(game.renderer, perso, NULL, &tileRect);
+            default:
+                break;
+            }
+        }
+    }
+
+        SDL_RenderPresent(game.renderer);
+}
 
 void print2d(char ** tab, int row, int col) {
     /*Affiche tout les elements d'un tableau 2d*/
@@ -39,35 +74,12 @@ void print2d(char ** tab, int row, int col) {
 }
 
 
-void free2d(char ** tab, int row) {
-    /*Libere la memoire utilisee par un tableau 2d*/
-    int i;
-
-    for (i = 0; i < row; ++i){
-        free(tab[i]);
-    }
-    free(tab);
-}
-
-
-Map *createMap(const char *filename) {
+void getData(FILE * file, Map * map){
+    /* Trouve et stocke dans la struct Map la taille de la grille de jeu */
     char chaine[LEN_MAX];
-    int i, j;
-    char tmp;
 
-    FILE * file = fopen(filename, "r");
-    if (file == NULL) {
-        perror("Erreur ouverture du fichier");
-        exit(EXIT_FAILURE);
-    }
-
-    Map *map = (Map*)malloc(sizeof(Map));
-    if (!map) {
-        perror("Erreur allocation map");
-        fclose(file);
-        exit(EXIT_FAILURE);
-    }
-    map->rows = 0; map->cols = 0;
+    map->rows = 0; 
+    map->cols = 0;
 
     while (fgetc(file) != '\n') {
         ++map->cols;
@@ -77,16 +89,38 @@ Map *createMap(const char *filename) {
     while (fgets(chaine, LEN_MAX, file) != NULL) {
         ++map->rows;
     }
-    rewind(file);
+    rewind(file); 
+}
 
-    map->initial_tab = malloc(map->rows * sizeof(char*));
-    map->tab = malloc(map->rows * sizeof(char*));
+Map *createMap(const char *filename) {
+    int i, j;
+    char tmp;
+
+    FILE * file = fopen(filename, "r");
+    if (file == NULL) {
+        perror("Erreur ouverture du fichier");
+        exit(EXIT_FAILURE);
+    }
+
+    Map *map = (Map*)malloc(sizeof(*map));
+    if (!map) {
+        perror("Erreur allocation map");
+        fclose(file);
+        exit(EXIT_FAILURE);
+    }
+
+    getData(file, map);
+
+    map->initial_tab = malloc(map->rows * sizeof(* map->initial_tab));
+    map->tab = malloc(map->rows * sizeof(* map->tab));
 
     for (i = 0; i < map->rows; ++i) {
         map->initial_tab[i] = malloc(map->cols * sizeof(char));
         map->tab[i] = malloc(map->cols * sizeof(char));
+
         for (j = 0; j < map->cols; ++j) {
             tmp = fgetc(file);
+
             if (tmp != '\n') {
                 map->initial_tab[i][j] = tmp;
                 map->tab[i][j] = tmp;
@@ -101,9 +135,11 @@ Map *createMap(const char *filename) {
 
 void freeMap(Map * map) {
     int i;
+
     for (i = 0; i < map->rows; ++i) {
         free(map->initial_tab[i]);
         free(map->tab[i]);
     }
+
     free(map);
 }
