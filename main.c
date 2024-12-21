@@ -45,7 +45,7 @@ int main() {
             }
         }
 
-        afficheAllEntities(game, map, bg, perso, box, goal, wall, tex_void);
+        showAllEntities(game, map, bg, perso, box, goal, wall, tex_void);
 
 
     }

@@ -26,14 +26,14 @@ SDL_Texture* createEntity(const char * filename, Game game){
     return texture;
 }
 
-void afficheAllEntities(Game game, Map * map, SDL_Texture* bg, SDL_Texture* perso, SDL_Texture* box, SDL_Texture* goal, SDL_Texture* wall, SDL_Texture* tex_void){
+void showAllEntities(Game game, Map * map, SDL_Texture* bg, SDL_Texture* perso, SDL_Texture* box, SDL_Texture* goal, SDL_Texture* wall, SDL_Texture* tex_void){
     int i, j;
     SDL_Rect tileRect;
     int tile_size = map->tile_size;
 
     SDL_RenderClear(game.renderer);
         
-    SDL_RenderCopy(game.renderer, bg, NULL, NULL);
+    //SDL_RenderCopy(game.renderer, bg, NULL, NULL);
         
 
     for (i = 0; i < map->rows; ++i) {

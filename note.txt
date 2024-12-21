@@ -1,13 +1,15 @@
 Clean: 
--Changement de App a Game, cette structure représnete enfaite le jeu donc je trouvais plus juste de la nommé comme ça.
-- J'ai split plusieurs partie de ton code dans des fonctions pour éviter d'avoir plein de ligne dans le main, pour que ce soit plus lisible. (J'ai pas changé ton code, j'ai juste rename des variables)
+-Changement de App a Game, cette structure représnete enfaite le jeu donc je trouvais plus juste de la nommé comme ça. ok
+- J'ai split plusieurs partie de ton code dans des fonctions pour éviter d'avoir plein de ligne dans le main, pour que ce soit plus lisible. (J'ai pas changé ton code, j'ai juste rename des variables) ok nickel
 
+-faudra régler le fait que la map qui s'affiche n'est pas la map que l'on a écrit dans le fichier texte
+-le perso qui se bouge doit disparaître dans la case de base dcp
 
-
-
-
-
-
+Pour la map il y a 2 tableaux:
+-dans le initial tab on va stocker le fait que les cases soient de base des void, des goal ou des wall
+-dans tab on va en + marquer la pos des éléments mobiles : les caisses et les joueurs lorsqu'elles seront là
+-> faire comme ça rend pratique la gestion des éléments mais pas la remise à 0 de la map
+    -> pour la remise à zéro on relira le fichier anyway
 
 
 
