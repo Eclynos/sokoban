@@ -68,7 +68,7 @@ int main() {
 
         for (i = 0; i < map->rows; ++i) {
             for (j = 0; j < map->cols; ++j) {
-                tileRect = (SDL_Rect){i * 32, j * 32, 32, 32};
+                tileRect = (SDL_Rect){j * TILE_SIZE, i * TILE_SIZE, TILE_SIZE, TILE_SIZE};
                 switch (map->tab[i][j]) {
                 case '#':
                     SDL_RenderCopy(app.renderer, texture_void, NULL, &tileRect);
