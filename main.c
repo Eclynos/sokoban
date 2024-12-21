@@ -83,7 +83,7 @@ int main() {
                     SDL_RenderCopy(app.renderer, texture_goal, NULL, &tileRect);
                     break;
                 case '1':
-                    SDL_RenderCopy(app.renderer, texture_perso, NULL, &tileRect);
+                    SDL_RenderCopy(app.renderer, texture_perso, NULL, &imgRect);
                 default:
                     break;
                 }

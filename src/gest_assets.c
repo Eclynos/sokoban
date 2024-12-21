@@ -7,7 +7,6 @@ SDL_Surface* loadSurface(const char * filename, App app) {
         printf("Error init image: %s\n", IMG_GetError());
         SDL_DestroyRenderer(app.renderer);
         SDL_DestroyWindow(app.window);
-        IMG_Quit();
         SDL_Quit();
         exit(EXIT_FAILURE);
     }
@@ -21,7 +20,6 @@ SDL_Texture* createTexture(SDL_Surface* surface, App app) {
         printf("Erreur lors de la création de la texture: %s\n", SDL_GetError());
         SDL_DestroyRenderer(app.renderer);
         SDL_DestroyWindow(app.window);
-        IMG_Quit();
         SDL_Quit();
         exit(EXIT_FAILURE);
     }
