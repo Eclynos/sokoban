@@ -61,7 +61,7 @@ Map *createMap(const char *filename) {
         exit(EXIT_FAILURE);
     }
 
-    Map *map = (Map *)malloc(sizeof(Map));
+    Map *map = (Map*)malloc(sizeof(Map));
     if (!map) {
         perror("Erreur allocation map");
         fclose(file);
