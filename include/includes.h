@@ -8,5 +8,6 @@
 #include "constants.h"
 #include "fct_init.h"
 #include "gest_assets.h"
+#include "move.h"
 
 #endif

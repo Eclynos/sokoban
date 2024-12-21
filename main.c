@@ -3,7 +3,7 @@
 int main() {
 
     Game game = initGame();
-    Map * map = createMap(FILE_MAP_1);
+    Map * map = createMap(FILE_MAP_1, game);
 
     SDL_Texture* bg = createEntity(BACKGROUND_IMAGE, game);
     SDL_Texture* perso = createEntity(CHARACTER_IMAGE, game);
@@ -14,7 +14,6 @@ int main() {
 
 
     // Position initiale de l'image
-    SDL_Rect imgRect = {100, 100, 50, 50}; // {x, y, largeur, hauteur}
 
     SDL_bool program_launched = SDL_TRUE;
     
@@ -31,16 +30,16 @@ int main() {
                 // Gestion des touches
                 switch (event.key.keysym.sym) {
                     case SDLK_z:
-                        imgRect.y -= 10; // Déplacer vers le haut
+                        move_up(map); // Déplacer vers le haut
                         break;
                     case SDLK_s:
-                        imgRect.y += 10; // Déplacer vers le bas
+                        move_down(map); // Déplacer vers le bas
                         break;
                     case SDLK_q:
-                        imgRect.x -= 10; // Déplacer vers la gauche
+                        move_left(map); // Déplacer vers la gauche
                         break;
                     case SDLK_d:
-                        imgRect.x += 10; // Déplacer vers la droite
+                        move_right(map); // Déplacer vers la droite
                         break;
                 }
             }

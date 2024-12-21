@@ -1,3 +1,17 @@
+Clean: 
+-Changement de App a Game, cette structure représnete enfaite le jeu donc je trouvais plus juste de la nommé comme ça.
+- J'ai split plusieurs partie de ton code dans des fonctions pour éviter d'avoir plein de ligne dans le main, pour que ce soit plus lisible. (J'ai pas changé ton code, j'ai juste rename des variables)
+
+
+
+
+
+
+
+
+
+
+
 if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
     printf("Erreur d'initialisation de SDL_image: %s\n", IMG_GetError());
     SDL_Quit();

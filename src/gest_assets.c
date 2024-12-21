@@ -29,6 +29,7 @@ SDL_Texture* createEntity(const char * filename, Game game){
 void afficheAllEntities(Game game, Map * map, SDL_Texture* bg, SDL_Texture* perso, SDL_Texture* box, SDL_Texture* goal, SDL_Texture* wall, SDL_Texture* tex_void){
     int i, j;
     SDL_Rect tileRect;
+    int tile_size = map->tile_size;
 
     SDL_RenderClear(game.renderer);
         
@@ -37,7 +38,7 @@ void afficheAllEntities(Game game, Map * map, SDL_Texture* bg, SDL_Texture* pers
 
     for (i = 0; i < map->rows; ++i) {
         for (j = 0; j < map->cols; ++j) {
-            tileRect = (SDL_Rect){j * TILE_SIZE, i * TILE_SIZE, TILE_SIZE, TILE_SIZE};
+            tileRect = (SDL_Rect){j * tile_size, i * tile_size, tile_size, tile_size};
             switch (map->tab[i][j]) {
             case '#':
                 SDL_RenderCopy(game.renderer, tex_void, NULL, &tileRect);
@@ -92,7 +93,7 @@ void getData(FILE * file, Map * map){
     rewind(file); 
 }
 
-Map *createMap(const char *filename) {
+Map *createMap(const char *filename, Game game) {
     int i, j;
     char tmp;
 
@@ -124,9 +125,15 @@ Map *createMap(const char *filename) {
             if (tmp != '\n') {
                 map->initial_tab[i][j] = tmp;
                 map->tab[i][j] = tmp;
+                if (tmp == '1'){
+                    map->pos_perso_i = i;
+                    map->pos_perso_j = j;
+                }
             }
         }
     }
+
+    map->tile_size = game.screensize.w / map -> cols;
 
     fclose(file);
     return map;
@@ -143,3 +150,5 @@ void freeMap(Map * map) {
 
     free(map);
 }
+
+
