@@ -2,7 +2,8 @@ Clean:
 -Changement de App a Game, cette structure représnete enfaite le jeu donc je trouvais plus juste de la nommé comme ça.
 - J'ai split plusieurs partie de ton code dans des fonctions pour éviter d'avoir plein de ligne dans le main, pour que ce soit plus lisible. (J'ai pas changé ton code, j'ai juste rename des variables)
 
-
+Move perso:
+J'ai mis dans la structure map la pos du perso et la taille des tile (déplacement aussi). A voir si on les laisse dans Map ou si on fait une structure pour ça. 
 
 
 
