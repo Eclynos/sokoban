@@ -13,14 +13,14 @@ Pour la map il y a 2 tableaux:
 
 
 24 Décembre:
-Fix de la récup de la map, initial_tabcontient maintenant les voids, murs et goal. Dcp le perso disparait bien de la case de départ une fois partie.
+Fix de la récup de la map, initial_tab contient maintenant les voids, murs et goal. Dcp le perso disparait bien de la case de départ une fois partie. -> ok
 
 J'ai fait le déplacement des caisses (oui elle s'emboite mais tkt je fixerais ça après). Je trouve que ce que j'ai fait c'est un peu crade dis moi ce que tu en penses. J'ai fait ça pcq j'ai trouvé plus simple d'implémenter ça que des structs pcq je vois pas comment faire.
 
-A part un menus et le Changement de map le gameplay est presquz terminé (manque le bug a fix), dis moi si ça te convient ?
+A part un menus et le Changement de map le gameplay est presque terminé (manque le bug a fix), dis moi si ça te convient ? -> Nickel, je vais pouvoir bosser sur l'iso
 
-
-
+-> Tu pourrais faire en sorte que ça lance une autre map quand on a finis celle-ci
+-> Sinon c'est vraiment bien, je regarderais en détail et peut-être que je changerais des trucs quand j'implémenter les graphismes en iso
 
 
 
