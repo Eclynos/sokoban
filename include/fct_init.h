@@ -10,6 +10,5 @@ typedef struct {
 
 Game initGame();
 
-void msgError(const char* msg);
 
 #endif

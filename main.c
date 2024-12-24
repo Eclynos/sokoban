@@ -44,8 +44,12 @@ int main() {
                 }
             }
         }
+        if (verif_win(map) == 0){
+            printf("WIN!!\n");
+            program_launched = SDL_FALSE;
 
-        afficheAllEntities(game, map, bg, perso, box, goal, wall, tex_void);
+        }
+        showAllEntities(game, map, bg, perso, box, goal, wall, tex_void);
 
 
     }

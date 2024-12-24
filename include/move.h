@@ -9,5 +9,6 @@ void move_up(Map* map);
 void move_down(Map* map);
 void move_right(Map* map);
 void move_left(Map* map);
+int verif_win(Map * map);
 
 #endif // !MOVE_H_

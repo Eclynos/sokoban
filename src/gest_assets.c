@@ -26,14 +26,14 @@ SDL_Texture* createEntity(const char * filename, Game game){
     return texture;
 }
 
-void afficheAllEntities(Game game, Map * map, SDL_Texture* bg, SDL_Texture* perso, SDL_Texture* box, SDL_Texture* goal, SDL_Texture* wall, SDL_Texture* tex_void){
+void showAllEntities(Game game, Map * map, SDL_Texture* bg, SDL_Texture* perso, SDL_Texture* box, SDL_Texture* goal, SDL_Texture* wall, SDL_Texture* tex_void){
     int i, j;
     SDL_Rect tileRect;
     int tile_size = map->tile_size;
 
     SDL_RenderClear(game.renderer);
         
-    SDL_RenderCopy(game.renderer, bg, NULL, NULL);
+    //SDL_RenderCopy(game.renderer, bg, NULL, NULL);
         
 
     for (i = 0; i < map->rows; ++i) {
@@ -119,12 +119,16 @@ Map *createMap(const char *filename, Game game) {
         map->initial_tab[i] = malloc(map->cols * sizeof(char));
         map->tab[i] = malloc(map->cols * sizeof(char));
 
-        for (j = 0; j < map->cols; ++j) {
+        for (j = 0; j < map->cols+1; ++j) { // On parcours cols +1 la ligne pour prendre en compte le saut de ligne
             tmp = fgetc(file);
 
             if (tmp != '\n') {
-                map->initial_tab[i][j] = tmp;
                 map->tab[i][j] = tmp;
+
+                // On stocke dans initial_tab seulement les cases voids et goal.
+                if (tmp != '#' && tmp != '0' && tmp != 'T') map->initial_tab[i][j] = '#';
+                else map->initial_tab[i][j] = tmp;
+
                 if (tmp == '1'){
                     map->pos_perso_i = i;
                     map->pos_perso_j = j;
@@ -134,6 +138,7 @@ Map *createMap(const char *filename, Game game) {
     }
 
     map->tile_size = game.screensize.w / map -> cols;
+    print2d(map->initial_tab, map->rows, map->cols);
 
     fclose(file);
     return map;
