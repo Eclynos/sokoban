@@ -1,4 +1,4 @@
-CFLAGS = -Wall -Werror -Iinclude
+CFLAGS = -Wall -Iinclude
 LDFLAGS = -lm -lSDL2 -lSDL2_image
 SRC = main.c src/*
 OUTPUT_FILE = sokoban.out

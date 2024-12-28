@@ -9,5 +9,6 @@
 #include "fct_init.h"
 #include "gest_assets.h"
 #include "move.h"
+#include "./game_loop.h"
 
 #endif

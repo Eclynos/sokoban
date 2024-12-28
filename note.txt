@@ -20,7 +20,37 @@ J'ai fait le déplacement des caisses (oui elle s'emboite mais tkt je fixerais �
 A part un menus et le Changement de map le gameplay est presque terminé (manque le bug a fix), dis moi si ça te convient ? -> Nickel, je vais pouvoir bosser sur l'iso
 
 -> Tu pourrais faire en sorte que ça lance une autre map quand on a finis celle-ci
+            --> Je m'y penche.
 -> Sinon c'est vraiment bien, je regarderais en détail et peut-être que je changerais des trucs quand j'implémenter les graphismes en iso
+            --> Merci et zéro souci fait tes changements en fct.
+
+
+
+28 Décembre:
+Fait:
+    - Je me suis dis que faire une fct pour le déplacement pouvait être mieux, ça permettrait de récup les mooves faits dans une liste (pour pouvoir faire des retours en arrière), dis moi ce que tu en penses.
+    - Mise de la boucle de jeu dans une fonction
+
+A faire:
+    - Page de start avec boutton pour commmencer
+    - Banderau avec le num de la map et d'autres trucs
+    - Syst pour load de nouvelle map propre
+    - Caper les fps
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

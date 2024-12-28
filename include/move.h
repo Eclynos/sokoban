@@ -5,10 +5,8 @@
 #include <stdlib.h>
 #include "../include/gest_assets.h"
 
-void move_up(Map* map);
-void move_down(Map* map);
-void move_right(Map* map);
-void move_left(Map* map);
+
+void move(Map* map, char sens);
 int verif_win(Map * map);
 
 #endif // !MOVE_H_

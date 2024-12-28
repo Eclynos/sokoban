@@ -127,7 +127,7 @@ Map *createMap(const char *filename, Game game) {
 
                 // On stocke dans initial_tab seulement les cases voids et goal.
                 if (tmp != '#' && tmp != '0' && tmp != 'T') map->initial_tab[i][j] = '#';
-                else map->initial_tab[i][j] = tmp;
+                else                                        map->initial_tab[i][j] = tmp;
 
                 if (tmp == '1'){
                     map->pos_perso_i = i;
@@ -138,7 +138,6 @@ Map *createMap(const char *filename, Game game) {
     }
 
     map->tile_size = game.screensize.w / map -> cols;
-    print2d(map->initial_tab, map->rows, map->cols);
 
     fclose(file);
     return map;
