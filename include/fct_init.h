@@ -8,7 +8,12 @@ typedef struct {
     SDL_Rect screensize;
 } Game;
 
-Game initGame();
+typedef struct {
+    int direction; // can be 0 (NW), 1 (NE), 2(SE) or 3 (SW)
+} Player;
 
+
+Game initGame();
+Player initPlayer();
 
 #endif

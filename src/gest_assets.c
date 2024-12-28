@@ -26,19 +26,21 @@ SDL_Texture* createEntity(const char * filename, Game game){
     return texture;
 }
 
-void showAllEntities(Game game, Map * map, SDL_Texture* bg, SDL_Texture* perso, SDL_Texture* box, SDL_Texture* goal, SDL_Texture* wall, SDL_Texture* tex_void){
+
+void showAllEntities(Game game, Map * map, Player player, SDL_Texture* bg, SDL_Texture* perso, SDL_Texture* box, SDL_Texture* goal, SDL_Texture* wall, SDL_Texture* tex_void){
     int i, j;
     SDL_Rect tileRect;
     int tile_size = map->tile_size;
 
     SDL_RenderClear(game.renderer);
         
-    //SDL_RenderCopy(game.renderer, bg, NULL, NULL);
-        
+    SDL_RenderCopy(game.renderer, bg, NULL, NULL);
 
     for (i = 0; i < map->rows; ++i) {
         for (j = 0; j < map->cols; ++j) {
-            tileRect = (SDL_Rect){j * tile_size, i * tile_size, tile_size, tile_size};
+            tileRect = (SDL_Rect){(game.screensize.w/2) + (j * tile_size - i * tile_size) / 2,
+                                    10 + (j * tile_size + i * tile_size) / 4,
+                                    tile_size, tile_size};
             switch (map->tab[i][j]) {
             case '#':
                 SDL_RenderCopy(game.renderer, tex_void, NULL, &tileRect);
@@ -53,7 +55,15 @@ void showAllEntities(Game game, Map * map, SDL_Texture* bg, SDL_Texture* perso, 
                 SDL_RenderCopy(game.renderer, goal, NULL, &tileRect);
                 break;
             case '1':
-                SDL_RenderCopy(game.renderer, perso, NULL, &tileRect);
+                if (player.direction == 0) {
+                    SDL_RenderCopy(game.renderer, perso, NULL, &tileRect);
+                } else if (player.direction == 1) {
+                    SDL_RenderCopy(game.renderer, perso, NULL, &tileRect);
+                } else if (player.direction == 2) {
+                    SDL_RenderCopy(game.renderer, perso, NULL, &tileRect);
+                } else {
+                    SDL_RenderCopy(game.renderer, perso, NULL, &tileRect);
+                }
             default:
                 break;
             }
@@ -62,6 +72,7 @@ void showAllEntities(Game game, Map * map, SDL_Texture* bg, SDL_Texture* perso, 
 
         SDL_RenderPresent(game.renderer);
 }
+
 
 void print2d(char ** tab, int row, int col) {
     /*Affiche tout les elements d'un tableau 2d*/
@@ -92,6 +103,7 @@ void getData(FILE * file, Map * map){
     }
     rewind(file); 
 }
+
 
 Map *createMap(const char *filename, Game game) {
     int i, j;
@@ -137,7 +149,7 @@ Map *createMap(const char *filename, Game game) {
         }
     }
 
-    map->tile_size = game.screensize.w / map -> cols;
+    map->tile_size = game.screensize.w / map->cols / 2;
 
     fclose(file);
     return map;

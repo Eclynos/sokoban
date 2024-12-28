@@ -3,6 +3,7 @@
 int main() {
 
     Game game = initGame();
+    Player player = initPlayer();
     Map * map = createMap(FILE_MAP_1, game);
 
     SDL_Texture* bg = createEntity(BACKGROUND_IMAGE, game);
@@ -11,9 +12,6 @@ int main() {
     SDL_Texture* goal = createEntity(GOAL_IMAGE, game);
     SDL_Texture* wall = createEntity(WALL_IMAGE, game);
     SDL_Texture* tex_void = createEntity(VOID_IMAGE, game);
-
-
-    // Position initiale de l'image
 
     SDL_bool program_launched = SDL_TRUE;
     
@@ -30,15 +28,19 @@ int main() {
                 switch (event.key.keysym.sym) {
                     case SDLK_z:
                         move(map, 'U'); // Déplacer vers le haut
+                        player.direction = 1;
                         break;
                     case SDLK_s:
                         move(map, 'D'); // Déplacer vers le bas
+                        player.direction = 3;
                         break;
                     case SDLK_q:
                         move(map, 'L'); // Déplacer vers la gauche
+                        player.direction = 0;
                         break;
                     case SDLK_d:
                         move(map, 'R'); // Déplacer vers la droite
+                        player.direction = 2;
                         break;
                 }
             }
@@ -46,12 +48,11 @@ int main() {
             print2d(map->initial_tab, map->rows, map->cols);
             printf("WIN!!\n");
             program_launched = SDL_FALSE;
-
-        }
-        showAllEntities(game, map, bg, perso, box, goal, wall, tex_void);
         }
 
+        showAllEntities(game, map, player, bg, perso, box, goal, wall, tex_void);
 
+        }
 
     }
 
