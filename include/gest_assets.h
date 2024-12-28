@@ -8,6 +8,7 @@
 #include "constants.h"
 #include "fct_init.h"
 
+
 typedef struct {
     int rows;
     int cols;
@@ -23,8 +24,6 @@ Map * createMap(const char * filename, Game game);
 void freeMap(Map * map);
 void print2d(char ** tab, int row, int col);
 SDL_Texture* createEntity(const char * filename, Game game);
-void showAllEntities(Game game, Map * map, SDL_Texture* bg, SDL_Texture* perso, SDL_Texture* box, SDL_Texture* goal, SDL_Texture* wall, SDL_Texture* tex_void);
-
-
+void showAllEntities(Game game, Map * map, Player player, SDL_Texture* bg, SDL_Texture* perso, SDL_Texture* box, SDL_Texture* goal, SDL_Texture* wall, SDL_Texture* tex_void);
 
 #endif // !GEST_ASSETS
