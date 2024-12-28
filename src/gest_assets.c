@@ -27,12 +27,12 @@ SDL_Texture* createEntity(const char * filename, Game game){
 }
 
 
-void showAllEntities(Game game, Map * map, Player player, SDL_Texture* bg, SDL_Texture* perso, SDL_Texture* box, SDL_Texture* goal, SDL_Texture* wall, SDL_Texture* tex_void){
+void showAllEntities(Game game, Map * map, Player player, SDL_Texture* bg, SDL_Texture* box, SDL_Texture* goal, SDL_Texture* wall, SDL_Texture* tex_void){
     int i, j;
     SDL_Rect tileRect;
     int tile_size = map->tile_size;
 
-    SDL_RenderClear(game.renderer);
+    //SDL_RenderClear(game.renderer);
         
     SDL_RenderCopy(game.renderer, bg, NULL, NULL);
 
@@ -56,13 +56,13 @@ void showAllEntities(Game game, Map * map, Player player, SDL_Texture* bg, SDL_T
                 break;
             case '1':
                 if (player.direction == 0) {
-                    SDL_RenderCopy(game.renderer, perso, NULL, &tileRect);
+                    SDL_RenderCopy(game.renderer, player.texture0, NULL, &tileRect);
                 } else if (player.direction == 1) {
-                    SDL_RenderCopy(game.renderer, perso, NULL, &tileRect);
+                    SDL_RenderCopy(game.renderer, player.texture1, NULL, &tileRect);
                 } else if (player.direction == 2) {
-                    SDL_RenderCopy(game.renderer, perso, NULL, &tileRect);
+                    SDL_RenderCopy(game.renderer, player.texture2, NULL, &tileRect);
                 } else {
-                    SDL_RenderCopy(game.renderer, perso, NULL, &tileRect);
+                    SDL_RenderCopy(game.renderer, player.texture3, NULL, &tileRect);
                 }
             default:
                 break;
@@ -149,7 +149,8 @@ Map *createMap(const char *filename, Game game) {
         }
     }
 
-    map->tile_size = game.screensize.w / map->cols / 2;
+    map->tile_size = game.screensize.w / map->cols;
+    // faire un calcul savant pour faire en sorte que la fenêtre fit à peu près l'affichage de l'ensemble des tiles
 
     fclose(file);
     return map;

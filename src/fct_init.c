@@ -1,5 +1,6 @@
 #include "../include/fct_init.h"
 #include "../include/constants.h"
+#include "../include/gest_assets.h"
 
 #include <stdio.h>
 #include <SDL2/SDL.h>
@@ -19,8 +20,8 @@ Game initGame() {
     if (SDL_Init(SDL_INIT_VIDEO) != 0)  msgError("Error video:");
 
     if (SDL_GetDisplayBounds(0, &game.screensize) != 0) msgError("Error screen size fetcher");
-    //game.screensize.w /= 2; 
-    //game.screensize.h /= 2;
+    game.screensize.w /= 2; 
+    game.screensize.h /= 2;
 
     game.window = SDL_CreateWindow(
                             "Sokoban",
@@ -42,8 +43,13 @@ Game initGame() {
     return game;
 }
 
-Player initPlayer() {
+
+Player initPlayer(Game game) {
     Player player;
     player.direction = 0;
+    player.texture0 = createEntity(CHARACTER_IMAGE, game);
+    player.texture1 = createEntity(CHARACTER_IMAGE, game);
+    player.texture2 = createEntity(CHARACTER_IMAGE, game);
+    player.texture3 = createEntity(CHARACTER_IMAGE, game);
     return player;
 }
