@@ -20,6 +20,9 @@ int main() {
         SDL_Event event;
 
         while (SDL_PollEvent(&event)) {
+
+            Uint32 start_time = SDL_GetTicks();
+
             if (event.type == SDL_QUIT) {
                 program_launched = SDL_FALSE;
             } 
@@ -44,6 +47,7 @@ int main() {
                         break;
                 }
             }
+        
         if (verif_win(map) == 0){
             print2d(map->initial_tab, map->rows, map->cols);
             printf("WIN!!\n");
@@ -51,6 +55,12 @@ int main() {
         }
 
         showAllEntities(game, map, player, bg, perso, box, goal, wall, tex_void);
+
+        Uint32 frame_time = SDL_GetTicks() - start_time;
+
+        if (frame_time < FRAME_DELAY) {
+            SDL_Delay(FRAME_DELAY - frame_time);
+        }
 
         }
 

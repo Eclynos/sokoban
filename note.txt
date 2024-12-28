@@ -34,8 +34,8 @@ Fait:
 A faire:
     - Page de start avec boutton pour commmencer
     - Banderau avec le num de la map et d'autres trucs
-    - Syst pour load de nouvelle map propre
-    - Caper les fps
+    - Syst pour load de nouvelle map propre  -> le plus important
+    - Caper les fps  X
 
 
 
