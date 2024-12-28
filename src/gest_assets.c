@@ -33,8 +33,7 @@ void showAllEntities(Game game, Map * map, SDL_Texture* bg, SDL_Texture* perso, 
 
     SDL_RenderClear(game.renderer);
         
-    //SDL_RenderCopy(game.renderer, bg, NULL, NULL);
-        
+    SDL_RenderCopy(game.renderer, bg, NULL, NULL);
 
     for (i = 0; i < map->rows; ++i) {
         for (j = 0; j < map->cols; ++j) {
