@@ -38,8 +38,23 @@ A faire:
     - Caper les fps  X
 
 
+29 Décembre
+Séparation de l'affichage en 3 fonctions:
+- affichage du bg
+- affichage des tiles et du perso
+- affichage des boutons et informations textuelles
+
+gestion des animations de player avec un compte des frames
+
+game et player est désormais allouée qu'à un seul endroit dans la mémoire, gestion de pointeurs
+le jeu est bcp + rapide comme ça, il n'y a notamment plus de latence de fermeture de fenêtre, c'est bcp + agréable
+
+Pour showInteractives il faut installer SDL_ttf
+sudo apt-get install libsdl2-ttf-dev
+On pourrait utiliser aussi des images et show les lettres manuellement mais ce serait long
 
 
+Je veux bien que tu t'occupes de la gestion du basculement sur une nouvelle map lorsque le joueuer a gagné
 
 
 

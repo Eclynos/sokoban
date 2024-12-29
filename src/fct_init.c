@@ -1,10 +1,7 @@
-#include "../include/fct_init.h"
-#include "../include/constants.h"
-#include "../include/gest_assets.h"
+#include "fct_init.h"
+#include "constants.h"
+#include "gest_assets.h"
 
-#include <stdio.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
 
 void msgError(const char* msg){
     printf("%s %s\n", msg, SDL_GetError());
@@ -12,44 +9,55 @@ void msgError(const char* msg){
     exit(EXIT_FAILURE);
 }
 
-Game initGame() {
-    Game game;
-    game.window = NULL;
-    game.renderer = NULL;
+
+Game * initGame() {
+    Game * game = (Game*)malloc(sizeof(*game));
+    if (!game) {
+        perror("Erreur allocation joueur");
+        exit(EXIT_FAILURE);
+    }
+    game->window = NULL;
+    game->renderer = NULL;
 
     if (SDL_Init(SDL_INIT_VIDEO) != 0)  msgError("Error video:");
+    if (TTF_Init() == -1) msgError("Error ttf:");
 
-    if (SDL_GetDisplayBounds(0, &game.screensize) != 0) msgError("Error screen size fetcher");
-    game.screensize.w /= 2; 
-    game.screensize.h /= 2;
+    if (SDL_GetDisplayBounds(0, &game->screensize) != 0) msgError("Error screen size fetcher");
+    game->screensize.w /= 2;
+    game->screensize.h /= 2;
 
-    game.window = SDL_CreateWindow(
+    game->window = SDL_CreateWindow(
                             "Sokoban",
                             SDL_WINDOWPOS_CENTERED,
                             SDL_WINDOWPOS_CENTERED,
-                            game.screensize.w,
-                            game.screensize.h,
+                            game->screensize.w,
+                            game->screensize.h,
                             (SDL_WINDOW_SHOWN)
                             );
-    if (!game.window)    msgError("Error window:");
+    if (!game->window)    msgError("Error window:");
     
-    game.renderer = SDL_CreateRenderer(
-                                game.window,
+    game->renderer = SDL_CreateRenderer(
+                                game->window,
                                 -1,
                                 SDL_RENDERER_SOFTWARE
                                 );
-    if (!game.renderer)  msgError("Error renderer:");
+    if (!game->renderer)  msgError("Error renderer:");
 
     return game;
 }
 
 
-Player initPlayer(Game game) {
-    Player player;
-    player.direction = 0;
-    player.texture0 = createEntity(CHARACTER_IMAGE, game);
-    player.texture1 = createEntity(CHARACTER_IMAGE, game);
-    player.texture2 = createEntity(CHARACTER_IMAGE, game);
-    player.texture3 = createEntity(CHARACTER_IMAGE, game);
+Player * initPlayer(Game * game) {
+    Player * player = (Player*)malloc(sizeof(*player));
+    if (!player) {
+        perror("Erreur allocation joueur");
+        exit(EXIT_FAILURE);
+    }
+    player->direction = 0;
+    player->frame = 0;
+    player->texture0 = createEntity(CHARACTER_IMAGE, game);
+    player->texture1 = createEntity(CHARACTER_IMAGE, game);
+    player->texture2 = createEntity(CHARACTER_IMAGE, game);
+    player->texture3 = createEntity(CHARACTER_IMAGE, game);
     return player;
 }

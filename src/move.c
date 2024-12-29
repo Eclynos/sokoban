@@ -1,4 +1,4 @@
-#include "../include/move.h"
+#include "move.h"
 
 void move(Map* map, char sens){
     int i = map->pos_perso_i;

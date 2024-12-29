@@ -1,23 +1,23 @@
-#include "../include/gest_assets.h"
+#include "gest_assets.h"
 #define LEN_MAX 500
 
 
-SDL_Texture* createEntity(const char * filename, Game game){
+SDL_Texture* createEntity(const char * filename, Game * game){
 
     SDL_Surface* surface = IMG_Load(filename);
     if (!surface) {
         printf("Error init surface: %s\n", IMG_GetError());
-        SDL_DestroyRenderer(game.renderer);
-        SDL_DestroyWindow(game.window);
+        SDL_DestroyRenderer(game->renderer);
+        SDL_DestroyWindow(game->window);
         SDL_Quit();
         exit(EXIT_FAILURE);
     }
 
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(game.renderer, surface);
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(game->renderer, surface);
     if (!texture) {
         printf("Erreur init texture: %s\n", SDL_GetError());
-        SDL_DestroyRenderer(game.renderer);
-        SDL_DestroyWindow(game.window);
+        SDL_DestroyRenderer(game->renderer);
+        SDL_DestroyWindow(game->window);
         SDL_Quit();
         exit(EXIT_FAILURE);
     }
@@ -27,42 +27,59 @@ SDL_Texture* createEntity(const char * filename, Game game){
 }
 
 
-void showAllEntities(Game game, Map * map, Player player, SDL_Texture* bg, SDL_Texture* box, SDL_Texture* goal, SDL_Texture* wall, SDL_Texture* tex_void){
+TTF_Font* createFont(const char * filename, Game * game) {
+
+    TTF_Font* font = TTF_OpenFont(filename, TEXT_SIZE);
+    if (!font) {
+        printf("Erreur init police: %s\n", SDL_GetError());
+        SDL_DestroyRenderer(game->renderer);
+        SDL_DestroyWindow(game->window);
+        SDL_Quit();
+        exit(EXIT_FAILURE);
+    }
+    return font;
+}
+
+
+void showBackground(Game * game, SDL_Texture* bg) {
+    //SDL_RenderClear(game->renderer);
+        
+    SDL_RenderCopy(game->renderer, bg, NULL, NULL);
+}
+
+
+void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, SDL_Texture* goal, SDL_Texture* wall, SDL_Texture* tex_void){
     int i, j;
     SDL_Rect tileRect;
     int tile_size = map->tile_size;
 
-    //SDL_RenderClear(game.renderer);
-        
-    SDL_RenderCopy(game.renderer, bg, NULL, NULL);
-
     for (i = 0; i < map->rows; ++i) {
         for (j = 0; j < map->cols; ++j) {
-            tileRect = (SDL_Rect){(game.screensize.w/2) + (j * tile_size - i * tile_size) / 2,
+            tileRect = (SDL_Rect){(game->screensize.w/2) + (j * tile_size - i * tile_size) / 2,
                                     10 + (j * tile_size + i * tile_size) / 4,
                                     tile_size, tile_size};
             switch (map->tab[i][j]) {
             case '#':
-                SDL_RenderCopy(game.renderer, tex_void, NULL, &tileRect);
+                SDL_RenderCopy(game->renderer, tex_void, NULL, &tileRect);
                 break;
             case 'T':
-                SDL_RenderCopy(game.renderer, wall, NULL, &tileRect);
+                SDL_RenderCopy(game->renderer, wall, NULL, &tileRect);
                 break;
             case 'R':
-                SDL_RenderCopy(game.renderer, box, NULL, &tileRect);
+                SDL_RenderCopy(game->renderer, box, NULL, &tileRect);
                 break;
             case '0': // on pourra ajouter un cas pour le goal recouvert par une caisse
-                SDL_RenderCopy(game.renderer, goal, NULL, &tileRect);
+                SDL_RenderCopy(game->renderer, goal, NULL, &tileRect);
                 break;
             case '1':
-                if (player.direction == 0) {
-                    SDL_RenderCopy(game.renderer, player.texture0, NULL, &tileRect);
-                } else if (player.direction == 1) {
-                    SDL_RenderCopy(game.renderer, player.texture1, NULL, &tileRect);
-                } else if (player.direction == 2) {
-                    SDL_RenderCopy(game.renderer, player.texture2, NULL, &tileRect);
+                if (player->direction == 0) {
+                    SDL_RenderCopy(game->renderer, player->texture0, NULL, &tileRect);
+                } else if (player->direction == 1) {
+                    SDL_RenderCopy(game->renderer, player->texture1, NULL, &tileRect);
+                } else if (player->direction == 2) {
+                    SDL_RenderCopy(game->renderer, player->texture2, NULL, &tileRect);
                 } else {
-                    SDL_RenderCopy(game.renderer, player.texture3, NULL, &tileRect);
+                    SDL_RenderCopy(game->renderer, player->texture3, NULL, &tileRect);
                 }
             default:
                 break;
@@ -70,7 +87,12 @@ void showAllEntities(Game game, Map * map, Player player, SDL_Texture* bg, SDL_T
         }
     }
 
-        SDL_RenderPresent(game.renderer);
+    ++player->frame;
+    if (player->frame > 60) player->frame = 0;
+}
+
+void showInteractives(Game * game, TTF_Font * font, SDL_Color text_color) {
+
 }
 
 
@@ -105,7 +127,7 @@ void getData(FILE * file, Map * map){
 }
 
 
-Map *createMap(const char *filename, Game game) {
+Map *createMap(const char *filename, Game * game) {
     int i, j;
     char tmp;
 
@@ -149,7 +171,7 @@ Map *createMap(const char *filename, Game game) {
         }
     }
 
-    map->tile_size = game.screensize.w / map->cols;
+    map->tile_size = game->screensize.w / map->cols;
     // faire un calcul savant pour faire en sorte que la fenêtre fit à peu près l'affichage de l'ensemble des tiles
 
     fclose(file);
