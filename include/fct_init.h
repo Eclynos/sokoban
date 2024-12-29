@@ -10,6 +10,7 @@ typedef struct {
 
 typedef struct {
     int direction; // can be 0 (NW), 1 (NE), 2(SE) or 3 (SW)
+    int frame;
     SDL_Texture* texture0;
     SDL_Texture* texture1;
     SDL_Texture* texture2;
@@ -17,7 +18,7 @@ typedef struct {
 } Player;
 
 
-Game initGame();
-Player initPlayer(Game game);
+Game * initGame();
+Player * initPlayer(Game * game);
 
 #endif

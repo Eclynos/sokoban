@@ -2,8 +2,8 @@
 
 int main() {
 
-    Game game = initGame();
-    Player player = initPlayer(game);
+    Game * game = initGame();
+    Player * player = initPlayer(game);
     Map * map = createMap(FILE_MAP_1, game);
 
     SDL_Texture* bg = createEntity(BACKGROUND_IMAGE, game);
@@ -12,15 +12,18 @@ int main() {
     SDL_Texture* wall = createEntity(WALL_IMAGE, game);
     SDL_Texture* tex_void = createEntity(VOID_IMAGE, game);
 
+    SDL_Color text_color = {255, 255, 255, 255}; // pour l'instant du blanc
+    TTF_Font* font = createFont(FILE_FONT, game);
+
     SDL_bool program_launched = SDL_TRUE;
     
     while (program_launched) {
 
+        Uint32 start_time = SDL_GetTicks();
+
         SDL_Event event;
 
         while (SDL_PollEvent(&event)) {
-
-            Uint32 start_time = SDL_GetTicks();
 
             if (event.type == SDL_QUIT) {
                 program_launched = SDL_FALSE;
@@ -31,19 +34,19 @@ int main() {
                 switch (event.key.keysym.sym) {
                     case SDLK_z:
                         move(map, 'U'); // Déplacer vers le haut
-                        player.direction = 1;
+                        player->direction = 1;
                         break;
                     case SDLK_s:
                         move(map, 'D'); // Déplacer vers le bas
-                        player.direction = 3;
+                        player->direction = 3;
                         break;
                     case SDLK_q:
                         move(map, 'L'); // Déplacer vers la gauche
-                        player.direction = 0;
+                        player->direction = 0;
                         break;
                     case SDLK_d:
                         move(map, 'R'); // Déplacer vers la droite
-                        player.direction = 2;
+                        player->direction = 2;
                         break;
                     case SDLK_ESCAPE:
                         program_launched = SDL_FALSE;
@@ -61,7 +64,11 @@ int main() {
             program_launched = SDL_FALSE;
         }
 
-        showAllEntities(game, map, player, bg, box, goal, wall, tex_void);
+        showBackground(game, bg);
+        showAllEntities(game, map, player, box, goal, wall, tex_void);
+        showInteractives(game, font, text_color);
+
+        SDL_RenderPresent(game->renderer);
 
         Uint32 frame_time = SDL_GetTicks() - start_time;
 
@@ -79,8 +86,10 @@ int main() {
     SDL_DestroyTexture(goal);
     SDL_DestroyTexture(wall);
     SDL_DestroyTexture(tex_void);
-    SDL_DestroyRenderer(game.renderer);
-    SDL_DestroyWindow(game.window);
+    SDL_DestroyRenderer(game->renderer);
+    SDL_DestroyWindow(game->window);
+    TTF_CloseFont(font);
+    TTF_Quit();
     IMG_Quit();
     SDL_Quit();
 
