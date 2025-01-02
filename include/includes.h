@@ -10,5 +10,6 @@
 #include "fct_init.h"
 #include "gest_assets.h"
 #include "move.h"
+#include "gen_map.h"
 
 #endif

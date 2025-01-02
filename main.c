@@ -1,20 +1,29 @@
 #include "includes.h"
 
 int main() {
-
+    // Initialisation du jeu et du joueur
     Game * game = initGame();
     Player * player = initPlayer(game);
-    Map * map = createMap(FILE_MAP_1, game);
 
+    // Initialisation de la map
+    Map * map = createMap(FILE_MAP_1, game);
+    map->num_of_map = 1;
+
+    // Création du tableau contenant le chemin relatif des fichier map
+    const char* tab_map[NUMBER_OF_MAP] = {FILE_MAP_1, FILE_MAP_2};
+
+    // Création de toute les textures
     SDL_Texture* bg = createEntity(BACKGROUND_IMAGE, game);
     SDL_Texture* box = createEntity(BOX_IMAGE, game);
     SDL_Texture* goal = createEntity(GOAL_IMAGE, game);
     SDL_Texture* wall = createEntity(WALL_IMAGE, game);
     SDL_Texture* tex_void = createEntity(VOID_IMAGE, game);
 
+    // Création de la poolice d'écriture
     SDL_Color text_color = {255, 255, 255, 255}; // pour l'instant du blanc
     TTF_Font* font = createFont(FILE_FONT, game);
 
+    // Création du booléen de la boucle de jeu
     SDL_bool program_launched = SDL_TRUE;
     
     while (program_launched) {
@@ -57,11 +66,17 @@ int main() {
             }
         
         if (!program_launched) break;
-        
         if (verif_win(map) == 0){
             print2d(map->initial_tab, map->rows, map->cols);
             printf("WIN!!\n");
-            program_launched = SDL_FALSE;
+            if (map->num_of_map == NUMBER_OF_MAP){
+                    program_launched = SDL_FALSE;
+                    printf("finish\n");
+                }
+            else {
+                    map = nextMap(game, map, tab_map);
+                    printf("change\n");
+                }
         }
 
         showBackground(game, bg);

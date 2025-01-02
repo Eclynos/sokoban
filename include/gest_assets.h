@@ -18,6 +18,7 @@ typedef struct {
     int tile_size;
     int pos_perso_i;
     int pos_perso_j;
+    int num_of_map;
 } Map;
 
 

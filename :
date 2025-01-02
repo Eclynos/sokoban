@@ -1,0 +1,8 @@
+#include "../include/gen_map.h"
+
+void nextMap(Game* game, Map* old_map, char ** tab_map){
+    /* Remplace le pointeur de old_map pars un autre pointeur correspondant à la prochaine map dans la liste des maps */ 
+    int num_of_map = old_map->num_of_map;
+    freeMap(old_map);
+    old_map = createMap(tab_map[num_of_map])
+}
