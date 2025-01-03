@@ -10,12 +10,12 @@
 
 #define FPS 60
 #define FRAME_DELAY (1000 / FPS)
+#define NB_ANIMATIONS 6
 
 #define BACKGROUND_IMAGE "./assets/background.png"
-#define CHARACTER_IMAGE "./assets/capy.png"
 
 #define BOX_IMAGE "./assets/box.png"
-#define GOAL_IMAGE "./assets/goal.png"
+#define GOAL_IMAGE "./assets/nenuphar.png"
 #define WALL_IMAGE "./assets/wall.png"
 #define VOID_IMAGE "./assets/void.png"
 

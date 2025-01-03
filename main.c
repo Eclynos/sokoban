@@ -16,6 +16,7 @@ int main() {
     TTF_Font* font = createFont(FILE_FONT, game);
 
     SDL_bool program_launched = SDL_TRUE;
+    Uint32 last_animation_time = 0;
     
     while (program_launched) {
 
@@ -55,6 +56,7 @@ int main() {
                         break;
                 }
             }
+        }
         
         if (!program_launched) break;
         
@@ -62,6 +64,13 @@ int main() {
             print2d(map->initial_tab, map->rows, map->cols);
             printf("WIN!!\n");
             program_launched = SDL_FALSE;
+        }
+
+        Uint32 current_time = SDL_GetTicks();
+        if (current_time - last_animation_time >= 500) { // 500 ms = 0.5 seconde
+            ++player->frame;
+            if (player->frame > 5) player->frame = 0; // 6 animations au total
+            last_animation_time = current_time;
         }
 
         showBackground(game, bg);
@@ -75,9 +84,6 @@ int main() {
         if (frame_time < FRAME_DELAY) {
             SDL_Delay(FRAME_DELAY - frame_time);
         }
-
-        }
-
     }
 
     freeMap(map);

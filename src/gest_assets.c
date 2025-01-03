@@ -72,23 +72,12 @@ void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, 
                 SDL_RenderCopy(game->renderer, goal, NULL, &tileRect);
                 break;
             case '1':
-                if (player->direction == 0) {
-                    SDL_RenderCopy(game->renderer, player->texture0, NULL, &tileRect);
-                } else if (player->direction == 1) {
-                    SDL_RenderCopy(game->renderer, player->texture1, NULL, &tileRect);
-                } else if (player->direction == 2) {
-                    SDL_RenderCopy(game->renderer, player->texture2, NULL, &tileRect);
-                } else {
-                    SDL_RenderCopy(game->renderer, player->texture3, NULL, &tileRect);
-                }
+                SDL_RenderCopy(game->renderer, player->texture[player->direction][player->frame], NULL, &tileRect);
             default:
                 break;
             }
         }
     }
-
-    ++player->frame;
-    if (player->frame > 60) player->frame = 0;
 }
 
 void showInteractives(Game * game, TTF_Font * font, SDL_Color text_color) {

@@ -58,12 +58,14 @@ Je veux bien que tu t'occupes de la gestion du basculement sur une nouvelle map 
 
 
 
+2 frames d'animation / seconde -> faire des tableaux de 6 frames pour les animations
 
+scénario : (tah les oufs)
+nénuphar comme zone de réception,
+le capy pousse les petits capy sur la zone de réception pour les mettre en sécurités
 
-
-
-
-
+faire décor automatique -> avec bordures automatiques
+bordures d'un pond où une cascade se jette, et un petit ruisseau se rejette + bas
 
 
 
