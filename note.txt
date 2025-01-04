@@ -68,6 +68,12 @@ faire décor automatique -> avec bordures automatiques
 bordures d'un pond où une cascade se jette, et un petit ruisseau se rejette + bas
 
 
+SI J'AI LE TEMPS (CE SERAIT TROP BIEN OMG)
+faire une sorte de propagation en vague partant du capy lorsqu'il se déplace
+ou tout simplement linéairement venant de la cascade
+si une tile est sur la vague, le niveau de l'eau monte sur celle-ci, ce qui applique
+différentes animations sur chaque tile, mettant l'orange 1 pixel + haut par exemple (ça c'est simple)
+
 
 
 
