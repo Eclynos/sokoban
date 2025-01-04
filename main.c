@@ -18,16 +18,18 @@ int main() {
     SDL_Texture* goal = createEntity(GOAL_IMAGE, game);
     SDL_Texture* wall = createEntity(WALL_IMAGE, game);
     SDL_Texture* tex_void = createEntity(VOID_IMAGE, game);
+    SDL_Texture* frog_rock = createEntity(FROG_IMAGE, game);
     SDL_Texture* goal_boxed = createEntity(GOAL_BOXED_IMAGE, game);
 
     // Création de la police d'écriture
     SDL_Color text_color = {255, 255, 255, 255}; // pour l'instant du blanc
     TTF_Font* font = createFont(FILE_FONT, game);
-    SDL_Surface *textSurface = TTF_RenderText_Solid(font, "Press Start to play", text_color);
-    SDL_Texture *textTexture = SDL_CreateTextureFromSurface(game ->renderer, textSurface);
-    SDL_FreeSurface(textSurface);
-    SDL_Rect textRect = {game->screensize.w/3, 0, 200, 200}; // Position du texte
-    SDL_QueryTexture(textTexture, NULL, NULL, &textRect.w, &textRect.h); // Taille du texte
+    Text * start = createText(game, font, text_color, "Press Start to play", game->screensize.w/3, 0, 200, 200);
+
+    // faire fonc qui crée pour chaque texte que l'on veut mette un struct contenant:
+    //  -la texture du texte
+    //  -la position en textRect
+    // prenant en argument couleur, font, etc
 
     // Création du booléen de la boucle de jeu
     SDL_bool program_launched = SDL_TRUE;
@@ -98,16 +100,17 @@ int main() {
         }
 
         Uint32 current_time = SDL_GetTicks();
-        if (current_time - last_animation_time >= 400) { // 500 ms = 0.5 seconde
-            ++player->frame;
-            if (player->frame > 5) player->frame = 0; // 6 animations au total
+        if (current_time - last_animation_time >= 400) { // en ms
+            ++game->frame;
+            if (game->frame > 5) game->frame = 0; // 6 animations
             last_animation_time = current_time;
         }
 
         showBackground(game, bg);
-        if (map->num_of_map == 0)   SDL_RenderCopy(game->renderer, textTexture, NULL, &textRect);
-        showAllEntities(game, map, player, box, goal, wall, tex_void, goal_boxed);
-        showInteractives(game, font, text_color);
+        showAllEntities(game, map, player, box, goal, wall, tex_void, goal_boxed, frog_rock);
+        showInteractives(game, start, map->num_of_map);
+        // faire une fonction updateText(Text, nouveau texte, etc)
+        // qui met à jour une struct texte avec un texte différent du precédent
 
         SDL_RenderPresent(game->renderer);
 

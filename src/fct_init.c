@@ -18,6 +18,7 @@ Game * initGame() {
     }
     game->window = NULL;
     game->renderer = NULL;
+    game->frame = 0;
 
     if (SDL_Init(SDL_INIT_VIDEO) != 0)  msgError("Error video:");
     if (TTF_Init() == -1) msgError("Error ttf:");
@@ -57,7 +58,6 @@ Player * initPlayer(Game * game) {
         exit(EXIT_FAILURE);
     }
     player->direction = 0;
-    player->frame = 0;
     player->texture = malloc(4 * sizeof(SDL_Texture**));
     for (i = 0; i < 4; ++i) {
         player->texture[i] = malloc(NB_ANIMATIONS * sizeof(SDL_Texture*));

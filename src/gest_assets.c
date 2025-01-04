@@ -41,6 +41,23 @@ TTF_Font* createFont(const char * filename, Game * game) {
 }
 
 
+Text * createText(Game * game, TTF_Font * font, SDL_Color text_color, char * sentence, int x, int y, int w, int h) {
+    Text * text = (Text*)malloc(sizeof(*text));
+    if (!text) {
+        perror("Erreur allocation texte");
+        exit(EXIT_FAILURE);
+    }
+
+    SDL_Surface * textSurface = TTF_RenderText_Solid(font, sentence, text_color);
+    text->texture = SDL_CreateTextureFromSurface(game ->renderer, textSurface);
+    text->rect = (SDL_Rect){x, y, w, h};
+    SDL_QueryTexture(text->texture, NULL, NULL, &text->rect.w, &text->rect.h);
+    SDL_FreeSurface(textSurface);
+
+    return text;
+}
+
+
 void showBackground(Game * game, SDL_Texture* bg) {
     //SDL_RenderClear(game->renderer);
         
@@ -48,7 +65,7 @@ void showBackground(Game * game, SDL_Texture* bg) {
 }
 
 
-void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, SDL_Texture* goal, SDL_Texture* wall, SDL_Texture* tex_void, SDL_Texture* goal_boxed){
+void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, SDL_Texture* goal, SDL_Texture* wall, SDL_Texture* tex_void, SDL_Texture* goal_boxed, SDL_Texture* frog_rock){
     int i, j;
     SDL_Rect tileRect;
     int tile_size = map->tile_size;
@@ -76,7 +93,11 @@ void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, 
                 SDL_RenderCopy(game->renderer, goal, NULL, &tileRect);
                 break;
             case '1':
-                SDL_RenderCopy(game->renderer, player->texture[player->direction][player->frame], NULL, &tileRect);
+                SDL_RenderCopy(game->renderer, player->texture[player->direction][game->frame], NULL, &tileRect);
+                break;
+            case 'F':
+                SDL_RenderCopy(game->renderer, frog_rock, NULL, &tileRect);
+                break;
             default:
                 break;
             }
@@ -84,8 +105,11 @@ void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, 
     }
 }
 
-void showInteractives(Game * game, TTF_Font * font, SDL_Color text_color) {
-
+void showInteractives(Game * game, Text * start, int map_nb) {
+    if (map_nb == 0) {
+        SDL_RenderCopy(game->renderer, start->texture, NULL, &start->rect);
+    }
+    // sinon il affiche en haut à droite le numéro de map
 }
 
 

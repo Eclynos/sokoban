@@ -19,6 +19,11 @@ typedef struct {
     int num_of_map;
 } Map;
 
+typedef struct {
+    SDL_Texture * texture;
+    SDL_Rect rect;
+} Text;
+
 
 Map * createMap(const char * filename, Game * game, Player* player);
 void freeMap(Map * map);
@@ -26,11 +31,13 @@ void print2d(char ** tab, int row, int col);
 
 SDL_Texture* createEntity(const char * filename, Game * game);
 TTF_Font* createFont(const char * filename, Game * game);
+Text * createText(Game * game, TTF_Font * font, SDL_Color text_color, char * sentence, int x, int y, int w, int h);
+
 
 void showBackground(Game * game, SDL_Texture* bg);
 
-void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, SDL_Texture* goal, SDL_Texture* wall, SDL_Texture* tex_void, SDL_Texture* goal_boxed);
+void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, SDL_Texture* goal, SDL_Texture* wall, SDL_Texture* tex_void, SDL_Texture* goal_boxed, SDL_Texture* frog_rock);
 
-void showInteractives(Game * game, TTF_Font * font, SDL_Color text_color);
+void showInteractives(Game * game, Text * start, int map_nb);
 
 #endif // !GEST_ASSETS

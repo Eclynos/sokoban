@@ -8,7 +8,7 @@ void move(Map* map, Player* player, char sens){
         
         case 'U': // Move Up
             if (i-1 >= 0 && map->tab[i-1][j] != 'T'){
-                if (map->tab[i-1][j] == 'R' && i-2 >= 0 && map->tab[i-2][j] != 'T' && map->tab[i-2][j] != 'R'){
+                if (map->tab[i-1][j] == 'R' && i-2 >= 0 && map->tab[i-2][j] != 'T' && map->tab[i-2][j] != 'R'&& map->tab[i-2][j] != 'F'){
                     map->tab[i-1][j] = map->initial_tab[i-1][j];
                     map->tab[i-2][j] = 'R';
                 }
@@ -22,7 +22,7 @@ void move(Map* map, Player* player, char sens){
 
         case 'D': // Move Down
             if (i+1 < map->rows && map->tab[i+1][j] != 'T'){
-                if (map->tab[i+1][j] == 'R' && i + 2 < map->rows && map->tab[i+2][j] != 'T' && map->tab[i+2][j] != 'R'){
+                if (map->tab[i+1][j] == 'R' && i + 2 < map->rows && map->tab[i+2][j] != 'T' && map->tab[i+2][j] != 'R'&& map->tab[i+2][j] != 'F'){
                     map->tab[i+1][j] = map->initial_tab[i+1][j];
                     map->tab[i+2][j] = 'R';
                 }
@@ -36,7 +36,7 @@ void move(Map* map, Player* player, char sens){
 
         case 'R': // Move Right
             if (j + 1 < map->cols && map->tab[i][j+1] != 'T'){
-                if (map->tab[i][j+1] == 'R' && j+2 < map->cols && map->tab[i][j+2] != 'T' && map->tab[i][j+2] != 'R'){
+                if (map->tab[i][j+1] == 'R' && j+2 < map->cols && map->tab[i][j+2] != 'T' && map->tab[i][j+2] != 'R'&& map->tab[i][j+2] != 'F'){
                     map->tab[i][j+1] = map->initial_tab[i][j+1];
                     map->tab[i][j+2] = 'R';
                 }
@@ -50,7 +50,7 @@ void move(Map* map, Player* player, char sens){
 
         case 'L': // Move Left
             if (j-1 >= 0 && map->tab[i][j-1] != 'T'){
-                if(map->tab[i][j-1] == 'R' && j-2 >= 0 && map->tab[i][j-2] != 'T' && map->tab[i][j-2] != 'R'){
+                if(map->tab[i][j-1] == 'R' && j-2 >= 0 && map->tab[i][j-2] != 'T' && map->tab[i][j-2] != 'R' && map->tab[i][j-2] != 'F'){
                     map->tab[i][j-1] = map->initial_tab[i][j-1];
                     map->tab[i][j-2] = 'R';
                 }

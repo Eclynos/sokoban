@@ -16,8 +16,9 @@
 
 #define BOX_IMAGE "./assets/orange.png"
 #define GOAL_IMAGE "./assets/nenuphar.png"
-#define WALL_IMAGE "./assets/wall.png"
+#define WALL_IMAGE "./assets/rock.png"
 #define VOID_IMAGE "./assets/void.png"
+#define FROG_IMAGE "./assets/rock_with_frog.png"
 #define GOAL_BOXED_IMAGE "./assets/nenuphar_with_orange.png"
 
 #define NUMBER_OF_MAP 3
