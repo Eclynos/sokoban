@@ -35,7 +35,6 @@ A faire:
     - Page de start avec boutton pour commmencer
     - Banderau avec le num de la map et d'autres trucs
     - Syst pour load de nouvelle map propre  -> le plus important
-    - Caper les fps  X
 
 
 29 Décembre
@@ -74,6 +73,13 @@ ou tout simplement linéairement venant de la cascade
 si une tile est sur la vague, le niveau de l'eau monte sur celle-ci, ce qui applique
 différentes animations sur chaque tile, mettant l'orange 1 pixel + haut par exemple (ça c'est simple)
 
+
+
+A faire:
+- Start screen 
+- Augmenter taille screen
+- on pourra peut-être faire en sorte que ce soit moins brut et qu'on voit quand même le capy mettre la dernière orange sur le dernier nénuphar
+- Caper les fps  
 
 
 

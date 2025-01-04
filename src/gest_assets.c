@@ -120,7 +120,7 @@ void getData(FILE * file, Map * map){
 }
 
 
-Map *createMap(const char *filename, Game * game) {
+Map *createMap(const char *filename, Game * game, Player* player) {
     int i, j;
     char tmp;
 
@@ -157,8 +157,8 @@ Map *createMap(const char *filename, Game * game) {
                 else                                        map->initial_tab[i][j] = tmp;
 
                 if (tmp == '1'){
-                    map->pos_perso_i = i;
-                    map->pos_perso_j = j;
+                    player->pos_i = i;
+                    player->pos_j = j;
                 }
             }
         }

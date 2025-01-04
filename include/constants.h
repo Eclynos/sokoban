@@ -20,9 +20,14 @@
 #define VOID_IMAGE "./assets/void.png"
 #define GOAL_BOXED_IMAGE "./assets/nenuphar_with_orange.png"
 
-#define NUMBER_OF_MAP 2
+#define NUMBER_OF_MAP 3
+#define FILE_MAP_START "./map/start_map.txt"
 #define FILE_MAP_1 "./map/map1.txt"
 #define FILE_MAP_2 "./map/map2.txt"
+#define MAP_TAB FILE_MAP_START, FILE_MAP_1, FILE_MAP_2
+
+ 
+
 
 #define FILE_FONT "./fonts/dejavu-fonts-ttf-2.37/ttf/DejaVuSansMono.ttf"
 

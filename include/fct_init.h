@@ -11,6 +11,8 @@ typedef struct {
 } Game;
 
 typedef struct {
+    int pos_i;
+    int pos_j;
     int direction; // can be 0 (NW), 1 (NE), 2(SE) or 3 (SW)
     int frame;
     SDL_Texture *** texture;
