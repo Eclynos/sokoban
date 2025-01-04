@@ -18,13 +18,15 @@ int main() {
     SDL_Texture* goal = createEntity(GOAL_IMAGE, game);
     SDL_Texture* wall = createEntity(WALL_IMAGE, game);
     SDL_Texture* tex_void = createEntity(VOID_IMAGE, game);
+    SDL_Texture* goal_boxed = createEntity(GOAL_BOXED_IMAGE, game);
 
-    // Création de la poolice d'écriture
+    // Création de la police d'écriture
     SDL_Color text_color = {255, 255, 255, 255}; // pour l'instant du blanc
     TTF_Font* font = createFont(FILE_FONT, game);
 
     // Création du booléen de la boucle de jeu
     SDL_bool program_launched = SDL_TRUE;
+    Uint32 last_animation_time = 0;
     
     while (program_launched) {
 
@@ -64,6 +66,7 @@ int main() {
                         break;
                 }
             }
+        }
         
         if (!program_launched) break;
         if (verif_win(map) == 0){
@@ -79,8 +82,15 @@ int main() {
                 }
         }
 
+        Uint32 current_time = SDL_GetTicks();
+        if (current_time - last_animation_time >= 400) { // 500 ms = 0.5 seconde
+            ++player->frame;
+            if (player->frame > 5) player->frame = 0; // 6 animations au total
+            last_animation_time = current_time;
+        }
+
         showBackground(game, bg);
-        showAllEntities(game, map, player, box, goal, wall, tex_void);
+        showAllEntities(game, map, player, box, goal, wall, tex_void, goal_boxed);
         showInteractives(game, font, text_color);
 
         SDL_RenderPresent(game->renderer);
@@ -90,9 +100,6 @@ int main() {
         if (frame_time < FRAME_DELAY) {
             SDL_Delay(FRAME_DELAY - frame_time);
         }
-
-        }
-
     }
 
     freeMap(map);
@@ -101,6 +108,7 @@ int main() {
     SDL_DestroyTexture(goal);
     SDL_DestroyTexture(wall);
     SDL_DestroyTexture(tex_void);
+    SDL_DestroyTexture(goal_boxed);
     SDL_DestroyRenderer(game->renderer);
     SDL_DestroyWindow(game->window);
     TTF_CloseFont(font);

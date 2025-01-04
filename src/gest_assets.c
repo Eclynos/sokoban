@@ -48,7 +48,7 @@ void showBackground(Game * game, SDL_Texture* bg) {
 }
 
 
-void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, SDL_Texture* goal, SDL_Texture* wall, SDL_Texture* tex_void){
+void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, SDL_Texture* goal, SDL_Texture* wall, SDL_Texture* tex_void, SDL_Texture* goal_boxed){
     int i, j;
     SDL_Rect tileRect;
     int tile_size = map->tile_size;
@@ -66,29 +66,22 @@ void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, 
                 SDL_RenderCopy(game->renderer, wall, NULL, &tileRect);
                 break;
             case 'R':
-                SDL_RenderCopy(game->renderer, box, NULL, &tileRect);
+                if (map->initial_tab[i][j] == '0') {
+                    SDL_RenderCopy(game->renderer, goal_boxed, NULL, &tileRect);
+                } else {
+                    SDL_RenderCopy(game->renderer, box, NULL, &tileRect);
+                }
                 break;
-            case '0': // on pourra ajouter un cas pour le goal recouvert par une caisse
+            case '0':
                 SDL_RenderCopy(game->renderer, goal, NULL, &tileRect);
                 break;
             case '1':
-                if (player->direction == 0) {
-                    SDL_RenderCopy(game->renderer, player->texture0, NULL, &tileRect);
-                } else if (player->direction == 1) {
-                    SDL_RenderCopy(game->renderer, player->texture1, NULL, &tileRect);
-                } else if (player->direction == 2) {
-                    SDL_RenderCopy(game->renderer, player->texture2, NULL, &tileRect);
-                } else {
-                    SDL_RenderCopy(game->renderer, player->texture3, NULL, &tileRect);
-                }
+                SDL_RenderCopy(game->renderer, player->texture[player->direction][player->frame], NULL, &tileRect);
             default:
                 break;
             }
         }
     }
-
-    ++player->frame;
-    if (player->frame > 60) player->frame = 0;
 }
 
 void showInteractives(Game * game, TTF_Font * font, SDL_Color text_color) {
@@ -189,5 +182,3 @@ void freeMap(Map * map) {
 
     free(map);
 }
-
-

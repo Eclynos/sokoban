@@ -48,6 +48,9 @@ Game * initGame() {
 
 
 Player * initPlayer(Game * game) {
+    unsigned int i, j;
+    char filename[128];
+
     Player * player = (Player*)malloc(sizeof(*player));
     if (!player) {
         perror("Erreur allocation joueur");
@@ -55,9 +58,13 @@ Player * initPlayer(Game * game) {
     }
     player->direction = 0;
     player->frame = 0;
-    player->texture0 = createEntity(CHARACTER_IMAGE, game);
-    player->texture1 = createEntity(CHARACTER_IMAGE, game);
-    player->texture2 = createEntity(CHARACTER_IMAGE, game);
-    player->texture3 = createEntity(CHARACTER_IMAGE, game);
+    player->texture = malloc(4 * sizeof(SDL_Texture**));
+    for (i = 0; i < 4; ++i) {
+        player->texture[i] = malloc(NB_ANIMATIONS * sizeof(SDL_Texture*));
+        for (j = 0; j < NB_ANIMATIONS; ++j) {
+            sprintf(filename, "%s%d%d%s", "./assets/capy/", i, j, ".png");
+            player->texture[i][j] = createEntity(filename, game);
+        }
+    }
     return player;
 }

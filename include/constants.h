@@ -10,14 +10,15 @@
 
 #define FPS 60
 #define FRAME_DELAY (1000 / FPS)
+#define NB_ANIMATIONS 6
 
 #define BACKGROUND_IMAGE "./assets/background.png"
-#define CHARACTER_IMAGE "./assets/capy.png"
 
-#define BOX_IMAGE "./assets/box.png"
-#define GOAL_IMAGE "./assets/goal.png"
+#define BOX_IMAGE "./assets/orange.png"
+#define GOAL_IMAGE "./assets/nenuphar.png"
 #define WALL_IMAGE "./assets/wall.png"
 #define VOID_IMAGE "./assets/void.png"
+#define GOAL_BOXED_IMAGE "./assets/nenuphar_with_orange.png"
 
 #define NUMBER_OF_MAP 2
 #define FILE_MAP_1 "./map/map1.txt"
