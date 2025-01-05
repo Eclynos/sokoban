@@ -51,10 +51,19 @@ Text * createText(Game * game, TTF_Font * font, SDL_Color text_color, char * sen
     SDL_Surface * textSurface = TTF_RenderText_Solid(font, sentence, text_color);
     text->texture = SDL_CreateTextureFromSurface(game ->renderer, textSurface);
     text->rect = (SDL_Rect){x, y, w, h};
+    text->sentence = sentence;
     SDL_QueryTexture(text->texture, NULL, NULL, &text->rect.w, &text->rect.h);
     SDL_FreeSurface(textSurface);
 
     return text;
+}
+
+
+void updateText(Game * game, Text * text, TTF_Font * font, SDL_Color text_color, char * sentence) {
+    SDL_Surface * textSurface = TTF_RenderText_Solid(font, sentence, text_color);
+    text->texture = SDL_CreateTextureFromSurface(game ->renderer, textSurface);
+    SDL_QueryTexture(text->texture, NULL, NULL, &text->rect.w, &text->rect.h);
+    SDL_FreeSurface(textSurface);
 }
 
 
@@ -105,11 +114,17 @@ void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, 
     }
 }
 
-void showInteractives(Game * game, Text * start, int map_nb) {
+void showInteractives(Game * game, TTF_Font * font, SDL_Color text_color, Text * start, Text * level, int map_nb) {
     if (map_nb == 0) {
         SDL_RenderCopy(game->renderer, start->texture, NULL, &start->rect);
+    } else {
+        if (atoi(level->sentence) != map_nb) {
+            char newsentence[10];
+            sprintf(newsentence, "%d", map_nb);
+            updateText(game, level, font, text_color, newsentence);
+        }
+        SDL_RenderCopy(game->renderer, level->texture, NULL, &level->rect);
     }
-    // sinon il affiche en haut à droite le numéro de map
 }
 
 
