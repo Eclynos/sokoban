@@ -69,7 +69,6 @@ void updateText(Game * game, Text * text, TTF_Font * font, SDL_Color text_color,
 
 void freeText(Text * text) {
     SDL_DestroyTexture(text->texture);
-    free(text->sentence);
     free(text);
 }
 
