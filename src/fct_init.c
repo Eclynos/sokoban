@@ -24,8 +24,8 @@ Game * initGame() {
     if (TTF_Init() == -1) msgError("Error ttf:");
 
     if (SDL_GetDisplayBounds(0, &game->screensize) != 0) msgError("Error screen size fetcher");
-    game->screensize.w /= 2;
-    game->screensize.h /= 2;
+    game->screensize.w /= 1.6;
+    game->screensize.h /= 1.6;
 
     game->window = SDL_CreateWindow(
                             "Sokoban",

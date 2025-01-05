@@ -67,6 +67,13 @@ void updateText(Game * game, Text * text, TTF_Font * font, SDL_Color text_color,
 }
 
 
+void freeText(Text * text) {
+    SDL_DestroyTexture(text->texture);
+    free(text->sentence);
+    free(text);
+}
+
+
 void showBackground(Game * game, SDL_Texture* bg) {
     //SDL_RenderClear(game->renderer);
         
@@ -114,7 +121,8 @@ void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, 
     }
 }
 
-void showInteractives(Game * game, TTF_Font * font, SDL_Color text_color, Text * start, Text * level, int map_nb) {
+
+void showInteractives(Game * game, TTF_Font * font, SDL_Color text_color, Text * start, Text * level, Text * moves, int map_nb, int nb_moves) {
     if (map_nb == 0) {
         SDL_RenderCopy(game->renderer, start->texture, NULL, &start->rect);
     } else {
@@ -125,6 +133,12 @@ void showInteractives(Game * game, TTF_Font * font, SDL_Color text_color, Text *
         }
         SDL_RenderCopy(game->renderer, level->texture, NULL, &level->rect);
     }
+    if (atoi(moves->sentence) != nb_moves) {
+        char newsentence[10];
+        sprintf(newsentence, "%d", nb_moves);
+        updateText(game, moves, font, text_color, newsentence);
+    }
+    SDL_RenderCopy(game->renderer, moves->texture, NULL, &moves->rect);
 }
 
 
@@ -231,11 +245,12 @@ void capFPS(Uint32 start_time) {
     }
 }
 
+
 void frameAnimation(Game* game, Uint32* last_animation_time){
     Uint32 current_time = SDL_GetTicks();
     if (current_time - *last_animation_time >= 400) { // en ms
         ++game->frame;
-        if (game->frame > 5)    game->frame = 0; // 6 animations
+        if (game->frame > 5) game->frame = 0; // 6 animations
         *last_animation_time = current_time;
     }
 }

@@ -34,16 +34,15 @@ SDL_Texture* createEntity(const char * filename, Game * game);
 TTF_Font* createFont(const char * filename, Game * game);
 Text * createText(Game * game, TTF_Font * font, SDL_Color text_color, char * sentence, int x, int y, int w, int h);
 void updateText(Game * game, Text * text, TTF_Font * font, SDL_Color text_color, char * sentence);
-
+void freeText(Text * text);
 
 void showBackground(Game * game, SDL_Texture* bg);
 
 void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, SDL_Texture* goal, SDL_Texture* wall, SDL_Texture* tex_void, SDL_Texture* goal_boxed, SDL_Texture* frog_rock);
 
-void showInteractives(Game * game, TTF_Font * font, SDL_Color text_color, Text * start, Text * level, int map_nb);
+void showInteractives(Game * game, TTF_Font * font, SDL_Color text_color, Text * start, Text * level, Text * moves, int map_nb, int nb_moves);
 
 void capFPS(Uint32 sart_time);
-
 void frameAnimation(Game* game, Uint32* last_animation_time);
 
 #endif // !GEST_ASSETS

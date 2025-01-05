@@ -20,16 +20,12 @@ int main() {
     SDL_Texture* frog_rock = createEntity(FROG_IMAGE, game);
     SDL_Texture* goal_boxed = createEntity(GOAL_BOXED_IMAGE, game);
 
-    // Création de la police d'écriture
-    SDL_Color text_color = {255, 255, 255, 255}; // pour l'instant du blanc
-    TTF_Font* font = createFont(FILE_FONT, game);
+    // Création de la police d'écriture et des textures de texte
+    SDL_Color text_color = {205, 147, 115, 255};
+    TTF_Font * font = createFont(FILE_FONT, game);
     Text * start = createText(game, font, text_color, "Press Start to play", game->screensize.w/3, 0, 200, 200);
-    Text * level = createText(game, font, text_color, "1", game->screensize.w - 20, 0, 20, 20);
-
-    // faire fonc qui crée pour chaque texte que l'on veut mette un struct contenant:
-    //  -la texture du texte
-    //  -la position en textRect
-    // prenant en argument couleur, font, etc
+    Text * level = createText(game, font, text_color, "1", 0, 0, 20, 20);
+    Text * moves = createText(game, font, text_color, "0", 0, 30, 20, 20);
 
     // Création du booléen de la boucle de jeu
     SDL_bool program_launched = SDL_TRUE;
@@ -40,7 +36,6 @@ int main() {
         Uint32 start_time = SDL_GetTicks();
 
         SDL_Event event;
-        
 
         while (SDL_PollEvent(&event)) {
 
@@ -48,11 +43,11 @@ int main() {
                 program_launched = SDL_FALSE;
                 break;
             }
+        
             else if (event.type == SDL_KEYDOWN && event.key.repeat == 0) { // Les touches sont interprété ssi elles ne restent pas enfoncées
-                printf("nb move: %d\n", player->nb_move);
                 if (map->num_of_map == 0 && event.key.keysym.sym == SDLK_RETURN){
                     map = nextMap(game, map, player, tab_map);
-                    // AFfichage bandeaux Start
+                    // Affichage bandeaux Start
                     break;
                 }
 
@@ -88,13 +83,10 @@ int main() {
         
         if (!program_launched) break;
 
-
-
-
         frameAnimation(game, &last_animation_time);
         showBackground(game, bg);
         showAllEntities(game, map, player, box, goal, wall, tex_void, goal_boxed, frog_rock);
-        showInteractives(game, font, text_color, start, level, map->num_of_map);
+        showInteractives(game, font, text_color, start, level, moves, map->num_of_map, player->nb_move);
         SDL_RenderPresent(game->renderer);
 
         if (map->num_of_map != 0 && verif_win(map) == 0){
@@ -113,8 +105,9 @@ int main() {
     }
 
     freeMap(map);
-    free(start);
-    free(level);
+    freeText(start);
+    freeText(level);
+    freeText(moves);
     SDL_DestroyTexture(bg);
     SDL_DestroyTexture(box);
     SDL_DestroyTexture(goal);
