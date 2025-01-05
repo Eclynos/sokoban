@@ -9,4 +9,10 @@ Map * nextMap(Game* game, Map* old_map, Player* player, const char ** tab_map){
     return new_map;
 }
 
-
+Map * restartMap(Game* game, Map* map, Player* player, const char ** tab_map){
+    int num_of_map = map->num_of_map;
+    Map* new_map = createMap(tab_map[num_of_map], game, player);
+    new_map->num_of_map = num_of_map;
+    freeMap(map);
+    return new_map;
+}

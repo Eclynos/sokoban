@@ -76,10 +76,10 @@ différentes animations sur chaque tile, mettant l'orange 1 pixel + haut par exe
 
 
 A faire:
-- Start screen 
+- Start screen X 
 - Augmenter taille screen
 - on pourra peut-être faire en sorte que ce soit moins brut et qu'on voit quand même le capy mettre la dernière orange sur le dernier nénuphar
-- Caper les fps  
+- Caper les fps X
 
 
 

@@ -7,7 +7,6 @@ int main() {
 
     // Initialisation de la map
     Map * map = createMap(FILE_MAP_START, game, player);
-    map->num_of_map = 0;
 
     // Création du tableau contenant le chemin relatif des fichier map
     const char* tab_map[] = {MAP_TAB};
@@ -34,7 +33,6 @@ int main() {
 
     // Création du booléen de la boucle de jeu
     SDL_bool program_launched = SDL_TRUE;
-
     Uint32 last_animation_time = 0;
     
     while (program_launched) {
@@ -50,8 +48,8 @@ int main() {
                 program_launched = SDL_FALSE;
                 break;
             }
-            else if (event.type == SDL_KEYDOWN) {
-
+            else if (event.type == SDL_KEYDOWN && event.key.repeat == 0) { // Les touches sont interprété ssi elles ne restent pas enfoncées
+                printf("nb move: %d\n", player->nb_move);
                 if (map->num_of_map == 0 && event.key.keysym.sym == SDLK_RETURN){
                     map = nextMap(game, map, player, tab_map);
                     // AFfichage bandeaux Start
@@ -60,6 +58,9 @@ int main() {
 
                 // Gestion des touches
                 switch (event.key.keysym.sym) {
+                    case SDLK_r:    // Restart la map
+                        map = restartMap(game, map, player, tab_map);
+                        break;
                     case SDLK_z:
                         move(map, player, 'U'); // Déplacer vers le haut
                         player->direction = 1;
@@ -88,9 +89,17 @@ int main() {
         if (!program_launched) break;
 
 
+
+
+        frameAnimation(game, &last_animation_time);
+        showBackground(game, bg);
+        showAllEntities(game, map, player, box, goal, wall, tex_void, goal_boxed, frog_rock);
+        showInteractives(game, font, text_color, start, level, map->num_of_map);
+        SDL_RenderPresent(game->renderer);
+
         if (map->num_of_map != 0 && verif_win(map) == 0){
+            SDL_Delay(300);
             print2d(map->initial_tab, map->rows, map->cols);
-            printf("WIN!!\n");
             if (map->num_of_map+1 == NUMBER_OF_MAP){
                     program_launched = SDL_FALSE;
                     printf("finish\n");
@@ -100,33 +109,19 @@ int main() {
             }
         }
 
-        Uint32 current_time = SDL_GetTicks();
-        if (current_time - last_animation_time >= 400) { // en ms
-            ++game->frame;
-            if (game->frame > 5) game->frame = 0; // 6 animations
-            last_animation_time = current_time;
-        }
-
-        showBackground(game, bg);
-        showAllEntities(game, map, player, box, goal, wall, tex_void, goal_boxed, frog_rock);
-        showInteractives(game, font, text_color, start, level, map->num_of_map);
-
-        SDL_RenderPresent(game->renderer);
-
-        Uint32 frame_time = SDL_GetTicks() - start_time;
-
-        if (frame_time < FRAME_DELAY) {
-            SDL_Delay(FRAME_DELAY - frame_time);
-        }
+        capFPS(start_time);
     }
 
     freeMap(map);
+    free(start);
+    free(level);
     SDL_DestroyTexture(bg);
     SDL_DestroyTexture(box);
     SDL_DestroyTexture(goal);
     SDL_DestroyTexture(wall);
     SDL_DestroyTexture(tex_void);
     SDL_DestroyTexture(goal_boxed);
+    SDL_DestroyTexture(frog_rock);
     SDL_DestroyRenderer(game->renderer);
     SDL_DestroyWindow(game->window);
     TTF_CloseFont(font);

@@ -42,4 +42,8 @@ void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, 
 
 void showInteractives(Game * game, TTF_Font * font, SDL_Color text_color, Text * start, Text * level, int map_nb);
 
+void capFPS(Uint32 sart_time);
+
+void frameAnimation(Game* game, Uint32* last_animation_time);
+
 #endif // !GEST_ASSETS

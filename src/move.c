@@ -16,6 +16,7 @@ void move(Map* map, Player* player, char sens){
                     map->tab[i][j] = map->initial_tab[i][j];
                     map->tab[i-1][j] = '1';
                     --player->pos_i;
+                    ++player->nb_move;
                 }
             }
             break;
@@ -30,6 +31,7 @@ void move(Map* map, Player* player, char sens){
                     map->tab[i][j] = map->initial_tab[i][j];
                     map->tab[i+1][j] = '1';
                     ++player->pos_i; 
+                    ++player->nb_move;
                 }
             }
             break;
@@ -44,6 +46,7 @@ void move(Map* map, Player* player, char sens){
                     map->tab[i][j] = map->initial_tab[i][j];
                     map->tab[i][j+1] = '1';
                     ++player->pos_j;
+                    ++player->nb_move;
                 }
             }
             break;
@@ -58,6 +61,7 @@ void move(Map* map, Player* player, char sens){
                     map->tab[i][j] = map->initial_tab[i][j];
                     map->tab[i][j-1] = '1';
                     --player->pos_j;
+                    ++player->nb_move;
                 }
             }
             break;
@@ -83,3 +87,5 @@ int verif_win(Map * map){
     }
     return win;
 }
+
+

@@ -202,9 +202,10 @@ Map *createMap(const char *filename, Game * game, Player* player) {
             }
         }
     }
-
+    map->num_of_map = 0;
     map->tile_size = game->screensize.w / map->cols;
     // faire un calcul savant pour faire en sorte que la fenêtre fit à peu près l'affichage de l'ensemble des tiles
+    player->nb_move = 0;
 
     fclose(file);
     return map;
@@ -220,4 +221,21 @@ void freeMap(Map * map) {
     }
 
     free(map);
+}
+
+
+void capFPS(Uint32 start_time) {
+    Uint32 frameTime = SDL_GetTicks() - start_time;
+    if (FRAME_DELAY > frameTime) {
+        SDL_Delay(FRAME_DELAY - frameTime);
+    }
+}
+
+void frameAnimation(Game* game, Uint32* last_animation_time){
+    Uint32 current_time = SDL_GetTicks();
+    if (current_time - *last_animation_time >= 400) { // en ms
+        ++game->frame;
+        if (game->frame > 5)    game->frame = 0; // 6 animations
+        *last_animation_time = current_time;
+    }
 }

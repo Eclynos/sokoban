@@ -66,5 +66,6 @@ Player * initPlayer(Game * game) {
             player->texture[i][j] = createEntity(filename, game);
         }
     }
+    player->nb_move = 0;
     return player;
 }
