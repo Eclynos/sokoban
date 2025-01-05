@@ -10,7 +10,7 @@ int main() {
     map->num_of_map = 0;
 
     // Création du tableau contenant le chemin relatif des fichier map
-    const char* tab_map[] = { MAP_TAB };
+    const char* tab_map[] = {MAP_TAB};
 
     // Création de toute les textures
     SDL_Texture* bg = createEntity(BACKGROUND_IMAGE, game);
@@ -25,6 +25,7 @@ int main() {
     SDL_Color text_color = {255, 255, 255, 255}; // pour l'instant du blanc
     TTF_Font* font = createFont(FILE_FONT, game);
     Text * start = createText(game, font, text_color, "Press Start to play", game->screensize.w/3, 0, 200, 200);
+    Text * level = createText(game, font, text_color, "1", game->screensize.w - 20, 0, 20, 20);
 
     // faire fonc qui crée pour chaque texte que l'on veut mette un struct contenant:
     //  -la texture du texte
@@ -108,9 +109,7 @@ int main() {
 
         showBackground(game, bg);
         showAllEntities(game, map, player, box, goal, wall, tex_void, goal_boxed, frog_rock);
-        showInteractives(game, start, map->num_of_map);
-        // faire une fonction updateText(Text, nouveau texte, etc)
-        // qui met à jour une struct texte avec un texte différent du precédent
+        showInteractives(game, font, text_color, start, level, map->num_of_map);
 
         SDL_RenderPresent(game->renderer);
 

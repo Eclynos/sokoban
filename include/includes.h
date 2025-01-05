@@ -6,6 +6,7 @@
 #include <SDL2/SDL_image.h>
 #include <SDL_ttf.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "constants.h"
 #include "fct_init.h"
 #include "gest_assets.h"
