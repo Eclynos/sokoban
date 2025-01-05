@@ -90,7 +90,7 @@ int main() {
         if (map->num_of_map != 0 && verif_win(map) == 0){
             print2d(map->initial_tab, map->rows, map->cols);
             printf("WIN!!\n");
-            if (map->num_of_map == NUMBER_OF_MAP){
+            if (map->num_of_map+1 == NUMBER_OF_MAP){
                     program_launched = SDL_FALSE;
                     printf("finish\n");
             }else {
