@@ -80,7 +80,7 @@ void showBackground(Game * game, SDL_Texture* bg) {
 }
 
 
-void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, SDL_Texture* goal, SDL_Texture* wall, SDL_Texture* tex_void, SDL_Texture* goal_boxed, SDL_Texture* frog_rock){
+void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, SDL_Texture* goal, SDL_Texture* rock, SDL_Texture* tex_void, SDL_Texture* goal_boxed, SDL_Texture* frog_rock, SDL_Texture* rock_submerged, SDL_Texture* frog_rock_submerged){
     int i, j;
     SDL_Rect tileRect;
     int tile_size = map->tile_size;
@@ -91,27 +91,39 @@ void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, 
                                     10 + (j * tile_size + i * tile_size) / 4,
                                     tile_size, tile_size};
             switch (map->tab[i][j]) {
-            case '#':
-                SDL_RenderCopy(game->renderer, tex_void, NULL, &tileRect);
+            case ' ': // trouver une formule math pour faire en sorte que de temps en temps il y ait une bulle
+                if ((game->frame * i + j) % 16 == 0 && j != 0) {
+                    SDL_RenderCopy(game->renderer, tex_void, NULL, &tileRect);
+                }
                 break;
-            case 'T':
-                SDL_RenderCopy(game->renderer, wall, NULL, &tileRect);
+            case 'W':
+                if (game->frame == 0) {
+                    SDL_RenderCopy(game->renderer, rock_submerged, NULL, &tileRect);
+                } else {
+                    SDL_RenderCopy(game->renderer, rock, NULL, &tileRect);
+                }
                 break;
-            case 'R':
-                if (map->initial_tab[i][j] == '0') {
+            case 'C':
+                if (game->frame == 0) --tileRect.y;
+                if (map->initial_tab[i][j] == 'I') {
                     SDL_RenderCopy(game->renderer, goal_boxed, NULL, &tileRect);
                 } else {
                     SDL_RenderCopy(game->renderer, box, NULL, &tileRect);
                 }
                 break;
-            case '0':
+            case 'I':
+                if (game->frame == 0) --tileRect.y;
                 SDL_RenderCopy(game->renderer, goal, NULL, &tileRect);
                 break;
-            case '1':
+            case 'P':
                 SDL_RenderCopy(game->renderer, player->texture[player->direction][game->frame], NULL, &tileRect);
                 break;
             case 'F':
-                SDL_RenderCopy(game->renderer, frog_rock, NULL, &tileRect);
+                if (game->frame == 0) {
+                    SDL_RenderCopy(game->renderer, frog_rock_submerged, NULL, &tileRect);
+                } else {
+                    SDL_RenderCopy(game->renderer, frog_rock, NULL, &tileRect);
+                }
                 break;
             default:
                 break;
@@ -205,10 +217,10 @@ Map *createMap(const char *filename, Game * game, Player* player) {
                 map->tab[i][j] = tmp;
 
                 // On stocke dans initial_tab seulement les cases voids et goal.
-                if (tmp != '#' && tmp != '0' && tmp != 'T') map->initial_tab[i][j] = '#';
+                if (tmp != ' ' && tmp != 'I' && tmp != 'T') map->initial_tab[i][j] = ' ';
                 else                                        map->initial_tab[i][j] = tmp;
 
-                if (tmp == '1'){
+                if (tmp == 'P'){
                     player->pos_i = i;
                     player->pos_j = j;
                 }
@@ -249,7 +261,7 @@ void frameAnimation(Game* game, Uint32* last_animation_time){
     Uint32 current_time = SDL_GetTicks();
     if (current_time - *last_animation_time >= 400) { // en ms
         ++game->frame;
-        if (game->frame > 5) game->frame = 0; // 6 animations
+        if (game->frame > NB_ANIMATIONS - 1) game->frame = 0;
         *last_animation_time = current_time;
     }
 }
