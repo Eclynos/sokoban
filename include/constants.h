@@ -12,7 +12,11 @@
 #define FRAME_DELAY (1000 / FPS)
 #define NB_ANIMATIONS 6
 
-#define BACKGROUND_IMAGE "./assets/background.png"
+#define WATER_IMAGE "./assets/background.png"
+#define GROUND_IMAGE "./assets/borders/ground.png"
+#define BORDERS_PATH "./assets/borders/"
+
+#define CAPY_PATH "./assets/capy/"
 
 #define BOX_IMAGE "./assets/orange.png"
 #define GOAL_IMAGE "./assets/nenuphar.png"
@@ -29,9 +33,6 @@
 #define FILE_MAP_2 "./map/map2.txt"
 #define FILE_MAP_3 "./map/map3.txt"
 #define MAP_TAB FILE_MAP_START, FILE_MAP_1, FILE_MAP_2, FILE_MAP_3
-
- 
-
 
 #define FILE_FONT "./fonts/dejavu-fonts-ttf-2.37/ttf/DejaVuSansMono.ttf"
 

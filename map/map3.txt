@@ -1,7 +1,8 @@
-IW      W
- F   C   
- W      W
-     C   
- F       
-    W  P 
-IW  W    
+IW     W
+ F   C  
+ W      
+     C  
+ F      
+    W  P
+IW  W   
+     W W
