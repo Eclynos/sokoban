@@ -1,5 +1,10 @@
 #include "includes.h"
 
+/**
+ * \file main.c
+ * \brief Boucle de jeu.
+**/
+
 int main() {
     // Initialisation du jeu et du joueur
     Game * game = initGame();
@@ -95,7 +100,7 @@ int main() {
         showInteractives(game, font, text_color, start, level, moves, text_level, text_moves, map->num_of_map, player->nb_move);
         SDL_RenderPresent(game->renderer);
 
-        if (map->num_of_map != 0 && verif_win(map) == 0){
+        if (map->num_of_map != 0 && verif_win(map)){
             SDL_Delay(300);
             //print2d(map->initial_tab, map->rows, map->cols);
             if (map->num_of_map+1 == NUMBER_OF_MAP){

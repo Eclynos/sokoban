@@ -8,17 +8,7 @@
 #include <stdlib.h>
 #include "constants.h"
 #include "fct_init.h"
-
-
-typedef struct {
-    int rows;
-    int cols;
-    char ** tab;
-    char ** initial_tab;
-    int tile_size;
-    int num_of_map;
-    int up_space;
-} Map;
+#include "gen_map.h"
 
 typedef struct {
     SDL_Texture * texture;
@@ -31,11 +21,6 @@ typedef struct {
     SDL_Texture * ground;
     SDL_Texture ** borders;
 } Background;
-
-
-Map * createMap(const char * filename, Game * game, Player* player);
-void freeMap(Map * map);
-void print2d(char ** tab, int row, int col);
 
 SDL_Texture* createEntity(const char * filename, Game * game);
 TTF_Font* createFont(const char * filename, Game * game);

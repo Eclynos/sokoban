@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "../include/gest_assets.h"
+#include "gen_map.h"
 
 
 void move(Map* map, Player* player, char sens);

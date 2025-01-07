@@ -1,10 +1,11 @@
 #ifndef CONSTANTS_H_
 #define CONSTANTS_H_ 
 
-// Taille du déplacement
-#define MOVE 100
-// taille prise par les tiles en px sur l'écran (devra être relatif à la taille de la fenêtre dans le futur)
-#define TILE_SIZE 128
+/**
+ * \file constants.h
+ * \brief Contient toutes les constantes utiles pour le fonctionnement du programme
+ */
+
 // Taille de la police
 #define TEXT_SIZE 24
 

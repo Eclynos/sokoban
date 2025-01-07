@@ -2,14 +2,33 @@
 #include "constants.h"
 #include "gest_assets.h"
 
+/**
+ * \file fct_init.c
+ * \brief Fonctions d'initialisation de structure importante
+**/
 
+
+/**
+   \fn void msgError(const char* msg)
+
+   \brief Affiche un message d'erreur et quitte le programme proprement.
+
+   \param msg Char de message d'erreur.
+ */
 void msgError(const char* msg){
     printf("%s %s\n", msg, SDL_GetError());
     SDL_Quit();
     exit(EXIT_FAILURE);
 }
 
-
+/**
+ * \fn Game * initGame()
+ * 
+ * \brief Initialise le jeu c.a.d. initialise SDL2 et la fenêtre de jeu.
+ * 
+ * \return Occurrence de la structure Game complétement remplie.
+ * \see game
+ */
 Game * initGame() {
     Game * game = (Game*)malloc(sizeof(*game));
     if (!game) {
@@ -47,7 +66,14 @@ Game * initGame() {
     return game;
 }
 
-
+/**
+ * \fn Player * initPlayer(Game * game)
+ * 
+ * \brief Initialise le personnage c.a.d. initialise ses textures et le nombre de mouvement du personnage.
+ * 
+ * \return Occurrence de la structure Player partiellement remplie.
+ * \see player
+ */
 Player * initPlayer(Game * game) {
     unsigned int i, j;
     char filename[40];

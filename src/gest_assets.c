@@ -1,7 +1,20 @@
 #include "gest_assets.h"
-#define LEN_MAX 500
 
+/**
+ * \file gest_assets.c
+ * \brief Gestion de l'affichage.
+**/
 
+/**
+ * \fn SDL_Texture* createEntity(const char * filename, Game * game)
+ * 
+ * \brief Création de texture.
+ * 
+ * \param filename Chemin relatif vers le fichier de l'image que l'on va transformer en texture.
+ * \param game Srtucture Game nécessaire à l'affilation de la texture avec le rendu.
+ * 
+ * \return Texture interprétable par SDL2.
+ */
 SDL_Texture* createEntity(const char * filename, Game * game){
 
     SDL_Surface* surface = IMG_Load(filename);
@@ -26,7 +39,16 @@ SDL_Texture* createEntity(const char * filename, Game * game){
     return texture;
 }
 
-
+/**
+ * \fn TTF_Font* createFont(const char * filename, Game * game)
+ * 
+ * \brief Création de police d'écriture.
+ * 
+ * \param filename Chemin relatif vers le fichier que l'on va transformer en police d'écriture.
+ * \param game Srtucture Game a détruire si l'initialisation ce passe mal.
+ * 
+ * \return Police interprétable par SDL2.
+ */
 TTF_Font* createFont(const char * filename, Game * game) {
 
     TTF_Font* font = TTF_OpenFont(filename, TEXT_SIZE);
@@ -40,7 +62,21 @@ TTF_Font* createFont(const char * filename, Game * game) {
     return font;
 }
 
-
+/**
+ * \fn Text * createText(Game * game, TTF_Font * font, SDL_Color text_color, char * sentence, int x, int y, int w, int h)
+ * 
+ * \brief Création d'un texte.
+ * 
+ * \param game Srtucture Game nécessaire à l'affilation du texte avec le rendu.
+ * \param font Police d'écriture du texte.
+ * \param text_color Couleur du texte.
+ * \param sentence Phrase du texte
+ * \param x, y Position du texte.
+ * \param w, h Taille du texte.
+ 
+ * \return Struct Texte initialiser.
+ * \see text
+ */
 Text * createText(Game * game, TTF_Font * font, SDL_Color text_color, char * sentence, int x, int y, int w, int h) {
     Text * text = (Text*)malloc(sizeof(*text));
     if (!text) {
@@ -58,7 +94,19 @@ Text * createText(Game * game, TTF_Font * font, SDL_Color text_color, char * sen
     return text;
 }
 
-
+/**
+ * \fn updateText(Game * game, Text * text, TTF_Font * font, SDL_Color text_color, char * sentence)
+ * 
+ * \brief 
+ * 
+ * \param game
+ * \param text
+ * \param font
+ * \param text_color
+ * \param sentence
+ * 
+ * \see text
+ */
 void updateText(Game * game, Text * text, TTF_Font * font, SDL_Color text_color, char * sentence) {
     SDL_Surface * textSurface = TTF_RenderText_Solid(font, sentence, text_color);
     text->texture = SDL_CreateTextureFromSurface(game ->renderer, textSurface);
@@ -66,13 +114,31 @@ void updateText(Game * game, Text * text, TTF_Font * font, SDL_Color text_color,
     SDL_FreeSurface(textSurface);
 }
 
-
+/**
+ * \fn void freeText(Text * text)
+ * 
+ * \brief Libère la place prie par la structure Text donnée
+ * 
+ * \param text Struct a free
+ * 
+ * \see text
+ */
 void freeText(Text * text) {
     SDL_DestroyTexture(text->texture);
     free(text);
 }
 
-
+/**
+ * \fn void showBackground(Game * game, Map * map, Background * background)
+ * 
+ * \brief Affiche le background du jeu.
+ * 
+ * \param game
+ * \param map
+ * \param background
+ * 
+ * \see background
+ */
 void showBackground(Game * game, Map * map, Background * background) {
     int i;
     SDL_Rect tileRect;
@@ -111,7 +177,15 @@ void showBackground(Game * game, Map * map, Background * background) {
     SDL_RenderCopy(game->renderer, background->borders[1], NULL, &tileRect);
 }
 
-
+/**
+ * \fn void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, SDL_Texture* goal, SDL_Texture* rock, SDL_Texture* tex_void, SDL_Texture* goal_boxed, SDL_Texture* frog_rock, SDL_Texture* rock_submerged, SDL_Texture* frog_rock_submerged)
+ * 
+ * \brief Fait le rendue de toute les textures des éléments du jeu.
+ * 
+ * \param game Struct Game nécessaire au rendue des textures.
+ * \param map Struct Map servant a placer au bon endroit les texture dans la fenêtre de jeu.
+ * \param SDL_Texture Toutes les textures a afficher.
+ */
 void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, SDL_Texture* goal, SDL_Texture* rock, SDL_Texture* tex_void, SDL_Texture* goal_boxed, SDL_Texture* frog_rock, SDL_Texture* rock_submerged, SDL_Texture* frog_rock_submerged){
     int i, j;
     SDL_Rect tileRect;
@@ -128,14 +202,14 @@ void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, 
                     SDL_RenderCopy(game->renderer, tex_void, NULL, &tileRect);
                 }
                 break;
-            case 'W':
+            case 'W': // Wall
                 if (game->frame == 0) {
                     SDL_RenderCopy(game->renderer, rock_submerged, NULL, &tileRect);
                 } else {
                     SDL_RenderCopy(game->renderer, rock, NULL, &tileRect);
                 }
                 break;
-            case 'C':
+            case 'C': // Box
                 if (game->frame == 0) --tileRect.y;
                 if (map->initial_tab[i][j] == 'I') {
                     SDL_RenderCopy(game->renderer, goal_boxed, NULL, &tileRect);
@@ -143,14 +217,14 @@ void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, 
                     SDL_RenderCopy(game->renderer, box, NULL, &tileRect);
                 }
                 break;
-            case 'I':
+            case 'I': // Goal
                 if (game->frame == 0) --tileRect.y;
                 SDL_RenderCopy(game->renderer, goal, NULL, &tileRect);
                 break;
-            case 'P':
+            case 'P': // Player
                 SDL_RenderCopy(game->renderer, player->texture[player->direction][game->frame], NULL, &tileRect);
                 break;
-            case 'F':
+            case 'F': // Other type of rocks
                 if (game->frame == 0) {
                     SDL_RenderCopy(game->renderer, frog_rock_submerged, NULL, &tileRect);
                 } else {
@@ -164,7 +238,20 @@ void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, 
     }
 }
 
-
+/**
+ * \fn void showInteractives(Game * game, TTF_Font * font, SDL_Color text_color, Text * start, Text * level, Text * moves, Text * text_level, Text * text_moves, int map_nb, int nb_moves)
+ * 
+ * \brief 
+ * 
+ * \param game
+ * \param font
+ * \param text_color
+ * \param Text* Toutes les structures texte a afficher
+ * \param map_nb
+ * \param nb_moves
+ * 
+ * \see text
+ */
 void showInteractives(Game * game, TTF_Font * font, SDL_Color text_color, Text * start, Text * level, Text * moves, Text * text_level, Text * text_moves, int map_nb, int nb_moves) {
     if (map_nb == 0) {
         SDL_RenderCopy(game->renderer, start->texture, NULL, &start->rect);
@@ -186,103 +273,13 @@ void showInteractives(Game * game, TTF_Font * font, SDL_Color text_color, Text *
     SDL_RenderCopy(game->renderer, moves->texture, NULL, &moves->rect);
 }
 
-
-void print2d(char ** tab, int row, int col) {
-    /*Affiche tout les elements d'un tableau 2d*/
-    int i, j;
-    for (i = 0; i < row; ++i){
-        for (j = 0; j < col; ++j){
-            printf("%c ", tab[i][j]);
-        }
-        printf("\n");
-    }
-}
-
-
-void getData(FILE * file, Map * map){
-    /* Trouve et stocke dans la struct Map la taille de la grille de jeu */
-    char chaine[LEN_MAX];
-
-    map->rows = 0; 
-    map->cols = 0;
-
-    while (fgetc(file) != '\n') {
-        ++map->cols;
-    }
-    rewind(file);
-
-    while (fgets(chaine, LEN_MAX, file) != NULL) {
-        ++map->rows;
-    }
-    rewind(file); 
-}
-
-
-Map *createMap(const char *filename, Game * game, Player* player) {
-    int i, j;
-    char tmp;
-
-    FILE * file = fopen(filename, "r");
-    if (file == NULL) {
-        perror("Erreur ouverture du fichier");
-        exit(EXIT_FAILURE);
-    }
-
-    Map *map = (Map*)malloc(sizeof(*map));
-    if (!map) {
-        perror("Erreur allocation map");
-        fclose(file);
-        exit(EXIT_FAILURE);
-    }
-
-    getData(file, map);
-
-    map->initial_tab = malloc(map->rows * sizeof(* map->initial_tab));
-    map->tab = malloc(map->rows * sizeof(* map->tab));
-
-    for (i = 0; i < map->rows; ++i) {
-        map->initial_tab[i] = malloc(map->cols * sizeof(char));
-        map->tab[i] = malloc(map->cols * sizeof(char));
-
-        for (j = 0; j < map->cols+1; ++j) { // On parcours cols +1 la ligne pour prendre en compte le saut de ligne
-            tmp = fgetc(file);
-
-            if (tmp != '\n') {
-                map->tab[i][j] = tmp;
-
-                // On stocke dans initial_tab seulement les cases voids et goal.
-                if (tmp != ' ' && tmp != 'I' && tmp != 'T') map->initial_tab[i][j] = ' ';
-                else                                        map->initial_tab[i][j] = tmp;
-
-                if (tmp == 'P'){
-                    player->pos_i = i;
-                    player->pos_j = j;
-                }
-            }
-        }
-    }
-    map->num_of_map = 0;
-    map->tile_size = 0.80 * game->screensize.w / map->cols;
-    map->up_space = game->screensize.h / 6;
-    player->nb_move = 0;
-
-    fclose(file);
-    return map;
-}
-
-
-void freeMap(Map * map) {
-    int i;
-
-    for (i = 0; i < map->rows; ++i) {
-        free(map->initial_tab[i]);
-        free(map->tab[i]);
-    }
-
-    free(map);
-}
-
-
+/**
+ * \fn void capFPS(Uint32 start_time)
+ * 
+ * \brief Limite les FPS à 60
+ * 
+ * \param start_time Le tick de début de frame.
+*/
 void capFPS(Uint32 start_time) {
     Uint32 frameTime = SDL_GetTicks() - start_time;
     if (FRAME_DELAY > frameTime) {
@@ -290,7 +287,14 @@ void capFPS(Uint32 start_time) {
     }
 }
 
-
+/**
+ * \fn void frameAnimation(Game* game, Uint32* last_animation_time)
+ * 
+ * \brief 
+ * 
+ * \param game
+ * \param last_animation_time
+ */
 void frameAnimation(Game* game, Uint32* last_animation_time){
     Uint32 current_time = SDL_GetTicks();
     if (current_time - *last_animation_time >= 400) { // en ms
@@ -300,7 +304,16 @@ void frameAnimation(Game* game, Uint32* last_animation_time){
     }
 }
 
-
+/**
+ * \fn Background * initBackgroundTextures(Game * game)
+ * 
+ * \brief 
+ * 
+ * \param game 
+ * 
+ * \return 
+ * \see background
+ */
 Background * initBackgroundTextures(Game * game) {
     unsigned int i;
     char filename[40];
@@ -320,7 +333,15 @@ Background * initBackgroundTextures(Game * game) {
     return background;
 }
 
-
+/**
+ * \fn void freeBackground(Background * background)
+ * 
+ * \brief Libére la place en mémoire prie par la structure background
+ * 
+ * \param background
+ * 
+ * \see background
+ */
 void freeBackground(Background * background) {
     int i;
     for (i = 0; i < 5; ++i) {
