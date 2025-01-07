@@ -140,12 +140,23 @@ void freeText(Text * text) {
  * \see background
  */
 void showBackground(Game * game, Map * map, Background * background) {
-    int i;
+    int i, j;
     SDL_Rect tileRect;
     int tile_size = map->tile_size;
     int rows = map->rows;
     int cols = map->cols;
     SDL_RenderCopy(game->renderer, background->water, NULL, NULL);
+
+    for (i = -rows * 2; i < rows * 4; ++i) {
+        for (j = -cols; j < cols * 2; ++j) {
+            tileRect = (SDL_Rect){(game->screensize.w/2) + (j * tile_size - i * tile_size) / 2,
+                                    map->up_space + (j * tile_size + i * tile_size) / 4,
+                                    tile_size, tile_size};
+            if (i < 0 || j < 0 || i > rows || j > cols) {
+                SDL_RenderCopy(game->renderer, background->ground, NULL, &tileRect);
+            }
+        }
+    }
 
     for (i = 0; i < cols; ++i) {
         tileRect = (SDL_Rect){(game->screensize.w/2) + (i * tile_size) / 2,
