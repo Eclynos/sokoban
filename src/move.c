@@ -7,14 +7,14 @@ void move(Map* map, Player* player, char sens){
     switch (sens) {
         
         case 'U': // Move Up
-            if (i-1 >= 0 && map->tab[i-1][j] != 'T'){
-                if (map->tab[i-1][j] == 'R' && i-2 >= 0 && map->tab[i-2][j] != 'T' && map->tab[i-2][j] != 'R'&& map->tab[i-2][j] != 'F'){
+            if (i-1 >= 0 && map->tab[i-1][j] != 'W' && map->tab[i-1][j] != 'F'){
+                if (map->tab[i-1][j] == 'C' && i-2 >= 0 && map->tab[i-2][j] != 'W' && map->tab[i-2][j] != 'C'&& map->tab[i-2][j] != 'F'){
                     map->tab[i-1][j] = map->initial_tab[i-1][j];
-                    map->tab[i-2][j] = 'R';
+                    map->tab[i-2][j] = 'C';
                 }
-                if (map->tab[i-1][j] != 'R'){
+                if (map->tab[i-1][j] != 'C'){
                     map->tab[i][j] = map->initial_tab[i][j];
-                    map->tab[i-1][j] = '1';
+                    map->tab[i-1][j] = 'P';
                     --player->pos_i;
                     ++player->nb_move;
                 }
@@ -22,14 +22,14 @@ void move(Map* map, Player* player, char sens){
             break;
 
         case 'D': // Move Down
-            if (i+1 < map->rows && map->tab[i+1][j] != 'T'){
-                if (map->tab[i+1][j] == 'R' && i + 2 < map->rows && map->tab[i+2][j] != 'T' && map->tab[i+2][j] != 'R'&& map->tab[i+2][j] != 'F'){
+            if (i+1 < map->rows && map->tab[i+1][j] != 'W' && map->tab[i+1][j] != 'F'){
+                if (map->tab[i+1][j] == 'C' && i + 2 < map->rows && map->tab[i+2][j] != 'W' && map->tab[i+2][j] != 'C'&& map->tab[i+2][j] != 'F'){
                     map->tab[i+1][j] = map->initial_tab[i+1][j];
-                    map->tab[i+2][j] = 'R';
+                    map->tab[i+2][j] = 'C';
                 }
-                if (map->tab[i+1][j] != 'R'){
+                if (map->tab[i+1][j] != 'C'){
                     map->tab[i][j] = map->initial_tab[i][j];
-                    map->tab[i+1][j] = '1';
+                    map->tab[i+1][j] = 'P';
                     ++player->pos_i; 
                     ++player->nb_move;
                 }
@@ -37,14 +37,14 @@ void move(Map* map, Player* player, char sens){
             break;
 
         case 'R': // Move Right
-            if (j + 1 < map->cols && map->tab[i][j+1] != 'T'){
-                if (map->tab[i][j+1] == 'R' && j+2 < map->cols && map->tab[i][j+2] != 'T' && map->tab[i][j+2] != 'R'&& map->tab[i][j+2] != 'F'){
+            if (j + 1 < map->cols && map->tab[i][j+1] != 'W' && map->tab[i][j+1] != 'F'){
+                if (map->tab[i][j+1] == 'C' && j+2 < map->cols && map->tab[i][j+2] != 'W' && map->tab[i][j+2] != 'C'&& map->tab[i][j+2] != 'F'){
                     map->tab[i][j+1] = map->initial_tab[i][j+1];
-                    map->tab[i][j+2] = 'R';
+                    map->tab[i][j+2] = 'C';
                 }
-                if (map->tab[i][j+1] != 'R'){
+                if (map->tab[i][j+1] != 'C'){
                     map->tab[i][j] = map->initial_tab[i][j];
-                    map->tab[i][j+1] = '1';
+                    map->tab[i][j+1] = 'P';
                     ++player->pos_j;
                     ++player->nb_move;
                 }
@@ -52,14 +52,14 @@ void move(Map* map, Player* player, char sens){
             break;
 
         case 'L': // Move Left
-            if (j-1 >= 0 && map->tab[i][j-1] != 'T'){
-                if(map->tab[i][j-1] == 'R' && j-2 >= 0 && map->tab[i][j-2] != 'T' && map->tab[i][j-2] != 'R' && map->tab[i][j-2] != 'F'){
+            if (j-1 >= 0 && map->tab[i][j-1] != 'W' && map->tab[i][j-1] != 'F'){
+                if(map->tab[i][j-1] == 'C' && j-2 >= 0 && map->tab[i][j-2] != 'W' && map->tab[i][j-2] != 'W' && map->tab[i][j-2] != 'F'){
                     map->tab[i][j-1] = map->initial_tab[i][j-1];
-                    map->tab[i][j-2] = 'R';
+                    map->tab[i][j-2] = 'C';
                 }
-                if (map->tab[i][j-1] != 'R'){
+                if (map->tab[i][j-1] != 'C'){
                     map->tab[i][j] = map->initial_tab[i][j];
-                    map->tab[i][j-1] = '1';
+                    map->tab[i][j-1] = 'P';
                     --player->pos_j;
                     ++player->nb_move;
                 }
@@ -80,7 +80,7 @@ int verif_win(Map * map){
 
     for (i=0; i<map->rows; ++i){
         for (j=0; j<map->cols; ++j){
-            if (map->tab[i][j] != 'R' && map->initial_tab[i][j] == '0'){
+            if (map->tab[i][j] != 'C' && map->initial_tab[i][j] == 'I'){
                 win = -1;
             }
         }

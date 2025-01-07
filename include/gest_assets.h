@@ -17,6 +17,7 @@ typedef struct {
     char ** initial_tab;
     int tile_size;
     int num_of_map;
+    int up_space;
 } Map;
 
 typedef struct {
@@ -24,6 +25,12 @@ typedef struct {
     SDL_Rect rect;
     char * sentence;
 } Text;
+
+typedef struct {
+    SDL_Texture * water;
+    SDL_Texture * ground;
+    SDL_Texture ** borders;
+} Background;
 
 
 Map * createMap(const char * filename, Game * game, Player* player);
@@ -36,13 +43,15 @@ Text * createText(Game * game, TTF_Font * font, SDL_Color text_color, char * sen
 void updateText(Game * game, Text * text, TTF_Font * font, SDL_Color text_color, char * sentence);
 void freeText(Text * text);
 
-void showBackground(Game * game, SDL_Texture* bg);
+void showBackground(Game * game, Map * map, Background * background);
 
-void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, SDL_Texture* goal, SDL_Texture* wall, SDL_Texture* tex_void, SDL_Texture* goal_boxed, SDL_Texture* frog_rock);
+void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, SDL_Texture* goal, SDL_Texture* rock, SDL_Texture* tex_void, SDL_Texture* goal_boxed, SDL_Texture* frog_rock, SDL_Texture* rock_submerged, SDL_Texture* frog_rock_submerged);
 
-void showInteractives(Game * game, TTF_Font * font, SDL_Color text_color, Text * start, Text * level, Text * moves, int map_nb, int nb_moves);
+void showInteractives(Game * game, TTF_Font * font, SDL_Color text_color, Text * start, Text * level, Text * moves, Text * text_level, Text * text_moves, int map_nb, int nb_moves);
 
 void capFPS(Uint32 sart_time);
 void frameAnimation(Game* game, Uint32* last_animation_time);
+Background * initBackgroundTextures(Game * game);
+void freeBackground(Background * background);
 
 #endif // !GEST_ASSETS

@@ -24,8 +24,8 @@ Game * initGame() {
     if (TTF_Init() == -1) msgError("Error ttf:");
 
     if (SDL_GetDisplayBounds(0, &game->screensize) != 0) msgError("Error screen size fetcher");
-    game->screensize.w /= 1.6;
-    game->screensize.h /= 1.6;
+    game->screensize.w /= 1.4;
+    game->screensize.h /= 1.4;
 
     game->window = SDL_CreateWindow(
                             "Sokoban",
@@ -50,7 +50,7 @@ Game * initGame() {
 
 Player * initPlayer(Game * game) {
     unsigned int i, j;
-    char filename[128];
+    char filename[40];
 
     Player * player = (Player*)malloc(sizeof(*player));
     if (!player) {
@@ -62,7 +62,7 @@ Player * initPlayer(Game * game) {
     for (i = 0; i < 4; ++i) {
         player->texture[i] = malloc(NB_ANIMATIONS * sizeof(SDL_Texture*));
         for (j = 0; j < NB_ANIMATIONS; ++j) {
-            sprintf(filename, "%s%d%d%s", "./assets/capy/", i, j, ".png");
+            sprintf(filename, "%s%d%d%s", CAPY_PATH, i, j, ".png");
             player->texture[i][j] = createEntity(filename, game);
         }
     }

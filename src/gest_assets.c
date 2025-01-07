@@ -73,14 +73,46 @@ void freeText(Text * text) {
 }
 
 
-void showBackground(Game * game, SDL_Texture* bg) {
-    //SDL_RenderClear(game->renderer);
-        
-    SDL_RenderCopy(game->renderer, bg, NULL, NULL);
+void showBackground(Game * game, Map * map, Background * background) {
+    int i;
+    SDL_Rect tileRect;
+    int tile_size = map->tile_size;
+    int rows = map->rows;
+    int cols = map->cols;
+    SDL_RenderCopy(game->renderer, background->water, NULL, NULL);
+
+    for (i = 0; i < cols; ++i) {
+        tileRect = (SDL_Rect){(game->screensize.w/2) + (i * tile_size) / 2,
+                                map->up_space + (i * tile_size) / 4,
+                                tile_size, tile_size};
+        SDL_RenderCopy(game->renderer, background->borders[0], NULL, &tileRect);
+
+        tileRect = (SDL_Rect){(game->screensize.w/2) + (-rows * tile_size + i * tile_size) / 2,
+                                map->up_space + (rows * tile_size + i * tile_size) / 4,
+                                tile_size, tile_size};
+        SDL_RenderCopy(game->renderer, background->borders[4], NULL, &tileRect);
+    }
+
+    for (i = 0; i < rows; ++i) {
+        tileRect = (SDL_Rect){(game->screensize.w/2) + (cols * tile_size - i * tile_size) / 2,
+                                map->up_space + (cols * tile_size + i * tile_size) / 4,
+                                tile_size, tile_size};
+        SDL_RenderCopy(game->renderer, background->borders[2], NULL, &tileRect);
+    }
+
+    tileRect = (SDL_Rect){(game->screensize.w/2) + (-rows * tile_size + cols * tile_size) / 2,
+                            map->up_space + (rows * tile_size + cols * tile_size) / 4,
+                            tile_size, tile_size};
+    SDL_RenderCopy(game->renderer, background->borders[3], NULL, &tileRect);
+
+    tileRect = (SDL_Rect){(game->screensize.w/2) + (cols * tile_size) / 2,
+                            map->up_space + (cols * tile_size) / 4,
+                            tile_size, tile_size};
+    SDL_RenderCopy(game->renderer, background->borders[1], NULL, &tileRect);
 }
 
 
-void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, SDL_Texture* goal, SDL_Texture* wall, SDL_Texture* tex_void, SDL_Texture* goal_boxed, SDL_Texture* frog_rock){
+void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, SDL_Texture* goal, SDL_Texture* rock, SDL_Texture* tex_void, SDL_Texture* goal_boxed, SDL_Texture* frog_rock, SDL_Texture* rock_submerged, SDL_Texture* frog_rock_submerged){
     int i, j;
     SDL_Rect tileRect;
     int tile_size = map->tile_size;
@@ -88,30 +120,42 @@ void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, 
     for (i = 0; i < map->rows; ++i) {
         for (j = 0; j < map->cols; ++j) {
             tileRect = (SDL_Rect){(game->screensize.w/2) + (j * tile_size - i * tile_size) / 2,
-                                    10 + (j * tile_size + i * tile_size) / 4,
+                                    map->up_space + (j * tile_size + i * tile_size) / 4,
                                     tile_size, tile_size};
             switch (map->tab[i][j]) {
-            case '#':
-                SDL_RenderCopy(game->renderer, tex_void, NULL, &tileRect);
+            case ' ': // trouver une formule math pour faire en sorte que de temps en temps il y ait une bulle
+                if ((game->frame * i + j) % 16 == 0 && j != 0) {
+                    SDL_RenderCopy(game->renderer, tex_void, NULL, &tileRect);
+                }
                 break;
-            case 'T':
-                SDL_RenderCopy(game->renderer, wall, NULL, &tileRect);
+            case 'W':
+                if (game->frame == 0) {
+                    SDL_RenderCopy(game->renderer, rock_submerged, NULL, &tileRect);
+                } else {
+                    SDL_RenderCopy(game->renderer, rock, NULL, &tileRect);
+                }
                 break;
-            case 'R':
-                if (map->initial_tab[i][j] == '0') {
+            case 'C':
+                if (game->frame == 0) --tileRect.y;
+                if (map->initial_tab[i][j] == 'I') {
                     SDL_RenderCopy(game->renderer, goal_boxed, NULL, &tileRect);
                 } else {
                     SDL_RenderCopy(game->renderer, box, NULL, &tileRect);
                 }
                 break;
-            case '0':
+            case 'I':
+                if (game->frame == 0) --tileRect.y;
                 SDL_RenderCopy(game->renderer, goal, NULL, &tileRect);
                 break;
-            case '1':
+            case 'P':
                 SDL_RenderCopy(game->renderer, player->texture[player->direction][game->frame], NULL, &tileRect);
                 break;
             case 'F':
-                SDL_RenderCopy(game->renderer, frog_rock, NULL, &tileRect);
+                if (game->frame == 0) {
+                    SDL_RenderCopy(game->renderer, frog_rock_submerged, NULL, &tileRect);
+                } else {
+                    SDL_RenderCopy(game->renderer, frog_rock, NULL, &tileRect);
+                }
                 break;
             default:
                 break;
@@ -121,7 +165,7 @@ void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, 
 }
 
 
-void showInteractives(Game * game, TTF_Font * font, SDL_Color text_color, Text * start, Text * level, Text * moves, int map_nb, int nb_moves) {
+void showInteractives(Game * game, TTF_Font * font, SDL_Color text_color, Text * start, Text * level, Text * moves, Text * text_level, Text * text_moves, int map_nb, int nb_moves) {
     if (map_nb == 0) {
         SDL_RenderCopy(game->renderer, start->texture, NULL, &start->rect);
     } else {
@@ -130,6 +174,7 @@ void showInteractives(Game * game, TTF_Font * font, SDL_Color text_color, Text *
             sprintf(newsentence, "%d", map_nb);
             updateText(game, level, font, text_color, newsentence);
         }
+        SDL_RenderCopy(game->renderer, text_level->texture, NULL, &text_level->rect);
         SDL_RenderCopy(game->renderer, level->texture, NULL, &level->rect);
     }
     if (atoi(moves->sentence) != nb_moves) {
@@ -137,6 +182,7 @@ void showInteractives(Game * game, TTF_Font * font, SDL_Color text_color, Text *
         sprintf(newsentence, "%d", nb_moves);
         updateText(game, moves, font, text_color, newsentence);
     }
+    SDL_RenderCopy(game->renderer, text_moves->texture, NULL, &text_moves->rect);
     SDL_RenderCopy(game->renderer, moves->texture, NULL, &moves->rect);
 }
 
@@ -205,10 +251,10 @@ Map *createMap(const char *filename, Game * game, Player* player) {
                 map->tab[i][j] = tmp;
 
                 // On stocke dans initial_tab seulement les cases voids et goal.
-                if (tmp != '#' && tmp != '0' && tmp != 'T') map->initial_tab[i][j] = '#';
+                if (tmp != ' ' && tmp != 'I' && tmp != 'T') map->initial_tab[i][j] = ' ';
                 else                                        map->initial_tab[i][j] = tmp;
 
-                if (tmp == '1'){
+                if (tmp == 'P'){
                     player->pos_i = i;
                     player->pos_j = j;
                 }
@@ -216,8 +262,8 @@ Map *createMap(const char *filename, Game * game, Player* player) {
         }
     }
     map->num_of_map = 0;
-    map->tile_size = game->screensize.w / map->cols;
-    // faire un calcul savant pour faire en sorte que la fenêtre fit à peu près l'affichage de l'ensemble des tiles
+    map->tile_size = 0.80 * game->screensize.w / map->cols;
+    map->up_space = game->screensize.h / 6;
     player->nb_move = 0;
 
     fclose(file);
@@ -249,7 +295,38 @@ void frameAnimation(Game* game, Uint32* last_animation_time){
     Uint32 current_time = SDL_GetTicks();
     if (current_time - *last_animation_time >= 400) { // en ms
         ++game->frame;
-        if (game->frame > 5) game->frame = 0; // 6 animations
+        if (game->frame > NB_ANIMATIONS - 1) game->frame = 0;
         *last_animation_time = current_time;
     }
+}
+
+
+Background * initBackgroundTextures(Game * game) {
+    unsigned int i;
+    char filename[40];
+    Background * background = (Background*)malloc(sizeof(*background));
+    if (!background) {
+        perror("Erreur allocation des textures d'arrière plan");
+        exit(EXIT_FAILURE);
+    }
+    background->borders = malloc(5 * sizeof(SDL_Texture *));
+    for (i = 0; i < 5; ++i) {
+        sprintf(filename, "%s%d%s", BORDERS_PATH, i+1, ".png");
+        background->borders[i] = createEntity(filename, game);
+    }
+    background->water = createEntity(WATER_IMAGE, game);
+    background->ground = createEntity(GROUND_IMAGE, game);
+
+    return background;
+}
+
+
+void freeBackground(Background * background) {
+    int i;
+    for (i = 0; i < 5; ++i) {
+        SDL_DestroyTexture(background->borders[i]);
+    }
+    SDL_DestroyTexture(background->water);
+    SDL_DestroyTexture(background->ground);
+    free(background);
 }
