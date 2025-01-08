@@ -75,7 +75,7 @@ TTF_Font* createFont(const char * filename, Game * game) {
  * \param w, h Taille du texte.
  
  * \return Struct Texte initialiser.
- * \see text
+ * \see Text
  */
 Text * createText(Game * game, TTF_Font * font, SDL_Color text_color, char * sentence, int x, int y, int w, int h) {
     Text * text = (Text*)malloc(sizeof(*text));
@@ -121,7 +121,7 @@ void updateText(Game * game, Text * text, TTF_Font * font, SDL_Color text_color,
  * 
  * \param text Struct a free
  * 
- * \see text
+ * \see Text
  */
 void freeText(Text * text) {
     SDL_DestroyTexture(text->texture);
@@ -137,7 +137,7 @@ void freeText(Text * text) {
  * \param map
  * \param background
  * 
- * \see background
+ * \see Background
  */
 void showBackground(Game * game, Map * map, Background * background) {
     int i, j;
@@ -261,7 +261,7 @@ void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, 
  * \param map_nb
  * \param nb_moves
  * 
- * \see text
+ * \see Text
  */
 void showInteractives(Game * game, TTF_Font * font, SDL_Color text_color, Text * start, Text * level, Text * moves, Text * text_level, Text * text_moves, int map_nb, int nb_moves) {
     if (map_nb == 0) {
@@ -323,7 +323,7 @@ void frameAnimation(Game* game, Uint32* last_animation_time){
  * \param game 
  * 
  * \return 
- * \see background
+ * \see Background
  */
 Background * initBackgroundTextures(Game * game) {
     unsigned int i;
@@ -351,7 +351,7 @@ Background * initBackgroundTextures(Game * game) {
  * 
  * \param background
  * 
- * \see background
+ * \see Background
  */
 void freeBackground(Background * background) {
     int i;

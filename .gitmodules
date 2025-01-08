@@ -1,0 +1,7 @@
+[submodule "doc/doxygen-awesome-css"]
+	path = doc/doxygen-awesome-css
+	url = https://github.com/jothepro/doxygen-awesome-css.git
+
+[submodule "doc/--force"]
+	path = doc/--force
+	url = https://github.com/jothepro/doxygen-awesome-css.git
