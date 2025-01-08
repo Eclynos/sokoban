@@ -13,4 +13,9 @@
 #include "move.h"
 #include "gen_map.h"
 
+/**
+ * \file includes.h 
+ * \brief Inclus tous les fichier .h et les includes nécessaire à notre boucle de jeu.
+ */
+
 #endif

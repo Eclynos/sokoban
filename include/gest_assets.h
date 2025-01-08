@@ -10,17 +10,30 @@
 #include "fct_init.h"
 #include "gen_map.h"
 
+/**
+ * \file gest_assets.h 
+ * \brief Contient le nécessaire pour afficher toutes les textures en jeu.
+ */
+
+/**
+ * \struct Text
+ * \brief 
+ */
 typedef struct {
-    SDL_Texture * texture;
-    SDL_Rect rect;
-    char * sentence;
+    SDL_Texture * texture;  /**<  */
+    SDL_Rect rect;          /**<  */
+    char * sentence;        /**< Chaine de charactère a afficher. */
 } Text;
 
+/**
+ * \struct Background
+ * \brief 
+ */
 typedef struct {
-    SDL_Texture * water;
-    SDL_Texture * ground;
-    SDL_Texture ** borders;
-    SDL_Texture ** submerged_borders;
+    SDL_Texture * water;    /**< Texture de fond donc de l'eau dans notre cas. */
+    SDL_Texture * ground;   /**<  */
+    SDL_Texture ** borders; /**<  */
+    SDL_Texture ** submerged_borders; /**<  */
 } Background;
 
 SDL_Texture* createEntity(const char * filename, Game * game);

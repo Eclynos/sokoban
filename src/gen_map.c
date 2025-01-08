@@ -42,7 +42,7 @@ void getData(FILE * file, Map * map){
  * \param player Structure Player, permet d'associer la map au joueur.
  * 
  * \return Map complétement initialiser.
- * \see map
+ * \see Map
  */
 Map *createMap(const char *filename, Game * game, Player* player) {
     int i, j;
@@ -77,7 +77,7 @@ Map *createMap(const char *filename, Game * game, Player* player) {
                 map->tab[i][j] = tmp;
 
                 // On stocke dans initial_tab seulement les cases voids et goal.
-                if (tmp != ' ' && tmp != 'I' && tmp != 'T') map->initial_tab[i][j] = ' ';
+                if (tmp != ' ' && tmp != 'I') map->initial_tab[i][j] = ' ';
                 else                                        map->initial_tab[i][j] = tmp;
 
                 if (tmp == 'P'){
@@ -107,7 +107,7 @@ Map *createMap(const char *filename, Game * game, Player* player) {
  * \param tab_map Tableaux contenant la liste des chemins vers le fichier map.txt (contenant la grille de jeu).
  * 
  * \return La nouvelle map .
- * \see map
+ * \see Map
  */
 Map * nextMap(Game* game, Map* old_map, Player* player, const char ** tab_map){
     int num_of_map = old_map->num_of_map + 1;
@@ -128,7 +128,7 @@ Map * nextMap(Game* game, Map* old_map, Player* player, const char ** tab_map){
  * \param tab_map Tableaux contenant la liste des chemins vers le fichier map.txt (contenant la grille de jeu).
  * 
  * \return La map réinitialiser.
- * \see map
+ * \see Map
  */
 Map * restartMap(Game* game, Map* map, Player* player, const char ** tab_map){
     int num_of_map = map->num_of_map;
@@ -144,7 +144,7 @@ Map * restartMap(Game* game, Map* map, Player* player, const char ** tab_map){
  * \brief Libère la mémoire prie par la structure Map.
  * 
  * \param map Struct Map a libérer.
- * \see map
+ * \see Map
  */
 void freeMap(Map * map) {
     int i;

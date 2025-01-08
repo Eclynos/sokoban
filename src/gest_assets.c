@@ -75,7 +75,7 @@ TTF_Font* createFont(const char * filename, Game * game) {
  * \param w, h Taille du texte.
  
  * \return Struct Texte initialiser.
- * \see text
+ * \see Text
  */
 Text * createText(Game * game, TTF_Font * font, SDL_Color text_color, char * sentence, int x, int y, int w, int h) {
     Text * text = (Text*)malloc(sizeof(*text));
@@ -97,13 +97,13 @@ Text * createText(Game * game, TTF_Font * font, SDL_Color text_color, char * sen
 /**
  * \fn updateText(Game * game, Text * text, TTF_Font * font, SDL_Color text_color, char * sentence)
  * 
- * \brief Mise à jour de la texture d'une structure texte avec son nouveau texte
+ * \brief Mise à jour de la texture d'une structure texte avec son nouveau texte.
  * 
  * \param game Structure contenant les variables générales du jeu.
  * \param text La structure à modifier.
  * \param font Police d'écriture du texte.
  * \param text_color Couleur du texte.
- * \param sentence Phrase du texte (Elle est censée être différente de celle de la dernière fois)
+ * \param sentence Phrase du texte (Elle est censée être différente de celle de la dernière fois).
  * 
  * \see text
  */
@@ -117,11 +117,11 @@ void updateText(Game * game, Text * text, TTF_Font * font, SDL_Color text_color,
 /**
  * \fn void freeText(Text * text)
  * 
- * \brief Libère la place prie par la structure Text donnée
+ * \brief Libère la place prie par la structure Text donnée.
  * 
- * \param text Struct a free
+ * \param text Struct à free.
  * 
- * \see text
+ * \see Text
  */
 void freeText(Text * text) {
     SDL_DestroyTexture(text->texture);
@@ -134,10 +134,10 @@ void freeText(Text * text) {
  * \brief Affiche le background du jeu.
  * 
  * \param game Structure contenant les variables générales du jeu.
- * \param map Structure de la carte contenant les informations de celle-ci
- * \param background Structure de l'arrière plan contenant les nombreuses textures nécessaires à son affichage
+ * \param map Structure de la carte contenant les informations de celle-ci.
+ * \param background Structure de l'arrière plan contenant les nombreuses textures nécessaires à son affichage.
  * 
- * \see background
+ * \see Background
  */
 void showBackground(Game * game, Map * map, Background * background) {
     int i, j;
@@ -279,11 +279,11 @@ void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, 
  * \param game Structure contenant les variables générales du jeu.
  * \param font Police d'écriture du texte.
  * \param text_color Couleur du texte.
- * \param Text* Toutes les structures texte a afficher
- * \param map_nb Le numéro de la map actuellement affichée
- * \param nb_moves Le nombre de mouvements effectués par le joueur
+ * \param Text* Toutes les structures texte a afficher.
+ * \param map_nb Le numéro de la map actuellement affichée.
+ * \param nb_moves Le nombre de mouvements effectués par le joueur.
  * 
- * \see text
+ * \see Text
  */
 void showInteractives(Game * game, TTF_Font * font, SDL_Color text_color, Text * start, Text * level, Text * moves, Text * text_level, Text * text_moves, int map_nb, int nb_moves) {
 
@@ -312,7 +312,7 @@ void showInteractives(Game * game, TTF_Font * font, SDL_Color text_color, Text *
 /**
  * \fn void capFPS(Uint32 start_time)
  * 
- * \brief Limite les FPS à 60
+ * \brief Limite les FPS à 60.
  * 
  * \param start_time Le tick de début de frame.
 */
@@ -326,10 +326,10 @@ void capFPS(Uint32 start_time) {
 /**
  * \fn void frameAnimation(Game* game, Uint32* last_animation_time)
  * 
- * \brief Décide si il faut passer ou non à la frame d'animation suivante
+ * \brief Décide si il faut passer ou non à la frame d'animation suivante.
  * 
  * \param game Structure contenant les variables générales du jeu.
- * \param last_animation_time tick du dernier changement de frame, si sa différence est trop grande avec le tick actuel, on passe une frame
+ * \param last_animation_time tick du dernier changement de frame, si sa différence est trop grande avec le tick actuel, on passe une frame.
  */
 void frameAnimation(Game* game, Uint32* last_animation_time){
     Uint32 current_time = SDL_GetTicks();
@@ -351,12 +351,12 @@ void frameAnimation(Game* game, Uint32* last_animation_time){
 /**
  * \fn Background * initBackgroundTextures(Game * game)
  * 
- * \brief Initialise les structures de l'arrière plan
+ * \brief Initialise les structures de l'arrière plan.
  * 
  * \param game Structure contenant les variables générales du jeu.
  * 
  * \return 
- * \see background
+ * \see Background
  */
 Background * initBackgroundTextures(Game * game) {
     unsigned int i;
@@ -396,11 +396,11 @@ Background * initBackgroundTextures(Game * game) {
 /**
  * \fn void freeBackground(Background * background)
  * 
- * \brief Libére la place en mémoire prie par la structure background
+ * \brief Libére la place en mémoire prie par la structure background.
  * 
- * \param background structure de l'arrière plan
+ * \param background Structure de l'arrière plan.
  * 
- * \see background
+ * \see Background
  */
 void freeBackground(Background * background) {
     int i;

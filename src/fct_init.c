@@ -27,7 +27,7 @@ void msgError(const char* msg){
  * \brief Initialise le jeu c.a.d. initialise SDL2 et la fenêtre de jeu.
  * 
  * \return Occurrence de la structure Game complétement remplie.
- * \see game
+ * \see Game
  */
 Game * initGame() {
     Game * game = (Game*)malloc(sizeof(*game));
@@ -72,7 +72,7 @@ Game * initGame() {
  * \brief Initialise le personnage c.a.d. initialise ses textures et le nombre de mouvement du personnage.
  * 
  * \return Occurrence de la structure Player partiellement remplie.
- * \see player
+ * \see Player
  */
 Player * initPlayer(Game * game) {
     unsigned int i, j;

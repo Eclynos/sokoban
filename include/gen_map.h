@@ -3,14 +3,23 @@
 
 #include "./fct_init.h"
 
+/**
+ * \file gen_map.h 
+ * \brief Contient les fonctions relatives à la gestion de la grille de jeu.
+ */
+
+/**
+ * \struct Map
+ * \brief Représente la grille de jeu.
+ */
 typedef struct {
-    int rows;
-    int cols;
-    char ** tab;
-    char ** initial_tab;
-    int tile_size;
-    int num_of_map;
-    int up_space;
+    int rows;       /**< Nombre de ligne de la map. */
+    int cols;       /**< Nombre de colonne de la map. */
+    char ** tab;    /**< Contient la grille de jeu avec tout les éléments. */
+    char ** initial_tab;    /**< Contient la grille de jeu avec seulement les cases de vides et de but*/
+    int tile_size;  /**< Taille en pixels d'une tuile (élément) de jeu. */
+    int num_of_map; /**< Numéro de la map actuel dans la liste de map. */
+    int up_space;   /**<  */
 } Map;
 
 
