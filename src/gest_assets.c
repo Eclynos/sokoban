@@ -229,6 +229,17 @@ void showBackground(Game * game, Map * map, Background * background) {
         }
     }
 
+    for (i = 0; i < 2; ++i) {
+        tileRect = (SDL_Rect){(cols * tile_size - map->waterfall_position * tile_size - i * tile_size + tile_size * 3/4) / 2,
+                        map->up_space + (map->waterfall_position * tile_size + i * tile_size + tile_size * 3/4) / 4,
+                        tile_size, tile_size};
+        if ((i + game->frame) % 2 == 0) {
+            SDL_RenderCopy(game->renderer, background->foam[0], NULL, &tileRect);
+        } else {
+            SDL_RenderCopy(game->renderer, background->foam[1], NULL, &tileRect);
+        }
+    }
+
     for (i = 0; i < rows; ++i) {
         for (j = 0; j < 2; ++j) {
             tileRect = (SDL_Rect){(cols * tile_size - map->waterfall_position * tile_size - i * tile_size - tile_size + j * tile_size) / 2,
@@ -440,6 +451,16 @@ Background * initBackgroundTextures(Game * game) {
         background->moving_water[i] = createEntity(filename, game);
     }
 
+    background->foam = malloc(2 * sizeof(SDL_Texture *));
+    if (background->foam == NULL) {
+        perror("Erreur allocation des textures de la cascade");
+        exit(EXIT_FAILURE);
+    }
+    for (i = 0; i < 2; ++i) {
+        sprintf(filename, "%s%d%s", FOAM_PATH, i+1, ".png");
+        background->foam[i] = createEntity(filename, game);
+    }
+
     background->water = createEntity(WATER_IMAGE, game);
     background->ground = createEntity(GROUND_IMAGE, game);
     background->cliff = createEntity(CLIFF_IMAGE, game);
@@ -465,6 +486,7 @@ void freeBackground(Background * background) {
     for (i = 0; i < 2; ++i) {
         SDL_DestroyTexture(background->waterfall[i]);
         SDL_DestroyTexture(background->moving_water[i]);
+        SDL_DestroyTexture(background->foam[i]);
     }
     SDL_DestroyTexture(background->water);
     SDL_DestroyTexture(background->ground);

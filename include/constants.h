@@ -22,6 +22,7 @@
 #define BORDERS_PATH "./assets/borders/"
 #define WATERFALL_PATH "./assets/cliff/waterfall"
 #define MOVING_WATER_PATH "./assets/cliff/water"
+#define FOAM_PATH "./assets/cliff/foam"
 
 #define CAPY_PATH "./assets/capy/"
 
@@ -34,12 +35,15 @@
 #define ROCK_SUBMERGED_IMAGE "./assets/rock_submerged.png"
 #define FROG_ROCK_SUBMERGED_IMAGE "./assets/rock_with_frog_submerged.png"
 
-#define NUMBER_OF_MAP 4
+#define NUMBER_OF_MAP 7
 #define FILE_MAP_START "./map/start_map.txt"
 #define FILE_MAP_1 "./map/map1.txt"
 #define FILE_MAP_2 "./map/map2.txt"
 #define FILE_MAP_3 "./map/map3.txt"
-#define MAP_TAB FILE_MAP_START, FILE_MAP_1, FILE_MAP_2, FILE_MAP_3
+#define FILE_MAP_4 "./map/map4.txt"
+#define FILE_MAP_5 "./map/map5.txt"
+#define FILE_MAP_6 "./map/map6.txt"
+#define MAP_TAB FILE_MAP_START, FILE_MAP_1, FILE_MAP_2, FILE_MAP_3, FILE_MAP_4, FILE_MAP_5, FILE_MAP_6
 
 #define FILE_FONT "./fonts/dejavu-fonts-ttf-2.37/ttf/DejaVuSansMono.ttf"
 
