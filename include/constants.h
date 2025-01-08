@@ -12,6 +12,7 @@
 #define FPS 60
 #define FRAME_DELAY (1000 / FPS)
 #define NB_ANIMATIONS 6
+#define MS_BETWEEN_ANIMATIONS 400
 
 #define WATER_IMAGE "./assets/background.png"
 #define GROUND_IMAGE "./assets/borders/ground.png"

@@ -2,7 +2,7 @@
 
 /**
  * \file gest_assets.c
- * \brief Gestion de l'affichage.
+ * \brief Gestion des variables d'affichage.
 **/
 
 /**
@@ -65,9 +65,9 @@ TTF_Font* createFont(const char * filename, Game * game) {
 /**
  * \fn Text * createText(Game * game, TTF_Font * font, SDL_Color text_color, char * sentence, int x, int y, int w, int h)
  * 
- * \brief Création d'un texte.
+ * \brief Création d'une structure de texte.
  * 
- * \param game Srtucture Game nécessaire à l'affilation du texte avec le rendu.
+ * \param game Structure Game nécessaire à l'affilation du texte avec le rendu.
  * \param font Police d'écriture du texte.
  * \param text_color Couleur du texte.
  * \param sentence Phrase du texte
@@ -97,13 +97,13 @@ Text * createText(Game * game, TTF_Font * font, SDL_Color text_color, char * sen
 /**
  * \fn updateText(Game * game, Text * text, TTF_Font * font, SDL_Color text_color, char * sentence)
  * 
- * \brief 
+ * \brief Mise à jour de la texture d'une structure texte avec son nouveau texte
  * 
- * \param game
- * \param text
- * \param font
- * \param text_color
- * \param sentence
+ * \param game Structure contenant les variables générales du jeu.
+ * \param text La structure à modifier.
+ * \param font Police d'écriture du texte.
+ * \param text_color Couleur du texte.
+ * \param sentence Phrase du texte (Elle est censée être différente de celle de la dernière fois)
  * 
  * \see text
  */
@@ -133,9 +133,9 @@ void freeText(Text * text) {
  * 
  * \brief Affiche le background du jeu.
  * 
- * \param game
- * \param map
- * \param background
+ * \param game Structure contenant les variables générales du jeu.
+ * \param map Structure de la carte contenant les informations de celle-ci
+ * \param background Structure de l'arrière plan contenant les nombreuses textures nécessaires à son affichage
  * 
  * \see background
  */
@@ -147,6 +147,7 @@ void showBackground(Game * game, Map * map, Background * background) {
     int cols = map->cols;
     SDL_RenderCopy(game->renderer, background->water, NULL, NULL);
 
+    // Affichage de la terre tout autour
     for (i = -rows * 2; i < rows * 4; ++i) {
         for (j = -cols; j < cols * 2; ++j) {
             tileRect = (SDL_Rect){(game->screensize.w/2) + (j * tile_size - i * tile_size) / 2,
@@ -158,6 +159,7 @@ void showBackground(Game * game, Map * map, Background * background) {
         }
     }
 
+    // Affichage des bordures
     for (i = 0; i < cols; ++i) {
         tileRect = (SDL_Rect){(game->screensize.w/2) + (i * tile_size) / 2,
                                 map->up_space + (i * tile_size) / 4,
@@ -193,7 +195,7 @@ void showBackground(Game * game, Map * map, Background * background) {
  * 
  * \brief Fait le rendue de toute les textures des éléments du jeu.
  * 
- * \param game Struct Game nécessaire au rendue des textures.
+ * \param game Structure contenant les variables générales du jeu.
  * \param map Struct Map servant a placer au bon endroit les texture dans la fenêtre de jeu.
  * \param SDL_Texture Toutes les textures a afficher.
  */
@@ -254,16 +256,17 @@ void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, 
  * 
  * \brief 
  * 
- * \param game
- * \param font
- * \param text_color
+ * \param game Structure contenant les variables générales du jeu.
+ * \param font Police d'écriture du texte.
+ * \param text_color Couleur du texte.
  * \param Text* Toutes les structures texte a afficher
- * \param map_nb
- * \param nb_moves
+ * \param map_nb Le numéro de la map actuellement affichée
+ * \param nb_moves Le nombre de mouvements effectués par le joueur
  * 
  * \see text
  */
 void showInteractives(Game * game, TTF_Font * font, SDL_Color text_color, Text * start, Text * level, Text * moves, Text * text_level, Text * text_moves, int map_nb, int nb_moves) {
+
     if (map_nb == 0) {
         SDL_RenderCopy(game->renderer, start->texture, NULL, &start->rect);
     } else {
@@ -275,11 +278,13 @@ void showInteractives(Game * game, TTF_Font * font, SDL_Color text_color, Text *
         SDL_RenderCopy(game->renderer, text_level->texture, NULL, &text_level->rect);
         SDL_RenderCopy(game->renderer, level->texture, NULL, &level->rect);
     }
+
     if (atoi(moves->sentence) != nb_moves) {
         char newsentence[10];
         sprintf(newsentence, "%d", nb_moves);
         updateText(game, moves, font, text_color, newsentence);
     }
+
     SDL_RenderCopy(game->renderer, text_moves->texture, NULL, &text_moves->rect);
     SDL_RenderCopy(game->renderer, moves->texture, NULL, &moves->rect);
 }
@@ -301,14 +306,14 @@ void capFPS(Uint32 start_time) {
 /**
  * \fn void frameAnimation(Game* game, Uint32* last_animation_time)
  * 
- * \brief 
+ * \brief Décide si il faut passer ou non à la frame d'animation suivante
  * 
- * \param game
- * \param last_animation_time
+ * \param game Structure contenant les variables générales du jeu.
+ * \param last_animation_time tick du dernier changement de frame, si sa différence est trop grande avec le tick actuel, on passe une frame
  */
 void frameAnimation(Game* game, Uint32* last_animation_time){
     Uint32 current_time = SDL_GetTicks();
-    if (current_time - *last_animation_time >= 400) { // en ms
+    if (current_time - *last_animation_time >= MS_BETWEEN_ANIMATIONS) { // en ms
         ++game->frame;
         if (game->frame > NB_ANIMATIONS - 1) game->frame = 0;
         *last_animation_time = current_time;
@@ -318,9 +323,9 @@ void frameAnimation(Game* game, Uint32* last_animation_time){
 /**
  * \fn Background * initBackgroundTextures(Game * game)
  * 
- * \brief 
+ * \brief Initialise les structures de l'arrière plan
  * 
- * \param game 
+ * \param game Structure contenant les variables générales du jeu.
  * 
  * \return 
  * \see background
@@ -349,7 +354,7 @@ Background * initBackgroundTextures(Game * game) {
  * 
  * \brief Libére la place en mémoire prie par la structure background
  * 
- * \param background
+ * \param background structure de l'arrière plan
  * 
  * \see background
  */
