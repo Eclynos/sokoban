@@ -6,6 +6,7 @@
 #include <SDL_ttf.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "constants.h"
 #include "fct_init.h"
 #include "gen_map.h"
@@ -32,6 +33,9 @@ typedef struct {
 typedef struct {
     SDL_Texture * water;    /**< Texture de fond donc de l'eau dans notre cas. */
     SDL_Texture * ground;   /**<  */
+    SDL_Texture * cliff;
+    SDL_Texture ** waterfall;
+    SDL_Texture ** moving_water;
     SDL_Texture ** borders; /**<  */
     SDL_Texture ** submerged_borders; /**<  */
 } Background;

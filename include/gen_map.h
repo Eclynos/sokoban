@@ -19,7 +19,8 @@ typedef struct {
     char ** initial_tab;    /**< Contient la grille de jeu avec seulement les cases de vides et de but*/
     int tile_size;  /**< Taille en pixels d'une tuile (élément) de jeu. */
     int num_of_map; /**< Numéro de la map actuel dans la liste de map. */
-    int up_space;   /**<  */
+    int up_space;   /**< Espace entre haut de l'écran et le début de l'affichage des tiles de jeu. */
+    int waterfall_position; /**< Position de la cascade. */
 } Map;
 
 

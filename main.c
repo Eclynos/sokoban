@@ -30,9 +30,9 @@ int main() {
 
 
     // Création de la police d'écriture et des textures de texte
-    SDL_Color text_color = {205, 147, 115, 255};
+    SDL_Color text_color = {255, 255, 255, 255}; // {205, 147, 115, 255}
     TTF_Font * font = createFont(FILE_FONT, game);
-    Text * start = createText(game, font, text_color, "Press Start to play", game->screensize.w/3, 0, 200, 200);
+    Text * start = createText(game, font, text_color, "Press Enter to play", game->screensize.w/3 + 108, 0, 200, 200);
     Text * level = createText(game, font, text_color, "1", 66, 10, 0, 0);
     Text * moves = createText(game, font, text_color, "0", 94, 40, 0, 0);
     Text * text_level = createText(game, font, text_color, "Map:", 10, 10, 0, 0);

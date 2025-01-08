@@ -81,6 +81,8 @@ A faire:
 - on pourra peut-être faire en sorte que ce soit moins brut et qu'on voit quand même le capy mettre la dernière orange sur le dernier nénuphar
 - Caper les fps X
 
+en sah si j'ai le temps je peux toujours faire des vagues après avoir fait la cascade
+
 
 
 

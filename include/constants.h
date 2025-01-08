@@ -14,9 +14,14 @@
 #define NB_ANIMATIONS 6
 #define MS_BETWEEN_ANIMATIONS 350
 
+#define WATERFALL_SIZE 5
+
 #define WATER_IMAGE "./assets/background.png"
 #define GROUND_IMAGE "./assets/borders/ground.png"
+#define CLIFF_IMAGE "./assets/cliff/cliff.png"
 #define BORDERS_PATH "./assets/borders/"
+#define WATERFALL_PATH "./assets/cliff/waterfall"
+#define MOVING_WATER_PATH "./assets/cliff/water"
 
 #define CAPY_PATH "./assets/capy/"
 
