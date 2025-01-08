@@ -164,30 +164,50 @@ void showBackground(Game * game, Map * map, Background * background) {
         tileRect = (SDL_Rect){(game->screensize.w/2) + (i * tile_size) / 2,
                                 map->up_space + (i * tile_size) / 4,
                                 tile_size, tile_size};
-        SDL_RenderCopy(game->renderer, background->borders[0], NULL, &tileRect);
+        if (game->frame == 0) {
+            SDL_RenderCopy(game->renderer, background->submerged_borders[0], NULL, &tileRect);
+        } else {
+            SDL_RenderCopy(game->renderer, background->borders[0], NULL, &tileRect);
+        }
 
         tileRect = (SDL_Rect){(game->screensize.w/2) + (-rows * tile_size + i * tile_size) / 2,
                                 map->up_space + (rows * tile_size + i * tile_size) / 4,
                                 tile_size, tile_size};
-        SDL_RenderCopy(game->renderer, background->borders[4], NULL, &tileRect);
+        if (game->frame == 0) {
+            SDL_RenderCopy(game->renderer, background->submerged_borders[4], NULL, &tileRect);
+        } else {
+            SDL_RenderCopy(game->renderer, background->borders[4], NULL, &tileRect);
+        }
     }
 
     for (i = 0; i < rows; ++i) {
         tileRect = (SDL_Rect){(game->screensize.w/2) + (cols * tile_size - i * tile_size) / 2,
                                 map->up_space + (cols * tile_size + i * tile_size) / 4,
                                 tile_size, tile_size};
+    if (game->frame == 0) {
+        SDL_RenderCopy(game->renderer, background->submerged_borders[2], NULL, &tileRect);
+    } else {
         SDL_RenderCopy(game->renderer, background->borders[2], NULL, &tileRect);
+    }
     }
 
     tileRect = (SDL_Rect){(game->screensize.w/2) + (-rows * tile_size + cols * tile_size) / 2,
                             map->up_space + (rows * tile_size + cols * tile_size) / 4,
                             tile_size, tile_size};
-    SDL_RenderCopy(game->renderer, background->borders[3], NULL, &tileRect);
+    if (game->frame == 0) {
+        SDL_RenderCopy(game->renderer, background->submerged_borders[3], NULL, &tileRect);
+    } else {
+        SDL_RenderCopy(game->renderer, background->borders[3], NULL, &tileRect);
+    }
 
     tileRect = (SDL_Rect){(game->screensize.w/2) + (cols * tile_size) / 2,
                             map->up_space + (cols * tile_size) / 4,
                             tile_size, tile_size};
-    SDL_RenderCopy(game->renderer, background->borders[1], NULL, &tileRect);
+    if (game->frame == 0) {
+        SDL_RenderCopy(game->renderer, background->submerged_borders[1], NULL, &tileRect);
+    } else {
+        SDL_RenderCopy(game->renderer, background->borders[1], NULL, &tileRect);
+    }
 }
 
 /**
@@ -313,10 +333,18 @@ void capFPS(Uint32 start_time) {
  */
 void frameAnimation(Game* game, Uint32* last_animation_time){
     Uint32 current_time = SDL_GetTicks();
-    if (current_time - *last_animation_time >= MS_BETWEEN_ANIMATIONS) { // en ms
-        ++game->frame;
-        if (game->frame > NB_ANIMATIONS - 1) game->frame = 0;
-        *last_animation_time = current_time;
+    if (game->frame == 0) {
+        if (current_time - *last_animation_time >= MS_BETWEEN_ANIMATIONS * 2) { // en ms
+            ++game->frame;
+            if (game->frame > NB_ANIMATIONS - 1) game->frame = 0;
+            *last_animation_time = current_time;
+        }
+    } else {
+        if (current_time - *last_animation_time >= MS_BETWEEN_ANIMATIONS) { // en ms
+            ++game->frame;
+            if (game->frame > NB_ANIMATIONS - 1) game->frame = 0;
+            *last_animation_time = current_time;
+        }
     }
 }
 
@@ -335,14 +363,30 @@ Background * initBackgroundTextures(Game * game) {
     char filename[40];
     Background * background = (Background*)malloc(sizeof(*background));
     if (!background) {
-        perror("Erreur allocation des textures d'arrière plan");
+        perror("Erreur allocation de la structure des textures d'arrière plan");
         exit(EXIT_FAILURE);
     }
+
     background->borders = malloc(5 * sizeof(SDL_Texture *));
+    if (background->borders == NULL) {
+        perror("Erreur allocation des textures des bordures");
+        exit(EXIT_FAILURE);
+    }
     for (i = 0; i < 5; ++i) {
         sprintf(filename, "%s%d%s", BORDERS_PATH, i+1, ".png");
         background->borders[i] = createEntity(filename, game);
     }
+
+    background->submerged_borders = malloc(5 * sizeof(SDL_Texture *));
+    if (background->submerged_borders == NULL) {
+        perror("Erreur allocation des textures des bordures submergées");
+        exit(EXIT_FAILURE);
+    }
+    for (i = 0; i < 5; ++i) {
+        sprintf(filename, "%s%d%s", BORDERS_PATH, i+1, "_sub.png");
+        background->submerged_borders[i] = createEntity(filename, game);
+    }
+
     background->water = createEntity(WATER_IMAGE, game);
     background->ground = createEntity(GROUND_IMAGE, game);
 
@@ -362,6 +406,7 @@ void freeBackground(Background * background) {
     int i;
     for (i = 0; i < 5; ++i) {
         SDL_DestroyTexture(background->borders[i]);
+        SDL_DestroyTexture(background->submerged_borders[i]);
     }
     SDL_DestroyTexture(background->water);
     SDL_DestroyTexture(background->ground);

@@ -20,6 +20,7 @@ typedef struct {
     SDL_Texture * water;
     SDL_Texture * ground;
     SDL_Texture ** borders;
+    SDL_Texture ** submerged_borders;
 } Background;
 
 SDL_Texture* createEntity(const char * filename, Game * game);
