@@ -5,7 +5,7 @@ Authors:
  * Nathael CARLIER
  * Sacha DAVID
 
-Le but de ce projet est de recréer le jeu [Sokoban](https://fr.wikipedia.org/wiki/Sokoban) en utilisant le language de programmation c.
+Le but de ce projet est de recréer le jeu [Sokoban](https://fr.wikipedia.org/wiki/Sokoban) en utilisant le language de programmation C.
 
 ## Prérequis
 

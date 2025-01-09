@@ -1,6 +1,6 @@
 *.out
 *.pdf
-*.vscode
+/.vscode
 *.aux
 *.fdb_latexmk
 *.fls
