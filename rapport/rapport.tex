@@ -9,6 +9,7 @@
 \usepackage{amssymb}           % Pour les symboles mathématiques
 \usepackage{hyperref}          % Pour les liens
 \usepackage{fancyhdr}          % Pour les en-têtes et pieds de page
+\usepackage{xcolor}
 
 % Configuration de l'en-tête et du pied de page
 \pagestyle{fancy}
@@ -33,7 +34,7 @@
 \maketitle
 
 \tableofcontents
-    
+
 \section{Introduction}
 
     Le but de ce projet est de recréer le jeu \href{https://fr.wikipedia.org/wiki/Sokoban}{Sokoban} en utilisant le language de programmation C. 
@@ -62,20 +63,52 @@ Pour cette section on vous renvoie sur la \href{../doc/redirect.html}{page d'acc
         % Mettre image montrant la différence entre les deux
 
 
+\section{Structuration du jeu}
 
+    \subsection{Grille de jeu}
+        La grille de jeu est la carte où le personnage (joueur) peut ce déplacer et interragir avec les éléments présent. Chaque niveau a une carte différente.
 
-\section{Structuration des données}
+        Nous avons décider de stocker les cartes des niveaux dans des fichiers texte (.txt) différent, ces fichiers sont tous nommée 'map' puis leur numéro de niveau. Par exemple 'map1.txt' est la carte du premier niveau. \\
+        Un fichier est organisé de manière à former un tableau de lettre et d'espace où chaque charactère représente un élément. La position des charactère dans le fichier et dans le jeu seront les mêmes (au début).
+        \begin{itemize}
+            \item 'W': Wall, représenté par rocher.
+            \item 'C': Caisse, représenté par une orange (que le joueur devra pousser).
+            \item 'I': Interest point, représenté par un nénuphar (qui accueillera une orange).
+            \item 'P': Player, représenté par un Capybara.
+            \item 'F': Rocks with Frog, représente un type de rochers particulié.
+            \item ' ': Void, ce sont les cases où il y a rien.\\
+        \end{itemize}
 
-    \subsection{Plateau de jeu}
-    % Comment est gérer le plateau
+        Pour l'instant la grille de jeu présent dans le fichier est inutilisable par un programme. C'est pour ça que l'on va stocker le contenu de celui-ci dans un tableau.
+
+        Mais tout d'abord laissé moi vous présenter la structure qui va accueillir notre grille de jeu et pas que. Nous avons nommé cette structure \textcolor{blue}{\textbf{Map}}. Elle contient plusieurs attribut expliqués dans la {docummentation}, ici nous allons nous concentré sur les attribut utile à l'exécution du jeu et non à l'affichage des textures. \\
+
+        \textcolor{blue}{\textbf{Map}} stocke 2 tableaux de 2 dimensions représentant les grilles de jeu. Il y a un tableau stockant tout les éléments du jeu et un autre qui stocke aussi la grille de jeu mais il stocke seulemnt les cases de vides et les points d'intérets. Le premier tableau représente la carte a tout moment de jeu, ce tableau change à chaque action du joueur. Tandis que le deuxième tableau ne change pas durant toutes la partie, en effet il stocke la grille de jeu à l'état initial. Il va servir entre autre de repaire pour vérifier si les points d'intérets sont complété.\\
+        Pour pouvoir correctement lire ces tableaux il faut connaitre leur nombre de ligne et colonne, c'est pour ça que \textcolor{blue}{\textbf{Map}} stocke ces données. Cette structure stocke aussi le numéro de la carte, cela permet de changer de carte plus facilement.
 
     \subsection{Joueur}
-    % Comment est gérer le joueur
+        La structure \textcolor{blue}{\textbf{Map}} vu précédement suffit a stocker toutes les informations utiles pour le fonctionnnement du jeu. Malgré cela nous avons décider de créer une structure pour représenter le personnage \textcolor{blue}{\textbf{Player}}.
+
+        Cette structure stocke principalement des informations utile à l'affichage du personnage. Malgré cela elle stocke la position du joueur en i et j (y et x pour un plan mathématique). Ce stockage facilite les mouvements du joueur puisque l'on n'a pas besoin de chercher la position du joueur à chacun de ses déplacements.
+
+    \subsection{Interaction}
+        Nous avons définis les éléments du jeu et leur structuration, il nous faut dès à présent définir les interactions entre ces éléments.
+        \\
+        Le joueur et les caisses sont les seuls éléments a ce déplacer. En effet le principe du jeu \textbf{Sakoban} est de déplacer des boites jusqu'à un endroit clé, donc ce sont que les caisses et le joueur qui ce déplace. Pour ce faire le personnage peut ce déplacer et déplacer des caisses. Ces déplacements ont quelques contraintes:
+
+        \begin{itemize}
+            \item[$-$] Le joueur ne peut ni traverser de mur ni traverser de caisse (orange).
+            \item[$-$] Une caisse a les mêmes conntraintes que le joueur.
+            \item[$-$] Le joueur et les caisses ne peuvent pas sortir de la carte.
+            \item[$-$] Une caisse est déplacable uniquement par le joueur.
+            \item[$-$] Le joueur pousse une caisse dans la direction de son déplacement.
+        \end{itemize}
 
 
 \section{Affichage du jeu}
 % Comment on affiche le tout 
 
+% Récap arboresence projet
 \section{Conclusion}
 
 

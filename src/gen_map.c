@@ -78,7 +78,7 @@ Map *createMap(const char *filename, Game * game, Player* player) {
 
                 // On stocke dans initial_tab seulement les cases voids et goal.
                 if (tmp != ' ' && tmp != 'I') map->initial_tab[i][j] = ' ';
-                else                                        map->initial_tab[i][j] = tmp;
+                else                          map->initial_tab[i][j] = tmp;
 
                 if (tmp == 'P'){
                     player->pos_i = i;
