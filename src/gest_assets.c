@@ -209,6 +209,8 @@ void showBackground(Game * game, Map * map, Background * background) {
     } else {
         SDL_RenderCopy(game->renderer, background->borders[1], NULL, &tileRect);
     }
+    tileRect.x -= tile_size; tileRect.y -= tile_size;
+    SDL_RenderCopy(game->renderer, background->baby, NULL, &tileRect);
 
     // Affichage de la cascade et de la falaise
 
@@ -251,7 +253,7 @@ void showBackground(Game * game, Map * map, Background * background) {
                 SDL_RenderCopy(game->renderer, background->moving_water[1], NULL, &tileRect);
             }
         }
-    }
+    } 
 }
 
 /**
@@ -465,6 +467,7 @@ Background * initBackgroundTextures(Game * game) {
     background->water = createEntity(WATER_IMAGE, game);
     background->ground = createEntity(GROUND_IMAGE, game);
     background->cliff = createEntity(CLIFF_IMAGE, game);
+    background->baby = createEntity(BABY_CAPY_IMAGE, game);
 
     return background;
 }
@@ -492,5 +495,6 @@ void freeBackground(Background * background) {
     SDL_DestroyTexture(background->water);
     SDL_DestroyTexture(background->ground);
     SDL_DestroyTexture(background->cliff);
+    SDL_DestroyTexture(background->baby);
     free(background);
 }

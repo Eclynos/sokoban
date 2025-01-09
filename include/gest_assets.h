@@ -34,6 +34,7 @@ typedef struct {
     SDL_Texture * water;    /**< Texture de fond donc de l'eau dans notre cas. */
     SDL_Texture * ground;   /**< Sol de base */
     SDL_Texture * cliff;    /**< Falaise */
+    SDL_Texture * baby;    /**< Bébé capybara du paysage */
     SDL_Texture ** waterfall; /**< Cascade */
     SDL_Texture ** moving_water; /**< Eau coulant au dessus de la cascade */
     SDL_Texture ** borders; /**< bordures de "l'étang" */

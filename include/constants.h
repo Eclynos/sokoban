@@ -24,6 +24,7 @@
 #define MOVING_WATER_PATH "./assets/cliff/water"
 #define FOAM_PATH "./assets/cliff/foam"
 
+#define BABY_CAPY_IMAGE "./assets/capy/baby.png"
 #define CAPY_PATH "./assets/capy/"
 
 #define BOX_IMAGE "./assets/orange.png"
