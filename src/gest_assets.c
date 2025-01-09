@@ -140,6 +140,7 @@ void freeText(Text * text) {
  * \see Background
  */
 void showBackground(Game * game, Map * map, Background * background) {
+    //srand(time(NULL));
     int i, j;
     SDL_Rect tileRect;
     int tile_size = map->tile_size;
@@ -153,14 +154,14 @@ void showBackground(Game * game, Map * map, Background * background) {
             tileRect = (SDL_Rect){(game->screensize.w/2) + (j * tile_size - i * tile_size) / 2,
                                     map->up_space + (j * tile_size + i * tile_size) / 4,
                                     tile_size, tile_size};
-            if (i < 0 || j < 0 || i > rows || j > cols) {
+            if (i < 0 || j < -1 || i > rows || j > cols) {
                 SDL_RenderCopy(game->renderer, background->ground, NULL, &tileRect);
             }
         }
     }
 
     // Affichage des bordures
-    for (i = 0; i < cols; ++i) {
+    for (i = -1; i < cols; ++i) {
         tileRect = (SDL_Rect){(game->screensize.w/2) + (i * tile_size) / 2,
                                 map->up_space + (i * tile_size) / 4,
                                 tile_size, tile_size};
@@ -184,11 +185,11 @@ void showBackground(Game * game, Map * map, Background * background) {
         tileRect = (SDL_Rect){(game->screensize.w/2) + (cols * tile_size - i * tile_size) / 2,
                                 map->up_space + (cols * tile_size + i * tile_size) / 4,
                                 tile_size, tile_size};
-    if (game->frame == 0) {
-        SDL_RenderCopy(game->renderer, background->submerged_borders[2], NULL, &tileRect);
-    } else {
-        SDL_RenderCopy(game->renderer, background->borders[2], NULL, &tileRect);
-    }
+        if (game->frame == 0) {
+            SDL_RenderCopy(game->renderer, background->submerged_borders[2], NULL, &tileRect);
+        } else {
+            SDL_RenderCopy(game->renderer, background->borders[2], NULL, &tileRect);
+        }
     }
 
     tileRect = (SDL_Rect){(game->screensize.w/2) + (-rows * tile_size + cols * tile_size) / 2,
@@ -207,6 +208,49 @@ void showBackground(Game * game, Map * map, Background * background) {
         SDL_RenderCopy(game->renderer, background->submerged_borders[1], NULL, &tileRect);
     } else {
         SDL_RenderCopy(game->renderer, background->borders[1], NULL, &tileRect);
+    }
+
+    // Affichage de la cascade et de la falaise
+
+    for (j = 0; j < WATERFALL_SIZE; ++j) {
+        for (i = -rows * 2; i < rows * 4; ++i) {
+            tileRect = (SDL_Rect){(cols * tile_size - i * tile_size) / 2,
+                                    map->up_space + (-j * tile_size + i * tile_size) / 4,
+                                    tile_size, tile_size};
+            SDL_RenderCopy(game->renderer, background->cliff, NULL, &tileRect);
+        }
+        tileRect = (SDL_Rect){(cols * tile_size - map->waterfall_position * tile_size) / 2,
+                                map->up_space + (-j * tile_size + map->waterfall_position * tile_size) / 4,
+                                tile_size, tile_size};
+        if ((j + game->frame) % 2 == 0) {
+            SDL_RenderCopy(game->renderer, background->waterfall[0], NULL, &tileRect);
+        } else {
+            SDL_RenderCopy(game->renderer, background->waterfall[1], NULL, &tileRect);
+        }
+    }
+
+    for (i = 0; i < 2; ++i) {
+        tileRect = (SDL_Rect){(cols * tile_size - map->waterfall_position * tile_size - i * tile_size + tile_size * 3/4) / 2,
+                        map->up_space + (map->waterfall_position * tile_size + i * tile_size + tile_size * 3/4) / 4,
+                        tile_size, tile_size};
+        if ((i + game->frame) % 2 == 0) {
+            SDL_RenderCopy(game->renderer, background->foam[0], NULL, &tileRect);
+        } else {
+            SDL_RenderCopy(game->renderer, background->foam[1], NULL, &tileRect);
+        }
+    }
+
+    for (i = 0; i < rows; ++i) {
+        for (j = 0; j < 2; ++j) {
+            tileRect = (SDL_Rect){(cols * tile_size - map->waterfall_position * tile_size - i * tile_size - tile_size + j * tile_size) / 2,
+                                map->up_space + (map->waterfall_position * tile_size - i * tile_size - WATERFALL_SIZE * tile_size + tile_size/2 - j * tile_size - tile_size * 3/4) / 4,
+                                tile_size, tile_size};
+            if ((i + game->frame) % 2 == 0) {
+                SDL_RenderCopy(game->renderer, background->moving_water[0], NULL, &tileRect);
+            } else {
+                SDL_RenderCopy(game->renderer, background->moving_water[1], NULL, &tileRect);
+            }
+        }
     }
 }
 
@@ -285,10 +329,11 @@ void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, 
  * 
  * \see Text
  */
-void showInteractives(Game * game, TTF_Font * font, SDL_Color text_color, Text * start, Text * level, Text * moves, Text * text_level, Text * text_moves, int map_nb, int nb_moves) {
+void showInteractives(Game * game, TTF_Font * font, SDL_Color text_color, Text * start, Text * rewind, Text * level, Text * moves, Text * text_level, Text * text_moves, int map_nb, int nb_moves) {
 
     if (map_nb == 0) {
         SDL_RenderCopy(game->renderer, start->texture, NULL, &start->rect);
+        SDL_RenderCopy(game->renderer, rewind->texture, NULL, &rewind->rect);
     } else {
         if (atoi(level->sentence) != map_nb) {
             char newsentence[10];
@@ -387,8 +432,39 @@ Background * initBackgroundTextures(Game * game) {
         background->submerged_borders[i] = createEntity(filename, game);
     }
 
+    background->waterfall = malloc(2 * sizeof(SDL_Texture *));
+    if (background->waterfall == NULL) {
+        perror("Erreur allocation des textures de la cascade");
+        exit(EXIT_FAILURE);
+    }
+    for (i = 0; i < 2; ++i) {
+        sprintf(filename, "%s%d%s", WATERFALL_PATH, i+1, ".png");
+        background->waterfall[i] = createEntity(filename, game);
+    }
+
+    background->moving_water = malloc(2 * sizeof(SDL_Texture *));
+    if (background->moving_water == NULL) {
+        perror("Erreur allocation des textures de la cascade");
+        exit(EXIT_FAILURE);
+    }
+    for (i = 0; i < 2; ++i) {
+        sprintf(filename, "%s%d%s", MOVING_WATER_PATH, i+1, ".png");
+        background->moving_water[i] = createEntity(filename, game);
+    }
+
+    background->foam = malloc(2 * sizeof(SDL_Texture *));
+    if (background->foam == NULL) {
+        perror("Erreur allocation des textures de la cascade");
+        exit(EXIT_FAILURE);
+    }
+    for (i = 0; i < 2; ++i) {
+        sprintf(filename, "%s%d%s", FOAM_PATH, i+1, ".png");
+        background->foam[i] = createEntity(filename, game);
+    }
+
     background->water = createEntity(WATER_IMAGE, game);
     background->ground = createEntity(GROUND_IMAGE, game);
+    background->cliff = createEntity(CLIFF_IMAGE, game);
 
     return background;
 }
@@ -408,7 +484,13 @@ void freeBackground(Background * background) {
         SDL_DestroyTexture(background->borders[i]);
         SDL_DestroyTexture(background->submerged_borders[i]);
     }
+    for (i = 0; i < 2; ++i) {
+        SDL_DestroyTexture(background->waterfall[i]);
+        SDL_DestroyTexture(background->moving_water[i]);
+        SDL_DestroyTexture(background->foam[i]);
+    }
     SDL_DestroyTexture(background->water);
     SDL_DestroyTexture(background->ground);
+    SDL_DestroyTexture(background->cliff);
     free(background);
 }

@@ -30,9 +30,10 @@ int main() {
 
 
     // Création de la police d'écriture et des textures de texte
-    SDL_Color text_color = {205, 147, 115, 255};
+    SDL_Color text_color = {255, 255, 255, 255}; // {205, 147, 115, 255}
     TTF_Font * font = createFont(FILE_FONT, game);
-    Text * start = createText(game, font, text_color, "Press Start to play", game->screensize.w/3, 0, 200, 200);
+    Text * start = createText(game, font, text_color, "Press Enter to play", game->screensize.w/3 + 108, 0, 200, 200);
+    Text * rewind = createText(game, font , text_color, "Press r to rewind on any level", game->screensize.w/3 + 56, game->screensize.h - 40, 200, 200);
     Text * level = createText(game, font, text_color, "1", 66, 10, 0, 0);
     Text * moves = createText(game, font, text_color, "0", 94, 40, 0, 0);
     Text * text_level = createText(game, font, text_color, "Map:", 10, 10, 0, 0);
@@ -97,7 +98,7 @@ int main() {
         frameAnimation(game, &last_animation_time);
         showBackground(game, map, background);
         showAllEntities(game, map, player, box, goal, rock, tex_void, goal_boxed, frog_rock, rock_submerged, frog_rock_submerged);
-        showInteractives(game, font, text_color, start, level, moves, text_level, text_moves, map->num_of_map, player->nb_move);
+        showInteractives(game, font, text_color, start, rewind, level, moves, text_level, text_moves, map->num_of_map, player->nb_move);
         SDL_RenderPresent(game->renderer);
 
         if (map->num_of_map != 0 && verif_win(map)){
@@ -106,7 +107,7 @@ int main() {
             if (map->num_of_map+1 == NUMBER_OF_MAP){
                     program_launched = SDL_FALSE;
                     //printf("finish\n");
-            }else {
+            } else {
                     map = nextMap(game, map, player, tab_map);
                     //printf("change\n");
             }
@@ -117,8 +118,11 @@ int main() {
 
     freeMap(map);
     freeText(start);
+    freeText(rewind);
     freeText(level);
     freeText(moves);
+    freeText(text_level);
+    freeText(text_moves);
     freeBackground(background);
     SDL_DestroyTexture(box);
     SDL_DestroyTexture(goal);

@@ -90,6 +90,7 @@ Map *createMap(const char *filename, Game * game, Player* player) {
     map->num_of_map = 0;
     map->tile_size = 0.80 * game->screensize.w / map->cols;
     map->up_space = game->screensize.h / 6;
+    map->waterfall_position = map->cols / 4;
     player->nb_move = 0;
 
     fclose(file);
