@@ -51,7 +51,7 @@ void showBackground(Game * game, Map * map, Background * background);
 
 void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, SDL_Texture* goal, SDL_Texture* rock, SDL_Texture* tex_void, SDL_Texture* goal_boxed, SDL_Texture* frog_rock, SDL_Texture* rock_submerged, SDL_Texture* frog_rock_submerged);
 
-void showInteractives(Game * game, TTF_Font * font, SDL_Color text_color, Text * start, Text * level, Text * moves, Text * text_level, Text * text_moves, int map_nb, int nb_moves);
+void showInteractives(Game * game, TTF_Font * font, SDL_Color text_color, Text * start, Text * rewind, Text * level, Text * moves, Text * text_level, Text * text_moves, int map_nb, int nb_moves);
 
 void capFPS(Uint32 sart_time);
 void frameAnimation(Game* game, Uint32* last_animation_time);

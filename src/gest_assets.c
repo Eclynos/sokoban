@@ -329,10 +329,11 @@ void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, 
  * 
  * \see Text
  */
-void showInteractives(Game * game, TTF_Font * font, SDL_Color text_color, Text * start, Text * level, Text * moves, Text * text_level, Text * text_moves, int map_nb, int nb_moves) {
+void showInteractives(Game * game, TTF_Font * font, SDL_Color text_color, Text * start, Text * rewind, Text * level, Text * moves, Text * text_level, Text * text_moves, int map_nb, int nb_moves) {
 
     if (map_nb == 0) {
         SDL_RenderCopy(game->renderer, start->texture, NULL, &start->rect);
+        SDL_RenderCopy(game->renderer, rewind->texture, NULL, &rewind->rect);
     } else {
         if (atoi(level->sentence) != map_nb) {
             char newsentence[10];
