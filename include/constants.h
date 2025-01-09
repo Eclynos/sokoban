@@ -14,7 +14,7 @@
 #define NB_ANIMATIONS 6
 #define MS_BETWEEN_ANIMATIONS 350
 
-#define WATERFALL_SIZE 5
+#define WATERFALL_SIZE 3
 
 #define WATER_IMAGE "./assets/background.png"
 #define GROUND_IMAGE "./assets/borders/ground.png"
