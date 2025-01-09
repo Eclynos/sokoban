@@ -93,8 +93,9 @@ Pour cette section on vous renvoie sur la \href{../doc/redirect.html}{page d'acc
 
     \subsection{Interaction}
         Nous avons définis les éléments du jeu et leur structuration, il nous faut dès à présent définir les interactions entre ces éléments.
-        \\
-        Le joueur et les caisses sont les seuls éléments a ce déplacer. En effet le principe du jeu \textbf{Sakoban} est de déplacer des boites jusqu'à un endroit clé, donc ce sont que les caisses et le joueur qui ce déplace. Pour ce faire le personnage peut ce déplacer et déplacer des caisses. Ces déplacements ont quelques contraintes:
+
+        \subsubsection{Mouvement}
+        Le joueur et les caisses sont les seuls éléments a ce déplacer. En effet le principe du jeu \textbf{Sakoban} est de déplacer des boites jusqu'à un endroit clé. Pour ce faire le personnage peut ce déplacer et déplacer des caisses. Ces déplacements ont quelques contraintes:
 
         \begin{itemize}
             \item[$-$] Le joueur ne peut ni traverser de mur ni traverser de caisse (orange).
@@ -103,6 +104,16 @@ Pour cette section on vous renvoie sur la \href{../doc/redirect.html}{page d'acc
             \item[$-$] Une caisse est déplacable uniquement par le joueur.
             \item[$-$] Le joueur pousse une caisse dans la direction de son déplacement.
         \end{itemize}
+
+        Pour faire les déplacements et respecter ces contraintes nous avons créé une {fonction}. \\
+        Pour fonctionner elle a besoin d'avoir le sens vers lequel le joueur veut aller. C'est pour ça que la fonction prend en paramètre un attribut indiquant le sens, définis par l'appui d'une des 4 touches directionnels \textbf{ZQSD}. En fonction du sens donner en paramètre, le personnage va essayer d'alller une case plus loin dans le sens donné à l'intérieur de la grille de jeu. 
+        Avant de déplacer le personnage à l'endroit voulu on vérifie si, cette emplacement (fait de coordonnées i,j) est dans la carte, si il y a un mur dessus. Dans ces cas le déplacement n'a pas lieu car il est interdit. Mais si il y une boite, il faut vérifier que la case après la boite existe puis si c'est le cas si elle est libre (sans mur). Une fois cela fait on peut déplacer la caisse dans sa nouvelle case et faire de même avec le personnage. Ce genre de déplacement dans la grille est fait en mettant la caisse ou le joueur, dans la nouvelle case puis remplace celle où elle était par la valeur de cette même case dans le {tableau initial}.
+        Tout ça pour un seul déplacemet.
+
+        \subsubsection{Redémarer un niveau}
+        Dans le cas où une caisse ne peut plus bouger donc que le niveau est bloqué, ou bien que le joueur ai envie de redémarer le niveau. Il faut une touche ou boutton permettant de le faire. 
+        Nous avons chois de faire redémarer le niveau avec la touche \textbf{R} (pour Restart).
+        
 
 
 \section{Affichage du jeu}
