@@ -78,7 +78,7 @@ Pour cette section on vous renvoie sur la \href{../doc/redirect.html}{page d'acc
            \item 'C': Caisse, représenté par une orange (que le joueur devra pousser).
            \item 'I': Interest point, représenté par un nénuphar (qui accueillera une orange).
            \item 'P': Player, représenté par un Capybara.
-           \item 'F': Rocks with Frog, représente un type de rochers particulier.
+           \item 'F': Rocks with Frog, représente un type de rochers particulier. (Il peut parfois cacher un nénuphar !)
            \item ' ': Void, ce sont les cases où il y a rien.\\
        \end{itemize}
 
@@ -111,7 +111,7 @@ Pour cette section on vous renvoie sur la \href{../doc/redirect.html}{page d'acc
            \item[$-$] Le joueur pousse une caisse dans la direction de son déplacement.
        \end{itemize}
 
-       Pour ce faire, les déplacements et respecter ces contraintes nous avons créé une \href{../doc/html/move_8h.html}{\textcolor{blue}{\underline{fonction}}}. \\
+       Pour effectuer les déplacements et respecter ces contraintes nous avons créé une \href{../doc/html/move_8h.html}{\textcolor{blue}{\underline{fonction}}}. \\
        Pour fonctionner elle a besoin de connaître le sens vers lequel le joueur veut aller. C'est pour cela que la fonction prend en paramètre un attribut indiquant le sens, définis par l'appui d'une des 4 touches directionnelles \textbf{ZQSD}. En fonction du sens donné en paramètre, le personnage va essayer d'aller une case plus loin dans le sens donné à l'intérieur de la grille de jeu.\\
 
        Avant de déplacer le personnage à l'endroit voulu, on vérifie si, cet emplacement (fait de coordonnées i,j) est dans la carte et si ce n'est pas un mur. Dans ces cas-là, le déplacement n'a pas lieu car il est interdit. Mais s'il y une boite, il faut vérifier que la case après la boite existe puis si c'est le cas si elle est libre (sans mur). Une fois cela fait, on peut déplacer la caisse dans sa nouvelle case et faire de même avec le personnage. Ce genre de déplacement dans la grille est fait en mettant la caisse ou le joueur, dans la nouvelle case puis remplace celle où elle était par la valeur de cette même case dans le tableau initial.
@@ -132,7 +132,7 @@ Pour cette section on vous renvoie sur la \href{../doc/redirect.html}{page d'acc
        À chaque fin de niveau, une fois que les objectifs de la carte sont remplis, il faut générer un nouveau niveau donc une nouvelle carte.
        Pour ce faire, on stocke la prochaine \textbf{map} dans une instance de la structure \textbf{Map} puis on écrase les données de l'ancienne carte pour remplacer l'ancienne par la nouvelle.
 
-       Pour savoir quand il faut charger un nouveau niveau (une nouvelle carte), nous avons crée une \href{../doc/html/move_8h.html}{\textcolor{blue}{\underline{fonction}}} qui vérifie si un niveau est réussi.
+       Pour savoir quand il faut charger un nouveau niveau (une nouvelle carte), nous avons créés une \href{../doc/html/move_8h.html}{\textcolor{blue}{\underline{fonction}}} qui vérifie si un niveau est réussi.
 
 
 
@@ -169,6 +169,7 @@ Chacune de ces fonctions affiche un type de texture différent.
     La fonction showAllEntities() affiche les entités dans la zone de jeu.
     Elle affiche les éléments de la carte à partir des tableaux à deux dimensions de \textit{map}.
     Pour le joueur, représenté par un capybara, elle affiche une texture différente contenue dans un tableau à deux dimensions en fonction de la frame et de son orientation. Une animation de vague entoure le capybara.
+    Toutes les fonctions sont documentées dans la documentation jointe.
 
     \subsection{Affichage des textes}
 
