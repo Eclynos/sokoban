@@ -1,7 +1,7 @@
 W       
 I   P  F
   W   IF
-C W    F
+C W    W
   WW   F
    C    
 W       

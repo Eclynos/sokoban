@@ -1,7 +1,8 @@
 WIWIWIWIWIW
+    C  C  W
+  I  P  I W
+C         C
+    I   C I
           W
-  I  P  I  
-           
-    I      
-          W
+  C       W
 WIWIWIWIWIW
