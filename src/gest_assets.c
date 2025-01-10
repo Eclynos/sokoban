@@ -276,7 +276,7 @@ void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, 
                                     map->up_space + (j * tile_size + i * tile_size) / 4,
                                     tile_size, tile_size};
             switch (map->tab[i][j]) {
-            case ' ': // trouver une formule math pour faire en sorte que de temps en temps il y ait une bulle
+            case ' ': // Void
                 if ((game->frame * i + j) % 16 == 0 && j != 0) {
                     SDL_RenderCopy(game->renderer, tex_void, NULL, &tileRect);
                 }
@@ -303,7 +303,7 @@ void showAllEntities(Game * game, Map * map, Player * player, SDL_Texture* box, 
             case 'P': // Player
                 SDL_RenderCopy(game->renderer, player->texture[player->direction][game->frame], NULL, &tileRect);
                 break;
-            case 'F': // Other type of rocks
+            case 'F': // Other type of rock
                 if (game->frame == 0) {
                     SDL_RenderCopy(game->renderer, frog_rock_submerged, NULL, &tileRect);
                 } else {

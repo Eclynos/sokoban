@@ -30,7 +30,7 @@ Voici toutes les commandes et leurs description pour compiler différentes parti
 | Commande     | Description                            |
 |:------------:|:--------------------------------------:|
 | `make c`     | Compile le programme                   |
-| `make run`   | Exécute le jeu
+| `make run`   | Exécute le jeu                         |
 | `make clean` | Supprime l'éxécutable                  |
 | `make all`   | Compile et éxécute l'éxécutable        |
 | `make doc`   | Compile la documentation `Doxygen`     |

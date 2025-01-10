@@ -50,7 +50,6 @@
 
    Le but de ce projet est de recréer le jeu \href{https://fr.wikipedia.org/wiki/Sokoban}{Sokoban} en utilisant le langage de programmation C.
 
-
    C'est un jeu ou le joueur doit ranger des caisses sur des cases cibles. Il peut se déplacer dans les quatre directions, et pousser (pas tirer) une seule caisse à la fois. Une fois toutes les caisses rangées, le niveau est réussi et le joueur passe au niveau suivant, plus difficile en général. L'idéal est de réussir avec le moins de déplacements possibles. En principe, le personnage de ce jeu est un gardien d'entrepôt rangeant les caisses d'un entrepôt à leur bon endroit. Sokoban ressemble en général à l'illustration ci-dessus (mais comme vous allez le voir nous avons pris quelques libertés de design).
 
 
@@ -128,10 +127,10 @@ Pour cette section on vous renvoie sur la \href{../doc/redirect.html}{page d'acc
        \end{itemize}
 
        Pour ce faire, les déplacements et respecter ces contraintes nous avons créé une \href{../doc/html/move_8h.html}{\textcolor{blue}{\underline{fonction}}}. \\
-       Pour fonctionner elle a besoin d'avoir le sens vers lequel le joueur veut aller. C'est pour ça que la fonction prend en paramètre un attribut indiquant le sens, définis par l'appui d'une des 4 touches directionnels \textbf{ZQSD}. En fonction du sens donné en paramètre, le personnage va essayer d'aller une case plus loin dans le sens donné à l'intérieur de la grille de jeu.\\
+       Pour fonctionner elle a besoin de connaître le sens vers lequel le joueur veut aller. C'est pour cela que la fonction prend en paramètre un attribut indiquant le sens, définis par l'appui d'une des 4 touches directionnelles \textbf{ZQSD}. En fonction du sens donné en paramètre, le personnage va essayer d'aller une case plus loin dans le sens donné à l'intérieur de la grille de jeu.\\
 
-       Avant de déplacer le personnage à l'endroit voulu, on vérifie si, cet emplacement (fait de coordonnées i,j) est dans la carte, si il y a un mur dessus. Dans ces cas-là, le déplacement n'a pas lieu car il est interdit. Mais si il y une boite, il faut vérifier que la case après la boite existe puis si c'est le cas si elle est libre (sans mur). Une fois cela fait, on peut déplacer la caisse dans sa nouvelle case et faire de même avec le personnage. Ce genre de déplacement dans la grille est fait en mettant la caisse ou le joueur, dans la nouvelle case puis remplace celle où elle était par la valeur de cette même case dans le tableau initial.
-       Tout ça pour un seul déplacement.
+       Avant de déplacer le personnage à l'endroit voulu, on vérifie si, cet emplacement (fait de coordonnées i,j) est dans la carte et si ce n'est pas un mur. Dans ces cas-là, le déplacement n'a pas lieu car il est interdit. Mais s'il y une boite, il faut vérifier que la case après la boite existe puis si c'est le cas si elle est libre (sans mur). Une fois cela fait, on peut déplacer la caisse dans sa nouvelle case et faire de même avec le personnage. Ce genre de déplacement dans la grille est fait en mettant la caisse ou le joueur, dans la nouvelle case puis remplace celle où elle était par la valeur de cette même case dans le tableau initial.
+       Et enfin après ces étapes, si tout est bon, le déplacement est effectué.
 
 
    \subsection{Gestion de niveau}
@@ -168,17 +167,32 @@ Chacune de ces fonctions affiche un type de texture différent.
 
     Pour afficher l'arrière-plan, la fonction showBackground() prend en argument un pointeur vers une structure Background. Après avoir été initialisée, cette structure contient toutes les textures nécessaires à l'affichage de l'arrière-plan.
 
-    Le programme remplit d'abord l'écran avec du bleu, que l'on verra sous les cases vides de la zone de jeu.
+    Le programme remplit d'abord l'écran avec du bleu, ce sera l'eau que l'on verra sous les cases vides de la zone de jeu.
     Beaucoup d'éléments possèdent des animations pour la frame 0 pour donner un effet de vague à l'eau (elle semble + haute).
     Il y a 6 frames en tout qui permettent les animations du jeu, la frame 0 étant 2x plus longue que les autres. Elles sont gérées par la fonction frameAnimation() qui modifie, ou pas, à chaque tour de boucle la valeur de frame en fonction du temps passé depuis le dernier changement de frame.
 
+    Après cela, le programme remplit tout ce que le joueur voit, mais qui n'est pas dans la zone de jeu par une texture de sol suivant un affichage en perspective isométrique.
 
-% Récap arboresence projet ou pas
+        \subsubsection{Affichage isométrique}
+
+        L'affichage isométrique de chaque élément graphique du jeu (que l'on va appeler tile) nécessite un calcul de coordonnées avant affichage. Dans 2 premières fonctions d'affichage la position d'un élément est calculé dans la variable tileRect. C'est un objet \textit{SDL\_Rect} qui contient les positions x et y d'un élément à l'écran ainsi que sa largeur et sa hauteur. L'affichage isométrique commence par le milieu de l'écran et non par la gauche, son principe est simple. Imaginons que nous voulions afficher une tile en dessous de la première placée en haut au milieu de l'écran, au lieu de simplement descendre notre tile va descendre de moitié et se déplacer à gauche de moitié également. Visuellement l'objet sera placé en bas à gauche de notre première tile. Nos objets étant dessinés avec la même règle, cela donne une impression de 3d, sans avoir la liberté de changer de point de vue. En effet nous pouvons par exemple voir 3 faces d'un cube.
+
+    En suivant cette règle, nous affichons les bordures fleuries du point d'eau, la cascade, la falaise, la rivière, etc.
+
+    \subsection{Affichage des entités de jeu}
+
+    La fonction showAllEntities() affiche les entités dans la zone de jeu.
+    Elle affiche les éléments de la carte à partir des tableaux à deux dimensions de \textit{map}.
+    Pour le joueur, représenté par un capybara, elle affiche une texture différente contenue dans un tableau à deux dimensions en fonction de la frame et de son orientation. Une animation de vague entoure le capybara.
+
+    \subsection{Affichage des textes}
+
+    Pour afficher les informations textuelles à l'écran, nous nous servons d'une fonction showInteractives(). Elle prend en argument les différentes structures de texte et les affiche. Si une modification a été apportée à une variable affichée à l'écran, elle fait appel à la fonction updateText() qui met à jour les données de la structure, recréant donc une nouvelle texture.
+    Nous affichons à l'écran des messages au lancement du jeu, puis le numéro du niveau actuel et le nombre de mouvements effectués par le joueur.
+
 \section{Conclusion}
 
-
-
-
+Modéliser le jeu sous une forme isométrique est une approche intéressante du Sokoban, jeu adapté à cette perspective. La réalisation de ce projet nous a permis d'améliorer notre maîtrise du langage c, notamment pour le Makefile et la gestion des structures.
 
 
 \end{document}
