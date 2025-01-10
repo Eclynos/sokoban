@@ -42,4 +42,4 @@ La documentation [`Doxygen`](./doc/redirect.html) peut être trouvé dans le dos
 
 ## Rapport
 
-Le [rapport](./rapport/rapport.pdf) pdf du projet peut être trouvé dans le dosssier [`rapport`].
+Le [rapport](../../rapport/rapport.pdf) pdf du projet peut être trouvé dans le dosssier [`rapport`].
