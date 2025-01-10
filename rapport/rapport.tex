@@ -157,8 +157,20 @@ Pour cette section on vous renvoie sur la \href{../doc/redirect.html}{page d'acc
 
 Nous affichons notre jeu grâce à 3 fonctions différentes.
 \begin{itemize}
-    \item 
+    \item[$-$] showBackground()
+    \item[$-$] showAllEntities()
+    \item[$-$] showInteractives()
 \end{itemize}
+
+Chacune de ces fonctions affiche un type de texture différent.
+
+    \subsection{Affichage de l'arrière-plan}
+
+    Pour afficher l'arrière-plan, la fonction showBackground() prend en argument un pointeur vers une structure Background. Après avoir été initialisée, cette structure contient toutes les textures nécessaires à l'affichage de l'arrière-plan.
+
+    Le programme remplit d'abord l'écran avec du bleu, que l'on verra sous les cases vides de la zone de jeu.
+    Beaucoup d'éléments possèdent des animations pour la frame 0 pour donner un effet de vague à l'eau (elle semble + haute).
+    Il y a 6 frames en tout qui permettent les animations du jeu, la frame 0 étant 2x plus longue que les autres. Elles sont gérées par la fonction frameAnimation() qui modifie, ou pas, à chaque tour de boucle la valeur de frame en fonction du temps passé depuis le dernier changement de frame.
 
 
 % Récap arboresence projet ou pas
