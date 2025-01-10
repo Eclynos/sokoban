@@ -38,8 +38,8 @@ Voici toutes les commandes et leurs description pour compiler différentes parti
 
 ## Documentation
 
-La documentation [`Doxygen`](./doc/redirect.html) peut être trouvé dans le dossier [`doc`](./doc/), mais avant elle doit être crée via la commande bash associé `make doc`.
+La documentation [`Doxygen`](./doc/redirect.html) peut être trouvé dans le dossier [`doc`], Si elle n'y est pas déjà faites `make doc` pour la créer.
 
 ## Rapport
 
-Le [rapport](./rapport/rapport.pdf) pdf du projet peut être trouvé dans le dosssier [`rapport`](./rapport/).
+Le [rapport](./rapport/rapport.pdf) pdf du projet peut être trouvé dans le dosssier [`rapport`].
