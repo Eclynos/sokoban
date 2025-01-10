@@ -216,13 +216,13 @@ void showBackground(Game * game, Map * map, Background * background) {
 
     for (j = 0; j < WATERFALL_SIZE; ++j) {
         for (i = -rows * 2; i < rows * 4; ++i) {
-            tileRect = (SDL_Rect){(cols * tile_size - i * tile_size) / 2,
-                                    map->up_space + (-j * tile_size + i * tile_size) / 4,
+            tileRect = (SDL_Rect){(cols * tile_size / 2 - i * tile_size),
+                                    map->up_space + (-j * tile_size + i * tile_size) / 2,
                                     tile_size, tile_size};
             SDL_RenderCopy(game->renderer, background->cliff, NULL, &tileRect);
         }
         tileRect = (SDL_Rect){(cols * tile_size - map->waterfall_position * tile_size) / 2,
-                                map->up_space + (-j * tile_size + map->waterfall_position * tile_size) / 4,
+                                map->up_space + -j * tile_size / 2 + map->waterfall_position * tile_size / 4,
                                 tile_size, tile_size};
         if ((j + game->frame) % 2 == 0) {
             SDL_RenderCopy(game->renderer, background->waterfall[0], NULL, &tileRect);
@@ -233,7 +233,7 @@ void showBackground(Game * game, Map * map, Background * background) {
 
     for (i = 0; i < 2; ++i) {
         tileRect = (SDL_Rect){(cols * tile_size - map->waterfall_position * tile_size - i * tile_size + tile_size * 3/4) / 2,
-                        map->up_space + (map->waterfall_position * tile_size + i * tile_size + tile_size * 3/4) / 4,
+                        map->up_space + map->waterfall_position * tile_size / 2 + (i * tile_size - tile_size) / 4,
                         tile_size, tile_size};
         if ((i + game->frame) % 2 == 0) {
             SDL_RenderCopy(game->renderer, background->foam[0], NULL, &tileRect);
@@ -244,8 +244,8 @@ void showBackground(Game * game, Map * map, Background * background) {
 
     for (i = 0; i < rows; ++i) {
         for (j = 0; j < 2; ++j) {
-            tileRect = (SDL_Rect){(cols * tile_size - map->waterfall_position * tile_size - i * tile_size - tile_size + j * tile_size) / 2,
-                                map->up_space + (map->waterfall_position * tile_size - i * tile_size - WATERFALL_SIZE * tile_size + tile_size/2 - j * tile_size - tile_size * 3/4) / 4,
+            tileRect = (SDL_Rect){(cols * tile_size - map->waterfall_position * tile_size - i * tile_size + j * tile_size - tile_size) / 2,
+                                map->up_space + (map->waterfall_position * tile_size - i * tile_size - WATERFALL_SIZE * tile_size - j * tile_size - tile_size * 2) / 4,
                                 tile_size, tile_size};
             if ((i + game->frame) % 2 == 0) {
                 SDL_RenderCopy(game->renderer, background->moving_water[0], NULL, &tileRect);
@@ -253,7 +253,7 @@ void showBackground(Game * game, Map * map, Background * background) {
                 SDL_RenderCopy(game->renderer, background->moving_water[1], NULL, &tileRect);
             }
         }
-    } 
+    }
 }
 
 /**
