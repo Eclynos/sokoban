@@ -5,41 +5,40 @@ Authors:
  * Nathael CARLIER
  * Sacha DAVID
 
-Le but de ce projet est de recréer le jeu [Sokoban](https://fr.wikipedia.org/wiki/Sokoban) en utilisant le language de programmation C.
+The goal of this project is to recreate the game [Sokoban](https://fr.wikipedia.org/wiki/Sokoban) using the C programming language.
 
-## Prérequis
+## Requirements
 
-Ces installations utiles uniquement si vous voulez compiler le code, pas besoin d'elles si vous voulez seulement executer le programme.
+If you need to compile the code, please install the following C packages :
 - SDL2, [help](https://wiki.libsdl.org/SDL2/Installation).
 - SDL2_image, [help](https://www.oreilly.com/library/view/rust-programming-by/9781788390637/ac509577-fdbc-4f2e-b876-3536985e113c.xhtml).
 - SDL_ttf
 
 ## Installation
 
-Pour avoir le project, il suffit d'installer le fichier `.zip` ou d'utiliser git via cette commande:
 ``` bash
 git clone https://gitlab.isima.fr/nacarlier/sokoban.git
 ```
 
-## Exécution
+## Execution
 
-Pour lancer le programme, utilisez la commande bash `make all` pour compiler et éxécuter le programme.
+To compile and launch the game, please use the `make all` bash command.
 
-Voici toutes les commandes et leurs description pour compiler différentes parties du project.
+Here are all the commands and their descriptions to compile different parts of the project.
 
-| Commande     | Description                            |
-|:------------:|:--------------------------------------:|
-| `make c`     | Compile le programme                   |
-| `make run`   | Exécute le jeu                         |
-| `make clean` | Supprime l'éxécutable                  |
-| `make all`   | Compile et éxécute l'éxécutable        |
-| `make doc`   | Compile la documentation `Doxygen`     |
+| Command      | Description                          |
+|:------------:|:------------------------------------:|
+| `make c`     | Compile the program                  |
+| `make run`   | Run the game                         |
+| `make clean` | Remove the executable                |
+| `make all`   | Compile and run the executable       |
+| `make doc`   | Compile the `Doxygen` documentation  |
 
 
 ## Documentation
 
-La documentation [`Doxygen`](./doc/redirect.html) peut être trouvé dans le dossier [`doc`], Si elle n'y est pas déjà faites `make doc` pour la créer.
+The [`Doxygen`](./doc/redirect.html) documentation can be found in the [`doc`], If it is not already there, run `make doc` to create it.
 
-## Rapport
+## Report
 
-Le [rapport](../../rapport/rapport.pdf) pdf du projet peut être trouvé dans le dosssier [`rapport`].
+The project's [rapport](../../rapport/rapport.pdf) PDF can be found in the [`rapport`] folder.
